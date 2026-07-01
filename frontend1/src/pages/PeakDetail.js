@@ -23,7 +23,7 @@ export default function PeakDetail() {
           🏔️
         </div>
         <div className="p-8">
-          <h1 className="text-4xl font-bold mb-4">{peak.name}</h1>
+          <h1 className="text-2xl md:text-4xl font-bold mb-4">{peak.name}</h1>
           <p className="text-gray-600 text-lg mb-2">{peak.location}</p>
           {peak.altitude_m && <p className="text-gray-500 mb-2">Altitude: {peak.altitude_m}m</p>}
           {peak.difficulty && <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded mb-4">{peak.difficulty}</span>}

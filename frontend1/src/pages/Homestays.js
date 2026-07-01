@@ -33,7 +33,7 @@ export default function Homestays() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-8">Homestays</h1>
+      <h1 className="text-2xl md:text-4xl font-bold text-center mb-8">Homestays</h1>
 
       <div className="bg-white rounded-lg shadow-md p-4 mb-8">
         <form onSubmit={handleSearch} className="flex flex-wrap gap-4 items-end">

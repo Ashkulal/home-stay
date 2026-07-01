@@ -19,9 +19,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
+      <h1 className="text-2xl md:text-4xl font-bold mb-8">Admin Dashboard</h1>
 
-      <div className="flex gap-4 mb-8">
+      <div className="grid grid-cols-2 md:flex gap-4 mb-8">
         <Link to="/admin/users" className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg text-center flex-1">
           <div className="text-2xl mb-1">👥</div>
           <div className="font-semibold">Users</div>
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
         </Link>
       </div>
 
-      <div className="grid md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-gray-500">Users</h3>
           <p className="text-3xl font-bold text-emerald-600">{stats.totalUsers}</p>

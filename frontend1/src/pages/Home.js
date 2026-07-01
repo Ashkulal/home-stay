@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <div>
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-32 animate-fade-in">
+      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16 md:py-32 animate-fade-in">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6 animate-slide-down">Explore Misty Peaks</h1>
-          <p className="text-xl mb-8 text-emerald-100 animate-slide-up">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 animate-slide-down">Explore Misty Peaks</h1>
+          <p className="text-lg md:text-xl mb-8 text-emerald-100 animate-slide-up">
             Discover breathtaking mountain peaks and cozy homestays
           </p>
-          <div className="flex justify-center gap-4 animate-slide-up">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-slide-up">
             <Link to="/peaks" className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-all duration-300 transform hover:scale-105">
               View Peaks
             </Link>
@@ -49,7 +49,7 @@ export default function Home() {
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
             Join thousands of happy travelers who explored the mountains with Misty Peaks
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/register" className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-all duration-300 transform hover:scale-105">
               Get Started
             </Link>

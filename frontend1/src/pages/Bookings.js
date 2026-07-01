@@ -54,7 +54,7 @@ export default function Bookings() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-8">Bookings</h1>
+      <h1 className="text-2xl md:text-4xl font-bold text-center mb-8">Bookings</h1>
 
       {user && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-8 max-w-xl mx-auto">
@@ -89,7 +89,7 @@ export default function Bookings() {
         ) : (
           <div className="space-y-4">
             {list.map((b) => (
-              <div key={b.id} className="border rounded-lg p-4 flex justify-between items-center">
+              <div key={b.id} className="border rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                 <div>
                   <p className="font-semibold">{b.homestay_name}</p>
                   <p className="text-sm text-gray-500">{new Date(b.check_in).toLocaleDateString()} - {new Date(b.check_out).toLocaleDateString()}</p>

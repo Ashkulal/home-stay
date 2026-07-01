@@ -48,7 +48,7 @@ export default function Profile() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">My Profile</h1>
+      <h1 className="text-2xl md:text-4xl font-bold mb-8">My Profile</h1>
       {msg && <p className={`mb-4 ${msg.includes("failed") || msg.includes("incorrect") ? "text-red-500" : "text-emerald-600"}`}>{msg}</p>}
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">

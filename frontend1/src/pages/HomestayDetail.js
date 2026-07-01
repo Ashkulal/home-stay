@@ -26,7 +26,7 @@ export default function HomestayDetail() {
           🏠
         </div>
         <div className="p-8">
-          <h1 className="text-4xl font-bold mb-4">{homestay.name}</h1>
+          <h1 className="text-2xl md:text-4xl font-bold mb-4">{homestay.name}</h1>
           <p className="text-emerald-600 text-2xl font-bold mb-2">₹{homestay.price_per_night}/night</p>
           {homestay.max_guests && <p className="text-gray-500 mb-4">Max guests: {homestay.max_guests}</p>}
           {homestay.description && <p className="text-gray-700 mt-4">{homestay.description}</p>}

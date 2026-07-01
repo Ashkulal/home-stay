@@ -67,7 +67,7 @@ export default function AdminContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">Manage Content</h1>
+      <h1 className="text-2xl md:text-4xl font-bold mb-8">Manage Content</h1>
 
       <div className="flex gap-4 mb-8">
         <button onClick={() => setTab("peaks")} className={`px-4 py-2 rounded ${tab === "peaks" ? "bg-emerald-600 text-white" : "bg-gray-200"}`}>Peaks</button>

@@ -39,7 +39,7 @@ export default function AdminUsers() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">Manage Users</h1>
+      <h1 className="text-2xl md:text-4xl font-bold mb-8">Manage Users</h1>
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="overflow-x-auto">
           <table className="w-full">
