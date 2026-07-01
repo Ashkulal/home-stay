@@ -1,0 +1,64 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Peaks from "./pages/Peaks";
+import PeakDetail from "./pages/PeakDetail";
+import Homestays from "./pages/Homestays";
+import HomestayDetail from "./pages/HomestayDetail";
+import Bookings from "./pages/Bookings";
+import Gallery from "./pages/Gallery";
+import Dashboard from "./pages/Dashboard";
+import Payment from "./pages/Payment";
+import Profile from "./pages/Profile";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminBookings from "./pages/admin/AdminBookings";
+import AdminContent from "./pages/admin/AdminContent";
+import AdminPayments from "./pages/admin/AdminPayments";
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen bg-gray-50">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/peaks" element={<Peaks />} />
+              <Route path="/peaks/:id" element={<PeakDetail />} />
+              <Route path="/homestays" element={<Homestays />} />
+              <Route path="/homestays/:id" element={<HomestayDetail />} />
+              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/bookings" element={<AdminBookings />} />
+              <Route path="/admin/content" element={<AdminContent />} />
+              <Route path="/admin/payments" element={<AdminPayments />} />
+              <Route path="*" element={<div className="text-center py-16"><h1 className="text-4xl font-bold text-gray-700">404</h1><p className="text-gray-500 mt-2">Page not found</p></div>} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
+  );
+}
+
+export default App;
