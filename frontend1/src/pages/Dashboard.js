@@ -64,11 +64,6 @@ export default function Dashboard() {
           <p className="font-bold group-hover:text-emerald-600 transition-colors">My Bookings</p>
           <p className="text-gray-400 text-sm">View & manage stays</p>
         </Link>
-        <Link to="/homestays" className="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition-all border border-gray-100 text-center group">
-          <div className="text-3xl mb-2">🏡</div>
-          <p className="font-bold group-hover:text-emerald-600 transition-colors">Browse Stays</p>
-          <p className="text-gray-400 text-sm">Find your next escape</p>
-        </Link>
         <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer"
           className="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition-all border border-gray-100 text-center group">
           <div className="text-3xl mb-2">💬</div>
@@ -93,7 +88,7 @@ export default function Dashboard() {
         ) : list.length === 0 ? (
           <div className="text-center py-10">
             <p className="text-gray-400 mb-4">No bookings yet</p>
-            <Link to="/homestays" className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors">
+            <Link to="/bookings" className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors">
               Book Your First Stay
             </Link>
           </div>
