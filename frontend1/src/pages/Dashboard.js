@@ -1,26 +1,19 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { bookings } from "../services/api";
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
     bookings.getAll().then(({ data }) => {
       setList(data.bookings);
       setLoading(false);
     }).catch(() => setLoading(false));
-  }, [user, navigate]);
-
-  if (!user) return null;
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">

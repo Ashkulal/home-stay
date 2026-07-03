@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { profile } from "../services/api";
 
 export default function Profile() {
   const { user, setUser } = useAuth();
-  const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "" });
   const [pwForm, setPwForm] = useState({ currentPassword: "", newPassword: "" });
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    if (!user) { navigate("/login"); return; }
     profile.get().then(({ data }) => {
       setForm({ name: data.user.name, email: data.user.email });
       setLoading(false);
     });
-  }, [user, navigate]);
+  }, []);
 
   const handleUpdate = async (e) => {
     e.preventDefault();

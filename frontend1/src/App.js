@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -38,19 +39,19 @@ function App() {
               <Route path="/peaks/:id" element={<PeakDetail />} />
               <Route path="/homestays" element={<Homestays />} />
               <Route path="/homestays/:id" element={<HomestayDetail />} />
-              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
               <Route path="/gallery" element={<Gallery />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/payment" element={<Payment />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/faq" element={<FAQ />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/users" element={<AdminUsers />} />
-              <Route path="/admin/bookings" element={<AdminBookings />} />
-              <Route path="/admin/content" element={<AdminContent />} />
-              <Route path="/admin/payments" element={<AdminPayments />} />
+              <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute adminOnly><AdminUsers /></ProtectedRoute>} />
+              <Route path="/admin/bookings" element={<ProtectedRoute adminOnly><AdminBookings /></ProtectedRoute>} />
+              <Route path="/admin/content" element={<ProtectedRoute adminOnly><AdminContent /></ProtectedRoute>} />
+              <Route path="/admin/payments" element={<ProtectedRoute adminOnly><AdminPayments /></ProtectedRoute>} />
               <Route path="*" element={<div className="text-center py-16"><h1 className="text-4xl font-bold text-gray-700">404</h1><p className="text-gray-500 mt-2">Page not found</p></div>} />
             </Routes>
           </main>
