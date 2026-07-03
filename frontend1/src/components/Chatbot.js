@@ -2,63 +2,114 @@ import { useState, useRef, useEffect } from "react";
 
 const WHATSAPP = "918660874196";
 
-const BOT_RESPONSES = {
-  greetings: ["Hello! Welcome to Ibbani Homestay 🏡", "Hi there! How can I help you today?", "Namaste! Welcome to Ibbani Homestay"],
-  booking: [
-    "To book your stay:\n1. Register/Login\n2. Go to Bookings\n3. Select dates & confirm\n4. Pay via UPI\n\nNeed help? Chat on WhatsApp!"
-  ],
-  price: [
-    "Our homestay starts at ₹120/night.\n\n👨‍👩‍👧‍👦 Up to 4 guests\n🍳 Home-cooked food included\n🏔️ Mountain views\n\nBook now for the best experience!"
-  ],
-  location: [
-    "Ibbani Homestay is located in the beautiful Western Ghats of Karnataka.\n\n📍 Google Maps link available on our homestay page\n🚗 Easy access by road from Bangalore (5-6 hrs)"
-  ],
-  checkin: [
-    "⏰ Check-in: 12:00 PM\n⏰ Check-out: 11:00 AM\n\nEarly check-in / late check-out available on request. Just WhatsApp us!"
-  ],
-  amenities: [
-    "Amenities at Ibbani Homestay:\n✅ WiFi\n✅ Parking\n✅ Mountain View\n✅ Home Food\n✅ Bonfire\n✅ Garden\n✅ Coffee Estate nearby"
-  ],
-  contact: [
-    "📱 WhatsApp: +91 8660874196\n📧 Email: info@ibbanistay.com\n💳 UPI: paytmqr70c5mh@ptys\n\nChat on WhatsApp for instant response!"
-  ],
-  food: [
-    "🍛 Authentic Malnad cuisine served!\n\n🍳 Breakfast: Dosa, Idli, Pongal\n🍛 Lunch: Rice, Sambar, Rasam, Curry\n🍽️ Dinner: Roti, Rice, Dal, Curry\n☕ Fresh coffee from our estate"
-  ],
-  cancel: [
-    "To cancel a booking:\n1. Go to My Bookings\n2. Click 'Cancel' on the pending booking\n\nRefund will be processed within 3-5 business days."
-  ],
-  fallback: [
-    "I'm not sure about that. Let me connect you with our team on WhatsApp!",
-    "Great question! Our team can help on WhatsApp.",
-    "I can help with bookings, prices, check-in times, and more. Try asking about those!"
-  ]
-};
+const KB = [
+  {
+    patterns: [/hi|hello|hey|namaste|good\s*(morning|evening|afternoon)/i],
+    response: "Hello! Welcome to Ibbani Homestay! 🏡 How can I help you today?"
+  },
+  {
+    patterns: [/how\s*are\s*you|how.*doing/i],
+    response: "I'm doing great, thank you! Ready to help you plan your mountain getaway at Ibbani Homestay. What would you like to know?"
+  },
+  {
+    patterns: [/book|reserv|stay|room|available|availability/i],
+    response: "To book your stay at Ibbani Homestay:\n\n1️⃣ Register/Login on our website\n2️⃣ Go to Bookings → New Booking\n3️⃣ Select dates & number of guests\n4️⃣ Pay via Razorpay or UPI\n\n💡 Pricing: ₹1,500 per person per night\n📞 WhatsApp us for quick booking: +91 8660874196"
+  },
+  {
+    patterns: [/price|cost|rate|charge|how\s*much|tariff|fee|budget/i],
+    response: "💰 Ibbani Homestay Pricing:\n\n👤 ₹1,500 per person per night\n👥 Up to 4 guests per room\n🍳 Home-cooked food included\n🏔️ Mountain views included\n\nExample: 2 guests × 2 nights = ₹6,000\n\nBook now on our website!"
+  },
+  {
+    patterns: [/location|where|map|direction|address|find|reach|distance/i],
+    response: "📍 Ibbani Homestay is located in the beautiful Western Ghats of Karnataka.\n\n🚗 From Bangalore: ~5-6 hours by road\n🗺️ Google Maps link available on our homestay page\n\nWould you like directions? Chat on WhatsApp for live location sharing!"
+  },
+  {
+    patterns: [/check.?in|check.?out|time|arrival|depart|early|late/i],
+    response: "⏰ Check-in & Check-out Times:\n\n🕐 Check-in: 12:00 PM (Noon)\n🕐 Check-out: 11:00 AM\n\n📞 Need early check-in or late check-out? Message us on WhatsApp and we'll try to accommodate!"
+  },
+  {
+    patterns: [/amenit|facilit|wifi|parking|feature|what.*offer|what.*get/i],
+    response: "🏡 Amenities at Ibbani Homestay:\n\n✅ WiFi\n✅ Parking\n✅ Mountain Views\n✅ Home-Cooked Food\n✅ Bonfire\n✅ Garden\n✅ Coffee Estate nearby\n✅ Clean rooms with attached bathroom\n\nAll included in your stay!"
+  },
+  {
+    patterns: [/food|eat|meal|breakfast|lunch|dinner|menu|cook|coffee|veg|non.?veg/i],
+    response: "🍽️ Food at Ibbani Homestay:\n\n🍳 Breakfast: Dosa, Idli, Pongal, Poori\n🍛 Lunch: Rice, Sambar, Rasam, Vegetable Curry\n🍽️ Dinner: Roti, Rice, Dal, Curry, Salad\n☕ Fresh coffee from our estate\n\nAll meals are home-cooked with local spices. Veg & Non-veg options available."
+  },
+  {
+    patterns: [/contact|phone|whatsapp|email|call|number|reach.*you/i],
+    response: "📞 Contact Ibbani Homestay:\n\n📱 WhatsApp: +91 8660874196\n📧 Email: info@ibbanihomestay.com\n💳 UPI: paytmqr70c5mh@ptys\n\n💬 WhatsApp is the fastest way to reach us!"
+  },
+  {
+    patterns: [/cancel|refund|cancell/i],
+    response: "❌ Cancellation Policy:\n\n• Cancel before check-in: Full refund\n• Cancel on check-in day: 50% refund\n• No-show: No refund\n\nTo cancel, go to My Bookings → Cancel.\nRefund processed within 3-5 business days."
+  },
+  {
+    patterns: [/pay|payment|upi|razorpay|card|netbank|wallet/i],
+    response: "💳 Payment Options:\n\n1️⃣ Razorpay: UPI, Credit/Debit Cards, Netbanking, Wallets\n2️⃣ UPI QR Code: Scan & pay\n3️⃣ Manual: Pay and submit transaction ID\n\nAll payments are secure. You'll get instant confirmation!"
+  },
+  {
+    patterns: [/weather|season|best\s*time|when.*visit|monsoon|winter|summer/i],
+    response: "🌤️ Best Time to Visit Ibbani Homestay:\n\n🍂 Oct-Feb: Best season - cool & pleasant\n🌧️ Jun-Sep: Monsoon - lush green but rainy\n☀️ Mar-May: Summer - warm but OK\n\nOctober to February is the most popular time. Book early!"
+  },
+  {
+    patterns: [/trek|trekking|hike|hiking|adventure|activity|things.*do/i],
+    response: "🥾 Activities Near Ibbani Homestay:\n\n🏔️ Trekking in Western Ghats\n🌿 Coffee plantation walks\n🔥 Bonfire evenings\n📸 Nature photography\n🐦 Bird watching\n🌅 Sunrise viewpoints\n\nOur team can arrange guided treks!"
+  },
+  {
+    patterns: [/thank|thanks|thx|appreciate/i],
+    response: "You're welcome! 😊 Is there anything else I can help you with about Ibbani Homestay?"
+  },
+  {
+    patterns: [/bye|goodbye|see\s*you|take\s*care/i],
+    response: "Goodbye! 🏡 We hope to see you at Ibbani Homestay soon. Have a great day!"
+  },
+  {
+    patterns: [/admin|login|register|sign.?up|account/i],
+    response: "👤 Account Help:\n\n• Register: Click 'Book Now' → Register\n• Login: Click 'Login' in navbar\n• Admin: Only authorized accounts\n\nNeed help? WhatsApp us!"
+  },
+  {
+    patterns: [/pet|dog|cat|animal/i],
+    response: "🐾 Pets are welcome at Ibbani Homestay! Please inform us in advance via WhatsApp so we can prepare."
+  },
+  {
+    patterns: [/parking|car|vehicle|drive/i],
+    response: "🅿️ Free parking is available at Ibbani Homestay. You can drive your car right up to the property."
+  },
+  {
+    patterns: [/photo|pics|image|gallery/i],
+    response: "📸 Check out our Gallery page on the website for photos of Ibbani Homestay, the rooms, views, and food!"
+  }
+];
 
-function getResponse(input) {
-  const text = input.toLowerCase();
+const FALLBACK = [
+  "I'm not sure about that. Let me connect you with our team!",
+  "Great question! Our team can help on WhatsApp: +91 8660874196",
+  "I can help with bookings, pricing, food, check-in times, and more. Try asking about those!",
+  "Hmm, I don't have that info. Want me to connect you with our team on WhatsApp?"
+];
 
-  if (text.match(/hi|hello|hey|namaste|good morning|good evening/)) return randomOf(BOT_RESPONSES.greetings);
-  if (text.match(/book|reserv|stay|room/)) return randomOf(BOT_RESPONSES.booking);
-  if (text.match(/price|cost|rate|charge|how much|tariff/)) return randomOf(BOT_RESPONSES.price);
-  if (text.match(/location|where|map|direction|address|find/)) return randomOf(BOT_RESPONSES.location);
-  if (text.match(/check.?in|check.?out|time|arrival|depart/)) return randomOf(BOT_RESPONSES.checkin);
-  if (text.match(/amenit|facilit|wifi|parking|food|bonfire|feature/)) return randomOf(BOT_RESPONSES.amenities);
-  if (text.match(/contact|phone|whatsapp|email|call|number/)) return randomOf(BOT_RESPONSES.contact);
-  if (text.match(/food|eat|meal|breakfast|lunch|dinner|menu|cook|coffee/)) return randomOf(BOT_RESPONSES.food);
-  if (text.match(/cancel|refund|cancell/)) return randomOf(BOT_RESPONSES.cancel);
+function getAIResponse(input) {
+  const text = input.toLowerCase().trim();
 
-  return randomOf(BOT_RESPONSES.fallback);
-}
+  for (const item of KB) {
+    for (const pattern of item.patterns) {
+      if (pattern.test(text)) {
+        return item.response;
+      }
+    }
+  }
 
-function randomOf(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+  // Context-aware fallback
+  if (text.length < 3) return "Could you tell me more about what you're looking for?";
+  if (text.includes("?")) return FALLBACK[Math.floor(Math.random() * FALLBACK.length)];
+
+  return FALLBACK[Math.floor(Math.random() * FALLBACK.length)];
 }
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { from: "bot", text: "Hello! I'm the Ibbani Homestay assistant. Ask me anything about our homestay, booking, pricing, or amenities! 🏡" }
+    { from: "bot", text: "Hello! I'm the Ibbani Homestay AI assistant. Ask me anything about booking, pricing, food, amenities, or check-in times! 🏡" }
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -77,10 +128,10 @@ export default function Chatbot() {
     setTyping(true);
 
     setTimeout(() => {
-      const botMsg = { from: "bot", text: getResponse(text) };
+      const botMsg = { from: "bot", text: getAIResponse(text) };
       setMessages((prev) => [...prev, botMsg]);
       setTyping(false);
-    }, 800);
+    }, 600 + Math.random() * 800);
   };
 
   const handleSubmit = (e) => {
@@ -89,10 +140,11 @@ export default function Chatbot() {
   };
 
   const quickActions = [
-    { label: "💰 Pricing", text: "What are the prices?" },
+    { label: "💰 Price", text: "What is the price?" },
     { label: "📅 Check-in", text: "What are check-in times?" },
-    { label: "📍 Location", text: "Where is the homestay?" },
     { label: "🍽️ Food", text: "What food is served?" },
+    { label: "📍 Location", text: "Where is the homestay?" },
+    { label: "🥾 Activities", text: "What activities are available?" },
   ];
 
   return (
@@ -109,15 +161,15 @@ export default function Chatbot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col" style={{ height: "500px" }}>
+        <div className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col" style={{ height: "520px" }}>
           {/* Header */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl">🏡</div>
-              <div>
-                <p className="font-bold">Ibbani Homestay</p>
+              <div className="flex-1">
+                <p className="font-bold">Ibbani Homestay AI</p>
                 <p className="text-emerald-100 text-xs flex items-center gap-1">
-                  <span className="w-2 h-2 bg-green-300 rounded-full"></span> Online now
+                  <span className="w-2 h-2 bg-green-300 rounded-full"></span> Online · AI Assistant
                 </p>
               </div>
             </div>
@@ -127,7 +179,7 @@ export default function Chatbot() {
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                <div className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                   msg.from === "user"
                     ? "bg-emerald-600 text-white rounded-br-md"
                     : "bg-white text-gray-700 shadow-sm border border-gray-100 rounded-bl-md"
@@ -153,7 +205,7 @@ export default function Chatbot() {
           </div>
 
           {/* Quick Actions */}
-          <div className="px-4 py-2 bg-white border-t border-gray-100 flex gap-2 overflow-x-auto">
+          <div className="px-3 py-2 bg-white border-t border-gray-100 flex gap-1.5 overflow-x-auto">
             {quickActions.map((qa, i) => (
               <button key={i} onClick={() => sendMessage(qa.text)}
                 className="shrink-0 bg-emerald-50 text-emerald-700 text-xs px-3 py-1.5 rounded-full hover:bg-emerald-100 transition-colors font-medium border border-emerald-100">
@@ -177,7 +229,7 @@ export default function Chatbot() {
           <div className="px-4 py-2 bg-green-50 border-t border-green-100">
             <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 text-green-700 text-xs font-semibold hover:text-green-800">
-              💬 Chat with us on WhatsApp for instant support
+              💬 Chat with us on WhatsApp for human support
             </a>
           </div>
         </div>

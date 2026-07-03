@@ -2,6 +2,7 @@ const pool = require("../config/db");
 const { sendBookingConfirmation } = require("../utils/email");
 
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const PRICE_PER_PERSON = 1500;
 
 function isValidDate(str) {
     return DATE_REGEX.test(str) && !isNaN(Date.parse(str));
@@ -10,14 +11,13 @@ function isValidDate(str) {
 exports.getBookings = async (req, res) => {
     try {
         const result = await pool.query(
-            `SELECT b.*, h.name AS homestay_name, h.price_per_night
+            `SELECT b.*, h.name AS homestay_name
              FROM bookings b
              JOIN homestays h ON b.homestay_id = h.id
              WHERE b.user_id = $1
              ORDER BY b.created_at DESC`,
             [req.user.id]
         );
-
         res.json({ success: true, bookings: result.rows });
     } catch (err) {
         console.error(err);
@@ -28,17 +28,15 @@ exports.getBookings = async (req, res) => {
 exports.getBooking = async (req, res) => {
     try {
         const result = await pool.query(
-            `SELECT b.*, h.name AS homestay_name, h.price_per_night
+            `SELECT b.*, h.name AS homestay_name
              FROM bookings b
              JOIN homestays h ON b.homestay_id = h.id
              WHERE b.id = $1 AND b.user_id = $2`,
             [req.params.id, req.user.id]
         );
-
         if (result.rows.length === 0) {
             return res.status(404).json({ success: false, message: "Booking not found" });
         }
-
         res.json({ success: true, booking: result.rows[0] });
     } catch (err) {
         console.error(err);
@@ -57,13 +55,7 @@ exports.createBooking = async (req, res) => {
             });
         }
 
-        const homestayIdInt = parseInt(homestay_id, 10);
         const guestsInt = parseInt(guests, 10);
-
-        if (isNaN(homestayIdInt) || homestayIdInt <= 0) {
-            return res.status(400).json({ success: false, message: "Invalid homestay ID" });
-        }
-
         if (isNaN(guestsInt) || guestsInt <= 0 || guestsInt > 50) {
             return res.status(400).json({ success: false, message: "Guests must be 1-50" });
         }
@@ -76,9 +68,10 @@ exports.createBooking = async (req, res) => {
             return res.status(400).json({ success: false, message: "Check-out must be after check-in" });
         }
 
+        // Use UUID directly - no parseInt
         const homestay = await pool.query(
-            "SELECT id, max_guests, price_per_night, name FROM homestays WHERE id = $1",
-            [homestayIdInt]
+            "SELECT id, max_guests, name FROM homestays WHERE id = $1",
+            [homestay_id]
         );
 
         if (homestay.rows.length === 0) {
@@ -92,16 +85,15 @@ exports.createBooking = async (req, res) => {
             });
         }
 
-        // Calculate total amount: nights × price_per_night
+        // ₹1500 per person per night
         const nights = Math.ceil((new Date(check_out) - new Date(check_in)) / (1000 * 60 * 60 * 24));
-        const pricePerNight = parseFloat(homestay.rows[0].price_per_night) || 0;
-        const totalAmount = nights * pricePerNight;
+        const totalAmount = guestsInt * nights * PRICE_PER_PERSON;
 
         const result = await pool.query(
             `INSERT INTO bookings (user_id, homestay_id, check_in, check_out, guests, total_amount)
              VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING *`,
-            [req.user.id, homestayIdInt, check_in, check_out, guestsInt, totalAmount]
+            [req.user.id, homestay_id, check_in, check_out, guestsInt, totalAmount]
         );
 
         const user = await pool.query("SELECT name, email FROM users WHERE id = $1", [req.user.id]);
@@ -116,7 +108,7 @@ exports.createBooking = async (req, res) => {
         res.status(201).json({
             success: true,
             message: "Booking created successfully",
-            booking: { ...result.rows[0], total_amount: totalAmount, nights, homestay_name: homestay.rows[0].name }
+            booking: { ...result.rows[0], total_amount: totalAmount, nights, homestay_name: homestay.rows[0].name, price_per_person: PRICE_PER_PERSON }
         });
     } catch (err) {
         console.error(err);
@@ -132,14 +124,21 @@ exports.cancelBooking = async (req, res) => {
              RETURNING *`,
             [req.params.id, req.user.id]
         );
-
         if (result.rows.length === 0) {
             return res.status(404).json({ success: false, message: "Booking not found or cannot be cancelled" });
         }
-
         res.json({ success: true, message: "Booking cancelled" });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Failed to cancel booking" });
     }
+};
+
+exports.getPrice = async (req, res) => {
+    res.json({
+        success: true,
+        price_per_person: PRICE_PER_PERSON,
+        currency: "INR",
+        description: "₹1500 per person per night at Ibbani Homestay"
+    });
 };

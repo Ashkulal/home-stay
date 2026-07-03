@@ -82,4 +82,14 @@ export const payments = {
   confirm: (id, status) => API.put(`/payments/${id}/confirm`, { status }),
 };
 
+export const razorpay = {
+  getKey: () => API.get("/razorpay/key"),
+  createOrder: (data) => API.post("/razorpay/create-order", data),
+  verify: (data) => API.post("/razorpay/verify", data),
+};
+
+export const bookingPrice = {
+  get: () => API.get("/bookings/price"),
+};
+
 export default API;

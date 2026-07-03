@@ -27,10 +27,12 @@ export default function Bookings() {
     guests: 2,
   });
 
+  const PRICE_PER_PERSON = 1500;
   const nights = form.check_in && form.check_out
     ? Math.max(1, Math.ceil((new Date(form.check_out) - new Date(form.check_in)) / (1000 * 60 * 60 * 24)))
     : 0;
-  const totalAmount = nights * (parseFloat(selectedHomestay?.price_per_night) || 0);
+  const guestsInt = parseInt(form.guests) || 0;
+  const totalAmount = guestsInt * nights * PRICE_PER_PERSON;
 
   const loadData = async () => {
     try {
@@ -165,23 +167,28 @@ export default function Bookings() {
             </div>
 
             {/* Price Breakdown */}
-            {nights > 0 && selectedHomestay && (
+            {nights > 0 && guestsInt > 0 && (
               <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-5 border border-emerald-100">
                 <h3 className="font-semibold text-gray-700 mb-3">Price Breakdown</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{selectedHomestay.name}</span>
-                    <span>₹{selectedHomestay.price_per_night}/night</span>
+                    <span className="text-gray-600">Price per person per night</span>
+                    <span>₹{PRICE_PER_PERSON}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Number of nights</span>
                     <span>{nights}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Number of guests</span>
+                    <span>{guestsInt}</span>
                   </div>
                   <div className="border-t border-emerald-200 pt-2 mt-2">
                     <div className="flex justify-between font-bold text-lg text-emerald-700">
                       <span>Total</span>
                       <span>₹{totalAmount}</span>
                     </div>
+                    <p className="text-xs text-gray-400 mt-1">{guestsInt} guests × {nights} nights × ₹{PRICE_PER_PERSON}</p>
                   </div>
                 </div>
               </div>

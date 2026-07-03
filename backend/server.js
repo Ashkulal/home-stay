@@ -39,6 +39,7 @@ app.use("/api/payments", paymentLimiter, require("./routes/paymentRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 app.use("/api/upload", require("./routes/uploadRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
+app.use("/api/razorpay", require("./routes/razorpayRoutes"));
 
 app.get("/", (req, res) => {
     res.send("Ibbani Homestay Backend Running");
