@@ -20,7 +20,7 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
-import AdminBookings from "./pages/admin/AdminBookings";
+
 import AdminContent from "./pages/admin/AdminContent";
 import AdminPayments from "./pages/admin/AdminPayments";
 
@@ -48,7 +48,7 @@ function App() {
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
                 <Route path="/admin/users" element={<ProtectedRoute adminOnly><AdminUsers /></ProtectedRoute>} />
-                <Route path="/admin/bookings" element={<ProtectedRoute adminOnly><AdminBookings /></ProtectedRoute>} />
+
                 <Route path="/admin/content" element={<ProtectedRoute adminOnly><AdminContent /></ProtectedRoute>} />
                 <Route path="/admin/payments" element={<ProtectedRoute adminOnly><AdminPayments /></ProtectedRoute>} />
                 <Route path="*" element={

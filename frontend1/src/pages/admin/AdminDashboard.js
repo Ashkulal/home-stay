@@ -25,26 +25,25 @@ export default function AdminDashboard() {
 
       {/* Quick Links */}
       <div className="grid grid-cols-2 gap-3 mb-6">
-        {[
-          { to: "/admin/users", icon: "👥", label: "Users", count: stats.totalUsers },
-          { to: "/admin/bookings", icon: "📋", label: "Bookings", count: stats.totalBookings },
-          { to: "/admin/content", icon: "📝", label: "Content", count: stats.totalHomestays },
-          { to: "/admin/payments", icon: "💰", label: "Payments", count: `₹${stats.totalRevenue}` },
-        ].map((item) => (
-          <Link key={item.to} to={item.to}
-            className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all border border-gray-100 text-center group">
-            <div className="text-2xl mb-1">{item.icon}</div>
-            <p className="font-bold text-sm group-hover:text-emerald-600 transition-colors">{item.label}</p>
-            <p className="text-emerald-600 font-bold text-lg">{item.count}</p>
-          </Link>
-        ))}
+        <Link to="/admin/users"
+          className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all border border-gray-100 text-center group">
+          <div className="text-2xl mb-1">👥</div>
+          <p className="font-bold text-sm group-hover:text-emerald-600 transition-colors">Users</p>
+          <p className="text-emerald-600 font-bold text-lg">{stats.totalUsers}</p>
+        </Link>
+        <Link to="/admin/payments"
+          className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all border border-gray-100 text-center group">
+          <div className="text-2xl mb-1">💰</div>
+          <p className="font-bold text-sm group-hover:text-emerald-600 transition-colors">Payments</p>
+          <p className="text-emerald-600 font-bold text-lg">₹{stats.totalRevenue}</p>
+        </Link>
       </div>
 
-      {/* Recent Bookings */}
+      {/* Recent Activity */}
       <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
-        <h2 className="font-bold mb-4">Recent Bookings</h2>
+        <h2 className="font-bold mb-4">Recent Activity</h2>
         {stats.recentBookings.length === 0 ? (
-          <p className="text-gray-400 text-center py-4">No bookings yet</p>
+          <p className="text-gray-400 text-center py-4">No activity yet</p>
         ) : (
           <div className="space-y-3">
             {stats.recentBookings.map((b) => (

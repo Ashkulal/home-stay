@@ -21,7 +21,7 @@ export default function Bookings() {
 
   const [selectedHomestay, setSelectedHomestay] = useState(null);
   const [form, setForm] = useState({
-    homestay_id: preselected,
+    homestay_id: preselected || "",
     check_in: "",
     check_out: "",
     guests: 2,
@@ -39,8 +39,12 @@ export default function Bookings() {
       const [bRes, hRes] = await Promise.all([bookings.getAll(), homestays.getAll()]);
       setList(bRes.data.bookings);
       setHomestayList(hRes.data.homestays);
-      if (preselected) {
-        const h = hRes.data.homestays.find((x) => String(x.id) === String(preselected));
+      const hList = hRes.data.homestays;
+      if (hList.length === 1 && !form.homestay_id) {
+        setSelectedHomestay(hList[0]);
+        setForm((prev) => ({ ...prev, homestay_id: hList[0].id }));
+      } else if (preselected) {
+        const h = hList.find((x) => String(x.id) === String(preselected));
         if (h) setSelectedHomestay(h);
       }
     } catch (err) {
