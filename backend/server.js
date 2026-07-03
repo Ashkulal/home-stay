@@ -24,7 +24,14 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json({
+    verify: (req, res, buf) => {
+        if (req.method === "POST") {
+            console.log("DEBUG_RAW_BODY:", buf.toString().substring(0, 200));
+            console.log("DEBUG_CONTENT_TYPE:", req.headers["content-type"]);
+        }
+    }
+}));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(generalLimiter);
 
