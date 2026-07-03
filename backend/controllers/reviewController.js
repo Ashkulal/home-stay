@@ -19,7 +19,7 @@ exports.getReviews = async (req, res) => {
         res.json({ success: true, reviews: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -67,7 +67,7 @@ exports.createReview = async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -85,6 +85,6 @@ exports.deleteReview = async (req, res) => {
         res.json({ success: true, message: "Review deleted" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };

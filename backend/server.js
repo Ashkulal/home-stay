@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
-const { generalLimiter, authLimiter } = require("./middleware/rateLimiter");
+const { generalLimiter, authLimiter, bookingLimiter, paymentLimiter } = require("./middleware/rateLimiter");
 
 const app = express();
 
@@ -15,7 +15,7 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (origin && allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
@@ -24,25 +24,18 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json({
-    verify: (req, res, buf) => {
-        if (req.method === "POST") {
-            console.log("DEBUG_RAW_BODY:", buf.toString().substring(0, 200));
-            console.log("DEBUG_CONTENT_TYPE:", req.headers["content-type"]);
-        }
-    }
-}));
+app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(generalLimiter);
 
 // Routes
 app.use("/api/auth", authLimiter, require("./routes/authRoutes"));
 app.use("/api/homestays", require("./routes/homestayRoutes"));
-app.use("/api/bookings", require("./routes/bookingRoutes"));
+app.use("/api/bookings", bookingLimiter, require("./routes/bookingRoutes"));
 app.use("/api/peaks", require("./routes/peakRoutes"));
 app.use("/api/gallery", require("./routes/galleryRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
-app.use("/api/payments", require("./routes/paymentRoutes"));
+app.use("/api/payments", paymentLimiter, require("./routes/paymentRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 app.use("/api/upload", require("./routes/uploadRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
@@ -57,7 +50,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ success: false, message: err.message || "Internal server error" });
+    res.status(500).json({ success: false, message: "Internal server error" });
 });
 
 if (process.env.VERCEL !== "1") {

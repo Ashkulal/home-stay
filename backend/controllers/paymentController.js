@@ -14,7 +14,7 @@ exports.getPaymentInfo = async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to fetch payment info" });
     }
 };
 
@@ -29,9 +29,20 @@ exports.initiatePayment = async (req, res) => {
             });
         }
 
+        const bookingIdInt = parseInt(booking_id, 10);
+        const amountNum = parseFloat(amount);
+
+        if (isNaN(bookingIdInt) || bookingIdInt <= 0) {
+            return res.status(400).json({ success: false, message: "Invalid booking ID" });
+        }
+
+        if (isNaN(amountNum) || amountNum <= 0) {
+            return res.status(400).json({ success: false, message: "Invalid amount" });
+        }
+
         const booking = await pool.query(
             "SELECT id FROM bookings WHERE id = $1 AND user_id = $2",
-            [booking_id, req.user.id]
+            [bookingIdInt, req.user.id]
         );
 
         if (booking.rows.length === 0) {
@@ -43,7 +54,7 @@ exports.initiatePayment = async (req, res) => {
 
         const existing = await pool.query(
             "SELECT id FROM payments WHERE booking_id = $1 AND status = 'pending'",
-            [booking_id]
+            [bookingIdInt]
         );
 
         if (existing.rows.length > 0) {
@@ -59,7 +70,7 @@ exports.initiatePayment = async (req, res) => {
             `INSERT INTO payments (booking_id, user_id, amount, upi_id, transaction_id, proof_url)
              VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING *`,
-            [booking_id, req.user.id, amount, upiId, transaction_id || null, proof_url || null]
+            [bookingIdInt, req.user.id, amountNum, upiId, transaction_id || null, proof_url || null]
         );
 
         res.status(201).json({
@@ -69,7 +80,7 @@ exports.initiatePayment = async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to initiate payment" });
     }
 };
 
@@ -87,7 +98,7 @@ exports.getMyPayments = async (req, res) => {
         res.json({ success: true, payments: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to fetch payments" });
     }
 };
 
@@ -111,32 +122,38 @@ exports.updatePaymentProof = async (req, res) => {
         res.json({ success: true, payment: result.rows[0] });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to update payment proof" });
     }
 };
 
 exports.confirmPayment = async (req, res) => {
+    const client = await pool.connect();
     try {
         const { status } = req.body;
         if (!["confirmed", "rejected"].includes(status)) {
             return res.status(400).json({ success: false, message: "Status must be 'confirmed' or 'rejected'" });
         }
 
-        const result = await pool.query(
+        await client.query("BEGIN");
+
+        const result = await client.query(
             "UPDATE payments SET status = $1 WHERE id = $2 RETURNING *",
             [status, req.params.id]
         );
 
         if (result.rows.length === 0) {
+            await client.query("ROLLBACK");
             return res.status(404).json({ success: false, message: "Payment not found" });
         }
 
         if (status === "confirmed") {
-            await pool.query(
+            await client.query(
                 "UPDATE bookings SET status = 'confirmed' WHERE id = $1",
                 [result.rows[0].booking_id]
             );
         }
+
+        await client.query("COMMIT");
 
         const user = await pool.query("SELECT name, email FROM users WHERE id = $1", [result.rows[0].user_id]);
         if (user.rows.length > 0) {
@@ -145,8 +162,11 @@ exports.confirmPayment = async (req, res) => {
 
         res.json({ success: true, payment: result.rows[0] });
     } catch (err) {
+        await client.query("ROLLBACK");
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to confirm payment" });
+    } finally {
+        client.release();
     }
 };
 
@@ -164,6 +184,6 @@ exports.getAllPayments = async (req, res) => {
         res.json({ success: true, payments: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to fetch payments" });
     }
 };

@@ -31,7 +31,7 @@ exports.getDashboardStats = async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -43,7 +43,7 @@ exports.getUsers = async (req, res) => {
         res.json({ success: true, users: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -63,7 +63,7 @@ exports.updateUserRole = async (req, res) => {
         res.json({ success: true, user: result.rows[0] });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -79,7 +79,7 @@ exports.deleteUser = async (req, res) => {
         res.json({ success: true, message: "User deleted" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -95,7 +95,7 @@ exports.getBookings = async (req, res) => {
         res.json({ success: true, bookings: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -116,6 +116,6 @@ exports.updateBookingStatus = async (req, res) => {
         res.json({ success: true, booking: result.rows[0] });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };

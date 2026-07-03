@@ -14,7 +14,7 @@ exports.getGalleryImages = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };
@@ -41,7 +41,7 @@ exports.getGalleryImage = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };
@@ -73,7 +73,7 @@ exports.uploadImage = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };
@@ -100,7 +100,7 @@ exports.deleteImage = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };

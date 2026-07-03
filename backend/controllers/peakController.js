@@ -25,7 +25,7 @@ exports.getPeaks = async (req, res) => {
         res.json({ success: true, peaks: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
@@ -53,7 +53,7 @@ exports.getPeak = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };
@@ -85,7 +85,7 @@ exports.createPeak = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };
@@ -124,7 +124,7 @@ exports.updatePeak = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };
@@ -151,7 +151,7 @@ exports.deletePeak = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Operation failed"
         });
     }
 };

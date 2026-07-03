@@ -11,11 +11,9 @@ const {
 
 const auth = require("../middleware/authMiddleware");
 
-// Public Routes
-router.get("/", getBookings);
-router.get("/:id", getBooking);
-
-// Protected Routes
+// Protected Routes - all booking access requires authentication
+router.get("/", auth, getBookings);
+router.get("/:id", auth, getBooking);
 router.post("/", auth, createBooking);
 router.put("/:id", auth, updateBooking);
 router.delete("/:id", auth, deleteBooking);

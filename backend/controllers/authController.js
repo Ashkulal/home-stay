@@ -2,6 +2,11 @@ const pool = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NAME_MAX = 100;
+const PASSWORD_MIN = 6;
+const PASSWORD_MAX = 128;
+
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -13,9 +18,33 @@ exports.register = async (req, res) => {
             });
         }
 
+        if (typeof name !== "string" || name.trim().length < 2 || name.length > NAME_MAX) {
+            return res.status(400).json({
+                success: false,
+                message: "Name must be 2-100 characters"
+            });
+        }
+
+        if (typeof email !== "string" || !EMAIL_REGEX.test(email.trim())) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email format"
+            });
+        }
+
+        if (typeof password !== "string" || password.length < PASSWORD_MIN || password.length > PASSWORD_MAX) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be 6-128 characters"
+            });
+        }
+
+        const sanitizedEmail = email.trim().toLowerCase();
+        const sanitizedName = name.trim();
+
         const existingUser = await pool.query(
             "SELECT id FROM users WHERE email = $1",
-            [email]
+            [sanitizedEmail]
         );
 
         if (existingUser.rows.length > 0) {
@@ -31,7 +60,7 @@ exports.register = async (req, res) => {
             `INSERT INTO users (name, email, password)
              VALUES ($1, $2, $3)
              RETURNING id, name, email, created_at`,
-            [name, email, hashedPassword]
+            [sanitizedName, sanitizedEmail, hashedPassword]
         );
 
         res.status(201).json({
@@ -42,10 +71,9 @@ exports.register = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-
         res.status(500).json({
             success: false,
-            message: error.message
+            message: "Registration failed"
         });
     }
 };
@@ -61,9 +89,18 @@ exports.login = async (req, res) => {
             });
         }
 
+        if (typeof email !== "string" || typeof password !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid input"
+            });
+        }
+
+        const sanitizedEmail = email.trim().toLowerCase();
+
         const result = await pool.query(
             "SELECT id, name, email, password, role FROM users WHERE email = $1",
-            [email]
+            [sanitizedEmail]
         );
 
         if (result.rows.length === 0) {
@@ -107,10 +144,9 @@ exports.login = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-
         res.status(500).json({
             success: false,
-            message: error.message
+            message: "Login failed"
         });
     }
 };

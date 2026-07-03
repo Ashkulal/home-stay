@@ -31,7 +31,7 @@ exports.getHomestays = async (req, res) => {
         res.json({ success: true, homestays: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ success: false, message: "Failed to fetch homestays" });
     }
 };
 
@@ -59,7 +59,7 @@ exports.getHomestay = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Failed to fetch homestays"
         });
     }
 };
@@ -105,7 +105,7 @@ exports.createHomestay = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Failed to fetch homestays"
         });
     }
 };
@@ -134,7 +134,7 @@ exports.deleteHomestay = async (req, res) => {
         console.error(err);
         res.status(500).json({
             success: false,
-            message: err.message
+            message: "Failed to fetch homestays"
         });
     }
 };
