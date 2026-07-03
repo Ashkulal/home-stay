@@ -86,6 +86,7 @@ export const razorpay = {
   getKey: () => API.get("/razorpay/key"),
   createOrder: (data) => API.post("/razorpay/create-order", data),
   verify: (data) => API.post("/razorpay/verify", data),
+  manualPayment: (data) => API.post("/razorpay/manual", data),
 };
 
 export const bookingPrice = {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { payments, razorpay, bookings } from "../services/api";
+import { payments, razorpay } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useSearchParams, Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
@@ -13,6 +13,7 @@ export default function Payment() {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [razorpayConfigured, setRazorpayConfigured] = useState(false);
+  const [razorpayFailed, setRazorpayFailed] = useState(false);
   const [bookingData, setBookingData] = useState(null);
   const [searchParams] = useSearchParams();
   const bookingId = searchParams.get("booking") || "";
@@ -20,19 +21,16 @@ export default function Payment() {
   const { user } = useAuth();
   const toast = useToast();
   const [txnId, setTxnId] = useState("");
-  const [activeTab, setActiveTab] = useState("razorpay");
 
   useEffect(() => {
     Promise.all([
       razorpay.getKey(),
       user ? payments.getMy() : Promise.resolve({ data: { payments: [] } }),
-      bookingId ? bookings.getOne(bookingId).catch(() => ({ data: { booking: null } })) : Promise.resolve({ data: { booking: null } })
-    ]).then(([keyRes, myRes, bRes]) => {
+    ]).then(([keyRes, myRes]) => {
       setRazorpayConfigured(keyRes.data.configured);
       setMyPayments(myRes.data.payments);
-      setBookingData(bRes.data.booking);
     }).catch(() => {}).finally(() => setLoading(false));
-  }, [user, bookingId]);
+  }, [user]);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -50,11 +48,13 @@ export default function Payment() {
 
   const handleRazorpayPayment = async () => {
     if (!user || !bookingId || !amount) {
-      toast.error("Missing booking or amount");
+      toast.error("Missing booking details");
       return;
     }
 
     setProcessing(true);
+    setRazorpayFailed(false);
+
     try {
       const { data: orderData } = await razorpay.createOrder({
         booking_id: bookingId,
@@ -63,7 +63,8 @@ export default function Payment() {
 
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
-        toast.error("Failed to load payment gateway");
+        toast.error("Payment gateway loading failed. Use UPI QR code.");
+        setRazorpayFailed(true);
         setProcessing(false);
         return;
       }
@@ -73,7 +74,7 @@ export default function Payment() {
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Ibbani Homestay",
-        description: `Booking #${bookingId}`,
+        description: `Booking #${bookingId} · ₹${amount}`,
         order_id: orderData.orderId,
         handler: async function (response) {
           try {
@@ -83,11 +84,25 @@ export default function Payment() {
               razorpay_signature: response.razorpay_signature,
               booking_id: bookingId
             });
-            toast.success("Payment successful! Booking confirmed.");
+            toast.success("Payment confirmed automatically! Check your email.");
             const myRes = await payments.getMy();
             setMyPayments(myRes.data.payments);
           } catch (err) {
-            toast.error("Payment verification failed. Contact support.");
+            // Razorpay verify failed → fall back to manual
+            toast.error("Auto-verification failed. Submitting for admin review...");
+            try {
+              await razorpay.manualPayment({
+                booking_id: bookingId,
+                amount: parseFloat(amount),
+                transaction_id: response.razorpay_payment_id
+              });
+              toast.success("Payment submitted for admin confirmation.");
+              const myRes = await payments.getMy();
+              setMyPayments(myRes.data.payments);
+            } catch (e) {
+              toast.error("Please pay via UPI QR and submit proof manually.");
+              setRazorpayFailed(true);
+            }
           }
           setProcessing(false);
         },
@@ -98,15 +113,25 @@ export default function Payment() {
         theme: { color: "#059669" },
         modal: {
           ondismiss: function () {
+            toast.info("Payment cancelled. You can pay via UPI QR code.");
+            setRazorpayFailed(true);
             setProcessing(false);
           }
         }
       };
 
       const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+        toast.error("Payment failed. You can pay via UPI QR code.");
+        setRazorpayFailed(true);
+        setProcessing(false);
+      });
+
       rzp.open();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to initiate payment");
+      toast.error(err.response?.data?.message || "Gateway unavailable. Use UPI QR code.");
+      setRazorpayFailed(true);
       setProcessing(false);
     }
   };
@@ -114,23 +139,24 @@ export default function Payment() {
   const handleManualSubmit = async (e) => {
     e.preventDefault();
     try {
-      await payments.initiate({
+      await razorpay.manualPayment({
         booking_id: bookingId,
-        amount: amount,
-        transaction_id: txnId || undefined,
+        amount: parseFloat(amount),
+        transaction_id: txnId || undefined
       });
-      toast.success("Payment proof submitted! Waiting for confirmation.");
+      toast.success("Payment submitted! Admin will confirm shortly.");
       setTxnId("");
+      setRazorpayFailed(false);
       const myRes = await payments.getMy();
       setMyPayments(myRes.data.payments);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Payment failed");
+      toast.error(err.response?.data?.message || "Submission failed");
     }
   };
 
   const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${amount}&cu=INR`;
   const whatsappMsg = encodeURIComponent(
-    `Hi, I've made a UPI payment for Ibbani Homestay booking.\n\nBooking ID: ${bookingId}\nAmount: ₹${amount}\nUPI Transaction ID: ${txnId || "N/A"}\n\nPlease confirm my booking.`
+    `Hi, I made a UPI payment for Ibbani Homestay booking.\n\nBooking ID: ${bookingId}\nAmount: ₹${amount}\n\nPlease confirm.`
   );
 
   if (loading) return (
@@ -142,8 +168,9 @@ export default function Payment() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
       <h1 className="text-3xl font-bold mb-2">Complete Payment</h1>
-      <p className="text-gray-500 mb-8">Pay securely for your booking at Ibbani Homestay</p>
+      <p className="text-gray-500 mb-8">Pay securely for your Ibbani Homestay booking</p>
 
+      {/* Amount Header */}
       {bookingId && amount && (
         <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl p-6 mb-8">
           <div className="flex items-center justify-between">
@@ -151,107 +178,119 @@ export default function Payment() {
               <p className="text-emerald-100 text-sm">Amount to Pay</p>
               <p className="text-4xl font-extrabold">₹{amount}</p>
               <p className="text-emerald-200 text-sm mt-1">Booking #{bookingId}</p>
-              {bookingData && (
-                <p className="text-emerald-200 text-sm">{bookingData.homestay_name} · {bookingData.guests} guests</p>
-              )}
             </div>
             <div className="text-5xl">💳</div>
           </div>
         </div>
       )}
 
-      {/* Payment Tabs */}
-      {bookingId && amount && (
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
-          <div className="flex border-b border-gray-100">
-            <button onClick={() => setActiveTab("razorpay")}
-              className={`flex-1 py-4 font-semibold text-sm transition-colors ${activeTab === "razorpay" ? "text-emerald-600 border-b-2 border-emerald-600 bg-emerald-50" : "text-gray-500 hover:text-gray-700"}`}>
-              💳 Razorpay (Card/UPI/Netbanking)
-            </button>
-            <button onClick={() => setActiveTab("upi")}
-              className={`flex-1 py-4 font-semibold text-sm transition-colors ${activeTab === "upi" ? "text-emerald-600 border-b-2 border-emerald-600 bg-emerald-50" : "text-gray-500 hover:text-gray-700"}`}>
-              📱 UPI QR Code
-            </button>
+      {/* Step 1: Try Razorpay */}
+      {bookingId && amount && !razorpayFailed && (
+        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-sm">1</span>
+            <h2 className="text-xl font-bold">Pay Online (Recommended)</h2>
           </div>
 
-          <div className="p-6 md:p-8">
-            {activeTab === "razorpay" && (
-              <div className="text-center">
-                {razorpayConfigured ? (
-                  <>
-                    <div className="text-6xl mb-4">💳</div>
-                    <h3 className="text-xl font-bold mb-2">Pay with Razorpay</h3>
-                    <p className="text-gray-500 mb-6">Supports UPI, Credit/Debit Cards, Netbanking, and Wallets</p>
-                    <button onClick={handleRazorpayPayment} disabled={processing}
-                      className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all disabled:opacity-40 shadow-lg">
-                      {processing ? "Processing..." : `Pay ₹${amount}`}
-                    </button>
-                    <p className="text-xs text-gray-400 mt-4">Secured by Razorpay</p>
-                  </>
-                ) : (
-                  <>
-                    <div className="text-6xl mb-4">⚙️</div>
-                    <h3 className="text-xl font-bold mb-2">Razorpay Not Configured</h3>
-                    <p className="text-gray-500 mb-4">Add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to enable online payments.</p>
-                    <button onClick={() => setActiveTab("upi")} className="text-emerald-600 font-semibold hover:text-emerald-700">
-                      Use UPI QR Code instead →
-                    </button>
-                  </>
+          {razorpayConfigured ? (
+            <div className="text-center">
+              <div className="bg-emerald-50 rounded-xl p-6 mb-6">
+                <p className="text-sm text-emerald-700 mb-3">Supports all payment methods</p>
+                <div className="flex justify-center gap-4 text-sm text-emerald-600 font-medium">
+                  <span>UPI</span><span>•</span>
+                  <span>Cards</span><span>•</span>
+                  <span>Netbanking</span><span>•</span>
+                  <span>Wallets</span>
+                </div>
+              </div>
+              <button onClick={handleRazorpayPayment} disabled={processing}
+                className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all disabled:opacity-40 shadow-lg">
+                {processing ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin">⏳</span> Processing...
+                  </span>
+                ) : `Pay ₹${amount} Now`}
+              </button>
+              <p className="text-xs text-gray-400 mt-3">Secured by Razorpay · Auto-confirmation on success</p>
+            </div>
+          ) : (
+            <div className="text-center py-4">
+              <p className="text-gray-500">Online payment not configured yet.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Step 2: UPI QR Fallback */}
+      {bookingId && amount && (
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+          <div className={`p-6 md:p-8 ${razorpayFailed ? '' : 'border-t border-gray-100'}`}>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold text-sm">
+                {razorpayFailed ? "!" : "2"}
+              </span>
+              <div>
+                <h2 className="text-xl font-bold">
+                  {razorpayFailed ? "Pay via UPI QR Code" : "Or Pay via UPI QR Code"}
+                </h2>
+                {razorpayFailed && (
+                  <p className="text-amber-600 text-sm mt-1">Online payment had an issue. Use this method instead.</p>
                 )}
               </div>
-            )}
+            </div>
 
-            {activeTab === "upi" && (
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-4">Scan & Pay</h3>
-                  <div className="inline-block bg-white rounded-2xl p-4 shadow-inner border-2 border-emerald-100 mb-4">
-                    <img src="/upi-qr.jpeg" alt="UPI QR Code" className="w-56 h-56 object-contain" />
-                  </div>
-                  <div className="bg-gray-50 rounded-xl p-4 mt-2">
-                    <p className="text-sm text-gray-500 mb-1">UPI ID</p>
-                    <p className="font-mono font-bold text-emerald-600 text-lg">{UPI_ID}</p>
-                    <p className="text-sm text-gray-400 mt-1">Payee: {PAYEE_NAME}</p>
-                  </div>
-                  <a href={upiUrl}
-                    className="mt-4 inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-md">
-                    Open UPI App
-                  </a>
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* QR Code */}
+              <div className="text-center">
+                <div className="inline-block bg-white rounded-2xl p-4 shadow-inner border-2 border-emerald-100 mb-4">
+                  <img src="/upi-qr.jpeg" alt="UPI QR Code" className="w-56 h-56 object-contain" />
                 </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-4">Submit Payment Proof</h3>
-                  {!user ? (
-                    <div className="bg-gray-50 rounded-xl p-8 text-center">
-                      <p className="text-gray-500 mb-4">Login to submit payment proof</p>
-                      <Link to="/login" className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold">Login</Link>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleManualSubmit} className="space-y-4">
-                      <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <p className="text-sm text-blue-700 font-medium">Steps:</p>
-                        <ol className="text-sm text-blue-600 mt-2 space-y-1 list-decimal list-inside">
-                          <li>Open UPI app, scan QR or use UPI ID</li>
-                          <li>Pay ₹{amount}</li>
-                          <li>Copy the UPI Transaction ID</li>
-                          <li>Paste below and submit</li>
-                        </ol>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">UPI Transaction ID *</label>
-                        <input type="text" value={txnId} onChange={(e) => setTxnId(e.target.value)}
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none font-mono"
-                          placeholder="e.g. 123456789012" required />
-                      </div>
-                      <button type="submit" disabled={!txnId}
-                        className="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all disabled:opacity-40 shadow-md">
-                        Submit Payment Proof
-                      </button>
-                    </form>
-                  )}
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <p className="text-sm text-gray-500 mb-1">UPI ID</p>
+                  <p className="font-mono font-bold text-emerald-600 text-lg">{UPI_ID}</p>
+                  <p className="text-sm text-gray-400 mt-1">Payee: {PAYEE_NAME}</p>
                 </div>
+                <a href={upiUrl}
+                  className="mt-4 inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-md">
+                  Open UPI App
+                </a>
               </div>
-            )}
+
+              {/* Submit Proof */}
+              <div>
+                <h3 className="font-bold text-lg mb-4">Submit Payment Proof</h3>
+
+                {!user ? (
+                  <div className="bg-gray-50 rounded-xl p-8 text-center">
+                    <p className="text-gray-500 mb-4">Login to submit proof</p>
+                    <Link to="/login" className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold">Login</Link>
+                  </div>
+                ) : (
+                  <form onSubmit={handleManualSubmit} className="space-y-4">
+                    <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                      <p className="text-sm text-blue-700 font-medium">Steps:</p>
+                      <ol className="text-sm text-blue-600 mt-2 space-y-1 list-decimal list-inside">
+                        <li>Open UPI app, scan QR or use UPI ID</li>
+                        <li>Pay ₹{amount}</li>
+                        <li>Copy the Transaction ID</li>
+                        <li>Paste below and submit</li>
+                      </ol>
+                      <p className="text-xs text-blue-500 mt-2">Admin will confirm within a few hours. You'll get an email.</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">UPI Transaction ID *</label>
+                      <input type="text" value={txnId} onChange={(e) => setTxnId(e.target.value)}
+                        className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none font-mono"
+                        placeholder="e.g. 123456789012" required />
+                    </div>
+                    <button type="submit" disabled={!txnId}
+                      className="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all disabled:opacity-40 shadow-md">
+                      Submit for Admin Confirmation
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -261,8 +300,8 @@ export default function Payment() {
         <div className="flex items-center gap-4">
           <span className="text-4xl">💬</span>
           <div className="flex-1">
-            <h3 className="font-bold text-green-800">Need help with payment?</h3>
-            <p className="text-green-600 text-sm">Chat with us on WhatsApp for instant support</p>
+            <h3 className="font-bold text-green-800">Payment issue?</h3>
+            <p className="text-green-600 text-sm">Send payment details on WhatsApp for instant help</p>
           </div>
           <a href={`https://wa.me/${WHATSAPP}?text=${whatsappMsg}`}
             target="_blank" rel="noopener noreferrer"
@@ -281,7 +320,7 @@ export default function Payment() {
               <div key={p.id} className="border border-gray-200 rounded-xl p-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex-1">
-                    <p className="font-semibold">{p.homestay_name}</p>
+                    <p className="font-semibold">{p.homestay_name || "Booking"}</p>
                     <p className="text-sm text-gray-500">₹{p.amount} · {p.transaction_id || "N/A"}</p>
                   </div>
                   <span className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
@@ -289,7 +328,7 @@ export default function Payment() {
                     p.status === "rejected" ? "bg-red-100 text-red-700" :
                     "bg-amber-100 text-amber-700"
                   }`}>
-                    {p.status === "confirmed" ? "✓ Confirmed" : p.status === "rejected" ? "✕ Rejected" : "⏳ Pending"}
+                    {p.status === "confirmed" ? "✓ Confirmed" : p.status === "rejected" ? "✕ Rejected" : "⏳ Pending Admin"}
                   </span>
                 </div>
               </div>
