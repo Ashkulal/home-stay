@@ -1,12 +1,19 @@
-const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const pool = require("../config/db");
-const { sendPaymentStatus, sendBookingConfirmation } = require("../utils/email");
+const { sendPaymentStatus } = require("../utils/email");
 
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || "",
-    key_secret: process.env.RAZORPAY_KEY_SECRET || ""
-});
+let razorpay = null;
+
+function getRazorpay() {
+    if (razorpay) return razorpay;
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) return null;
+    const Razorpay = require("razorpay");
+    razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET
+    });
+    return razorpay;
+}
 
 exports.getKey = async (req, res) => {
     res.json({
@@ -18,7 +25,8 @@ exports.getKey = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
     try {
-        if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+        const rp = getRazorpay();
+        if (!rp) {
             return res.status(500).json({
                 success: false,
                 message: "Online payment not configured. Please use UPI QR code."
@@ -40,14 +48,13 @@ exports.createOrder = async (req, res) => {
             return res.status(404).json({ success: false, message: "Booking not found" });
         }
 
-        const order = await razorpay.orders.create({
+        const order = await rp.orders.create({
             amount: Math.round(parseFloat(amount) * 100),
             currency: "INR",
             receipt: `booking_${booking_id}_${Date.now()}`,
             notes: { booking_id: String(booking_id) }
         });
 
-        // Save pending payment
         await pool.query(
             `INSERT INTO payments (booking_id, user_id, amount, upi_id, transaction_id, status)
              VALUES ($1, $2, $3, $4, $5, 'pending')
@@ -71,13 +78,16 @@ exports.createOrder = async (req, res) => {
 exports.verifyPayment = async (req, res) => {
     const client = await pool.connect();
     try {
+        if (!process.env.RAZORPAY_KEY_SECRET) {
+            return res.status(500).json({ success: false, message: "Payment gateway not configured" });
+        }
+
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, booking_id } = req.body;
 
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
             return res.status(400).json({ success: false, message: "Missing payment data" });
         }
 
-        // Verify signature
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
             .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -90,7 +100,6 @@ exports.verifyPayment = async (req, res) => {
 
         await client.query("BEGIN");
 
-        // Auto-confirm payment
         const paymentResult = await client.query(
             `UPDATE payments SET status = 'confirmed', transaction_id = $1
              WHERE booking_id = $2 AND user_id = $3
@@ -98,7 +107,6 @@ exports.verifyPayment = async (req, res) => {
             [razorpay_payment_id, booking_id, req.user.id]
         );
 
-        // Auto-confirm booking
         if (paymentResult.rows.length > 0) {
             await client.query(
                 "UPDATE bookings SET status = 'confirmed' WHERE id = $1",
@@ -108,7 +116,6 @@ exports.verifyPayment = async (req, res) => {
 
         await client.query("COMMIT");
 
-        // Send confirmation email
         if (paymentResult.rows.length > 0) {
             const user = await pool.query("SELECT name, email FROM users WHERE id = $1", [req.user.id]);
             if (user.rows.length > 0) {
@@ -130,7 +137,6 @@ exports.verifyPayment = async (req, res) => {
     }
 };
 
-// Manual payment submission (UPI QR fallback)
 exports.submitManualPayment = async (req, res) => {
     try {
         const { booking_id, amount, transaction_id } = req.body;
