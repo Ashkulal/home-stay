@@ -64,8 +64,8 @@ export default function Home() {
       <section className="relative -mt-8 z-20 max-w-5xl mx-auto px-4">
         <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 border border-gray-100">
           <div className="text-center">
-            <p className="text-3xl font-extrabold text-emerald-600">₹{PRICE.toLocaleString("en-IN")}</p>
-            <p className="text-gray-500 text-sm mt-1">per person / night</p>
+            <p className="text-xl font-bold text-emerald-600">₹1,500</p>
+            <p className="text-gray-500 text-xs mt-1">per person / night</p>
           </div>
           <div className="text-center">
             <p className="text-3xl font-extrabold text-emerald-600">{homestay?.max_guests || 4}+</p>
@@ -134,7 +134,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Starting from</p>
-                    <p className="text-xl font-bold text-emerald-600">₹{PRICE.toLocaleString("en-IN")} <span className="text-sm font-normal text-gray-400">/night</span></p>
+                    <p className="text-lg font-bold text-emerald-600">₹1,500 <span className="text-sm font-normal text-gray-400">/night</span></p>
                   </div>
                 </div>
               </div>
@@ -245,12 +245,12 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready for a Mountain Escape?</h2>
           <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-            Book your stay at Ibbani Homestay and experience the best of Karnataka's Western Ghats. Starting at just ₹{PRICE.toLocaleString("en-IN")} per person per night.
+            Book your stay at Ibbani Homestay and experience the best of Karnataka's Western Ghats. Starting at just ₹1,500 per person per night.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             {user ? (
               <Link to="/bookings" className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
-                Book Now — ₹{PRICE.toLocaleString("en-IN")}/person
+                Book Now — ₹1,500/person
               </Link>
             ) : (
               <Link to="/register" className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
