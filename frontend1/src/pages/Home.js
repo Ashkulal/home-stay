@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 import { homestays } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
+const WHATSAPP = "918660874196";
+const PRICE = 1500;
+
 export default function Home() {
   const { user } = useAuth();
   const [homestay, setHomestay] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     homestays.getAll().then(({ data }) => {
       if (data.homestays?.length > 0) setHomestay(data.homestays[0]);
-    }).catch(() => {}).finally(() => setLoading(false));
+    }).catch(() => {});
   }, []);
 
   const amenities = homestay?.amenities
@@ -21,91 +23,120 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 text-white py-24 md:py-40 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-9xl">🏡</div>
-          <div className="absolute bottom-10 right-10 text-9xl">🏔️</div>
+      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjAzIj48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnYtMmgtNHY2aDJ2Mmgydi0yek0yMiAxOGgtMnYtMmgydjJNMzAgMTBoLTJ2Mmgwdi0yek0xOCAyNGgtMnY0aDJ2LTRNMjYgMjhoLTJ2NGgydi00Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
+        <div className="max-w-7xl mx-auto px-4 py-28 md:py-40 relative z-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm text-emerald-300 mb-8">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+              Western Ghats, Karnataka
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight">
+              Escape to the<br />
+              <span className="text-emerald-400">Misty Mountains</span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-xl">
+              A premium mountain homestay nestled among coffee plantations. Wake up to breathtaking sunrises, breathe the fresh air, and experience authentic Karnataka hospitality.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              {user ? (
+                <Link to="/bookings" className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/30 text-center">
+                  Book Your Stay
+                </Link>
+              ) : (
+                <Link to="/register" className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/30 text-center">
+                  Get Started
+                </Link>
+              )}
+              <a href="https://wa.me/918660874196?text=Hi%2C%20I%27m%20interested%20in%20booking%20Ibbani%20Homestay"
+                target="_blank" rel="noopener noreferrer"
+                className="border border-white/30 px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-center">
+                Talk to Us
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-          <div className="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2 text-sm text-emerald-200 mb-6">
-            Mountain Homestay in Karnataka
-          </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-            Ibbani <span className="text-emerald-300">Homestay</span>
-          </h1>
-          <p className="text-lg md:text-xl mb-10 text-emerald-100/90 max-w-3xl mx-auto leading-relaxed">
-            Wake up to misty mountains, breathe the fresh air of the Western Ghats, and enjoy
-            authentic Karnataka hospitality with home-cooked food. Your perfect mountain escape.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            {user ? (
-              <Link to="/dashboard" className="bg-white text-emerald-800 px-10 py-4 rounded-xl font-bold hover:bg-emerald-50 transition-all duration-300 transform hover:scale-105 shadow-2xl text-lg">
-                Book Your Stay
-              </Link>
-            ) : (
-              <Link to="/register" className="bg-white text-emerald-800 px-10 py-4 rounded-xl font-bold hover:bg-emerald-50 transition-all duration-300 transform hover:scale-105 shadow-2xl text-lg">
-                Book Now
-              </Link>
-            )}
-            <a href="#about" className="border-2 border-white/60 px-10 py-4 rounded-xl font-bold hover:bg-white/10 transition-all duration-300 text-lg">
-              Learn More
-            </a>
-          </div>
+        {/* Bottom gradient */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+      </section>
 
-          <div className="flex justify-center gap-16 mt-16">
-            <div className="text-center">
-              <p className="text-4xl font-extrabold">4+</p>
-              <p className="text-emerald-300 text-sm mt-1 font-medium">Guest Capacity</p>
-            </div>
-            <div className="text-center">
-              <p className="text-4xl font-extrabold">⭐</p>
-              <p className="text-emerald-300 text-sm mt-1 font-medium">Top Rated</p>
-            </div>
-            <div className="text-center">
-              <p className="text-4xl font-extrabold">24/7</p>
-              <p className="text-emerald-300 text-sm mt-1 font-medium">Support</p>
-            </div>
+      {/* Stats Bar */}
+      <section className="relative -mt-8 z-20 max-w-5xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 border border-gray-100">
+          <div className="text-center">
+            <p className="text-3xl font-extrabold text-emerald-600">₹{PRICE.toLocaleString("en-IN")}</p>
+            <p className="text-gray-500 text-sm mt-1">per person / night</p>
+          </div>
+          <div className="text-center">
+            <p className="text-3xl font-extrabold text-emerald-600">{homestay?.max_guests || 4}+</p>
+            <p className="text-gray-500 text-sm mt-1">guests capacity</p>
+          </div>
+          <div className="text-center">
+            <p className="text-3xl font-extrabold text-emerald-600">{homestay?.check_in_time || "12:00"}</p>
+            <p className="text-gray-500 text-sm mt-1">check-in time</p>
+          </div>
+          <div className="text-center">
+            <p className="text-3xl font-extrabold text-emerald-600">{homestay?.check_out_time || "11:00"}</p>
+            <p className="text-gray-500 text-sm mt-1">check-out time</p>
           </div>
         </div>
       </section>
 
-      {/* About the Homestay */}
-      <section id="about" className="py-20 bg-white">
+      {/* About */}
+      <section id="about" className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
               <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">About Us</p>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                Your Home in the <span className="text-emerald-600">Western Ghats</span>
+                Your Home in the<br />Western Ghats
               </h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Ibbani Homestay is a cozy mountain retreat nestled in the hills of Karnataka. We offer
-                a peaceful escape from city life with stunning mountain views, fresh air, and genuine hospitality.
+                Ibbani Homestay is a premium mountain retreat nestled in the hills of Karnataka, surrounded by working coffee and spice plantations. We offer a peaceful escape from city life with stunning mountain views, fresh air, and genuine hospitality.
               </p>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                Every stay includes home-cooked Malnad cuisine, warm hosts, and breathtaking views of
-                coffee plantations and mountain peaks. Whether you are a trekker, a nature lover, or just
-                looking to relax — this is your perfect getaway.
+              <p className="text-gray-600 leading-relaxed mb-8">
+                Every stay includes home-cooked Malnad cuisine prepared with local ingredients, warm hosts, and breathtaking views of the Western Ghats. Whether you are a trekker, a nature lover, or just looking to unwind — this is your perfect getaway.
               </p>
-              <div className="flex items-center gap-6">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-emerald-600">₹{homestay?.price_per_night || "120"}</p>
-                  <p className="text-gray-500 text-xs">per night</p>
+              <div className="flex flex-wrap gap-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  </div>
+                  <span className="font-medium text-gray-700">Verified Listing</span>
                 </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-emerald-600">{homestay?.max_guests || 4}</p>
-                  <p className="text-gray-500 text-xs">guests</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  </div>
+                  <span className="font-medium text-gray-700">Instant Booking</span>
                 </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-emerald-600">{homestay?.check_in_time || "12:00"}</p>
-                  <p className="text-gray-500 text-xs">check-in</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  </div>
+                  <span className="font-medium text-gray-700">Free Cancellation</span>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl h-80 md:h-96 flex items-center justify-center text-white text-8xl shadow-2xl relative">
-              🏡
-              <div className="absolute bottom-4 right-4 bg-white/90 text-emerald-700 px-4 py-2 rounded-full font-bold shadow">
-                ₹{homestay?.price_per_night || "120"}/night
+            <div className="relative">
+              <div className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl h-80 md:h-[28rem] flex items-center justify-center shadow-2xl overflow-hidden">
+                <div className="text-center text-white">
+                  <div className="text-8xl mb-4">🏡</div>
+                  <p className="text-2xl font-bold">Ibbani Homestay</p>
+                  <p className="text-emerald-200 mt-1">Western Ghats, Karnataka</p>
+                </div>
+              </div>
+              {/* Floating card */}
+              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-4 border border-gray-100 hidden md:block">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Starting from</p>
+                    <p className="text-xl font-bold text-emerald-600">₹{PRICE.toLocaleString("en-IN")} <span className="text-sm font-normal text-gray-400">/night</span></p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -113,92 +144,69 @@ export default function Home() {
       </section>
 
       {/* What We Offer */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 md:py-28 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">What We Offer</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Experience Mountain Living</h2>
-            <p className="text-gray-500 max-w-xl mx-auto">Everything you need for a perfect mountain getaway</p>
+          <div className="text-center mb-16">
+            <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Experience</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Awaits You</h2>
+            <p className="text-gray-500 max-w-xl mx-auto">Everything you need for an unforgettable mountain retreat</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl">🏔️</span>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: "🏔️", title: "Mountain Views", desc: "Wake up to misty peaks and breathtaking sunrises over the Western Ghats from your window.", color: "emerald" },
+              { icon: "🍛", title: "Home-Cooked Food", desc: "Authentic Malnad cuisine prepared with local spices and fresh ingredients from our garden.", color: "amber" },
+              { icon: "🌿", title: "Nature Trails", desc: "Explore coffee plantations, spice gardens, and scenic trekking paths right from our doorstep.", color: "teal" },
+              { icon: "🔥", title: "Bonfire Evenings", desc: "Cozy up by the bonfire under the stars with stories and hot chai on cool mountain nights.", color: "orange" },
+              { icon: "☕", title: "Coffee Estate", desc: "Stay amidst working coffee and spice plantations. Learn about coffee cultivation.", color: "purple" },
+              { icon: "🔒", title: "Easy Booking", desc: "Secure UPI payments, instant confirmation, and free cancellation up to 24 hours before.", color: "blue" },
+            ].map((item, i) => (
+              <div key={i} className="bg-white rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-gray-100 group">
+                <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-emerald-100 transition-colors">
+                  <span className="text-2xl">{item.icon}</span>
+                </div>
+                <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
               </div>
-              <h3 className="text-xl font-bold mb-2">Mountain Views</h3>
-              <p className="text-gray-600 text-sm">Wake up to misty peaks and breathtaking sunrises over the Western Ghats</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl">🍛</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Home-Cooked Food</h3>
-              <p className="text-gray-600 text-sm">Authentic Malnad cuisine prepared with local spices and fresh ingredients</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl">🌿</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Nature Trails</h3>
-              <p className="text-gray-600 text-sm">Explore coffee plantations, spice gardens, and scenic trekking paths nearby</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl">🔥</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Bonfire Evenings</h3>
-              <p className="text-gray-600 text-sm">Cozy up by the bonfire under the stars with stories and hot chai</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl">☕</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Coffee Estate</h3>
-              <p className="text-gray-600 text-sm">Stay amidst working coffee and spice plantations</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-              <div className="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl">🔒</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Easy Booking</h3>
-              <p className="text-gray-600 text-sm">Secure UPI payments and instant booking confirmation</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Amenities */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Amenities</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need</h2>
-          </div>
-          <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-            {amenities.map((a, i) => (
-              <span key={i} className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-5 py-2.5 rounded-full font-medium">
-                {a}
-              </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Check-in / Check-out */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="bg-white rounded-2xl shadow-md p-8">
-            <h2 className="text-2xl font-bold text-center mb-6">Check-in & Check-out</h2>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-emerald-50 rounded-xl p-6 text-center border border-emerald-100">
-                <p className="text-sm text-gray-500 mb-1">Check-in</p>
-                <p className="text-3xl font-bold text-emerald-600">{homestay?.check_in_time || "12:00"}</p>
-                <p className="text-xs text-gray-400 mt-1">PM</p>
+      {/* Amenities + Check-in/out */}
+      <section className="py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Amenities */}
+            <div>
+              <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Amenities</p>
+              <h2 className="text-3xl font-bold mb-8">Everything You Need</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {amenities.map((a, i) => (
+                  <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
+                    <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    <span className="font-medium text-gray-700">{a}</span>
+                  </div>
+                ))}
               </div>
-              <div className="bg-orange-50 rounded-xl p-6 text-center border border-orange-100">
-                <p className="text-sm text-gray-500 mb-1">Check-out</p>
-                <p className="text-3xl font-bold text-orange-600">{homestay?.check_out_time || "11:00"}</p>
-                <p className="text-xs text-gray-400 mt-1">AM</p>
+            </div>
+            {/* Check-in/out */}
+            <div>
+              <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Timings</p>
+              <h2 className="text-3xl font-bold mb-8">Check-in & Check-out</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-emerald-50 rounded-2xl p-6 text-center border border-emerald-100">
+                  <p className="text-sm text-gray-500 mb-2">Check-in</p>
+                  <p className="text-4xl font-extrabold text-emerald-600">{homestay?.check_in_time || "12:00"}</p>
+                  <p className="text-xs text-gray-400 mt-2">PM</p>
+                </div>
+                <div className="bg-orange-50 rounded-2xl p-6 text-center border border-orange-100">
+                  <p className="text-sm text-gray-500 mb-2">Check-out</p>
+                  <p className="text-4xl font-extrabold text-orange-600">{homestay?.check_out_time || "11:00"}</p>
+                  <p className="text-xs text-gray-400 mt-2">AM</p>
+                </div>
+              </div>
+              <div className="mt-4 bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <p className="text-sm text-gray-500">Need early check-in or late check-out? <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20can%20I%20get%20early%20check-in%20or%20late%20check-out%3F`} target="_blank" rel="noopener noreferrer" className="text-emerald-600 font-semibold hover:underline">Contact us</a></p>
               </div>
             </div>
           </div>
@@ -206,61 +214,54 @@ export default function Home() {
       </section>
 
       {/* How to Book */}
-      <section className="py-20 bg-white">
+      <section className="py-20 md:py-28 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Simple Process</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How to Book</h2>
-            <p className="text-gray-500 max-w-xl mx-auto">Three easy steps to your mountain getaway</p>
+          <div className="text-center mb-16">
+            <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">How It Works</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Book in 3 Simple Steps</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all border border-gray-100">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl font-bold text-emerald-600">1</span>
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {/* Connector line */}
+            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-emerald-200"></div>
+            {[
+              { num: "01", title: "Create Account", desc: "Sign up for free in under a minute. No hidden charges." },
+              { num: "02", title: "Book & Pay", desc: "Select your dates, choose guests, and pay securely via UPI." },
+              { num: "03", title: "Enjoy Your Stay", desc: "Arrive, relax, and soak in the mountain experience." },
+            ].map((step, i) => (
+              <div key={i} className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-md transition-all relative border border-gray-100">
+                <div className="w-16 h-16 bg-emerald-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-5 font-bold text-xl shadow-lg shadow-emerald-200 relative z-10">
+                  {step.num}
+                </div>
+                <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                <p className="text-gray-500 text-sm">{step.desc}</p>
               </div>
-              <h3 className="text-xl font-bold mb-2">Register</h3>
-              <p className="text-gray-600 text-sm">Create your free account in seconds.</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all border border-gray-100">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl font-bold text-emerald-600">2</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Book & Pay</h3>
-              <p className="text-gray-600 text-sm">Select your dates and pay securely via UPI.</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all border border-gray-100">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span className="text-3xl font-bold text-emerald-600">3</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Enjoy</h3>
-              <p className="text-gray-600 text-sm">Arrive, relax, and enjoy the mountains.</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-emerald-700 to-teal-700 text-white">
+      <section className="py-20 md:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready for a Mountain Escape?</h2>
-          <p className="text-emerald-100 text-lg mb-8 max-w-2xl mx-auto">
-            Book your stay at Ibbani Homestay and experience the best of Karnataka's mountains.
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready for a Mountain Escape?</h2>
+          <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+            Book your stay at Ibbani Homestay and experience the best of Karnataka's Western Ghats. Starting at just ₹{PRICE.toLocaleString("en-IN")} per person per night.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             {user ? (
-              <Link to="/dashboard" className="bg-white text-emerald-700 px-10 py-4 rounded-xl font-bold hover:bg-emerald-50 transition-all shadow-lg text-lg">
-                Book Now
+              <Link to="/bookings" className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
+                Book Now — ₹{PRICE.toLocaleString("en-IN")}/person
               </Link>
             ) : (
-              <>
-                <Link to="/register" className="bg-white text-emerald-700 px-10 py-4 rounded-xl font-bold hover:bg-emerald-50 transition-all shadow-lg text-lg">
-                  Get Started Free
-                </Link>
-                <Link to="/contact" className="border-2 border-white/60 px-10 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-lg">
-                  Talk to Us
-                </Link>
-              </>
+              <Link to="/register" className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
+                Create Free Account
+              </Link>
             )}
+            <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20Ibbani%20Homestay`}
+              target="_blank" rel="noopener noreferrer"
+              className="border border-white/30 px-10 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-lg">
+              WhatsApp Us
+            </a>
           </div>
         </div>
       </section>
