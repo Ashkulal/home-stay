@@ -25,7 +25,7 @@ export default function HomestayDetail() {
     return (
       <div className="text-center py-16">
         <div className="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600 mb-3"></div>
-        <p className="text-gray-500">Loading homestay...</p>
+        <p className="text-gray-500">Loading...</p>
       </div>
     );
   }
@@ -34,56 +34,131 @@ export default function HomestayDetail() {
     return (
       <div className="min-h-[50vh] flex items-center justify-center px-4">
         <div className="text-center">
-          <div className="text-6xl mb-4">🏠</div>
-          <h2 className="text-2xl font-bold mb-2">Homestay not found</h2>
-          <p className="text-gray-500 mb-6">The homestay you're looking for doesn't exist.</p>
+          <div className="text-6xl mb-4">🏡</div>
+          <h2 className="text-2xl font-bold mb-2">Property not found</h2>
           <Link to="/homestays" className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
-            Browse Homestays
+            Browse Properties
           </Link>
         </div>
       </div>
     );
   }
 
+  const amenitiesList = homestay.amenities ? homestay.amenities.split(",").map((a) => a.trim()).filter(Boolean) : [];
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="h-64 md:h-80 bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-8xl">
-          🏠
+    <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="h-64 md:h-96 bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-8xl relative">
+          🏡
+          <div className="absolute top-4 right-4 bg-white/90 text-emerald-700 px-4 py-2 rounded-full font-bold text-lg shadow">
+            ₹{homestay.price_per_night}<span className="text-sm font-normal text-gray-500">/night</span>
+          </div>
         </div>
         <div className="p-6 md:p-8">
-          <h1 className="text-2xl md:text-4xl font-bold mb-2">{homestay.name}</h1>
-          <div className="flex flex-wrap items-center gap-4 mb-4">
-            <p className="text-emerald-600 text-2xl font-bold">₹{homestay.price_per_night}<span className="text-sm font-normal text-gray-500">/night</span></p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">{homestay.name}</h1>
+
+          <div className="flex flex-wrap gap-3 mb-6">
             {homestay.max_guests && (
-              <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-                👥 Max {homestay.max_guests} guests
+              <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+                👥 Up to {homestay.max_guests} guests
+              </span>
+            )}
+            {homestay.check_in_time && (
+              <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                🕐 Check-in: {homestay.check_in_time}
+              </span>
+            )}
+            {homestay.check_out_time && (
+              <span className="bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
+                🕐 Check-out: {homestay.check_out_time}
               </span>
             )}
           </div>
+
           {homestay.description && (
-            <p className="text-gray-700 mt-4 leading-relaxed">{homestay.description}</p>
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-2">About this property</h2>
+              <p className="text-gray-700 leading-relaxed">{homestay.description}</p>
+            </div>
           )}
 
-          <div className="mt-8 border-t pt-6">
+          {amenitiesList.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-3">Amenities</h2>
+              <div className="flex flex-wrap gap-2">
+                {amenitiesList.map((a, i) => (
+                  <span key={i} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="bg-gray-50 rounded-xl p-4 mb-6">
+            <h2 className="text-lg font-semibold mb-3">Check-in & Check-out</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white rounded-lg p-4 text-center border">
+                <p className="text-sm text-gray-500">Check-in</p>
+                <p className="text-2xl font-bold text-emerald-600">{homestay.check_in_time || "12:00"}</p>
+                <p className="text-xs text-gray-400">PM</p>
+              </div>
+              <div className="bg-white rounded-lg p-4 text-center border">
+                <p className="text-sm text-gray-500">Check-out</p>
+                <p className="text-2xl font-bold text-orange-600">{homestay.check_out_time || "11:00"}</p>
+                <p className="text-xs text-gray-400">AM</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-3">Location</h2>
+            {homestay.location_url ? (
+              <div className="rounded-xl overflow-hidden border">
+                <iframe
+                  src={homestay.location_url.replace("maps.app.goo.gl", "www.google.com/maps/embed?pb=")}
+                  width="100%"
+                  height="350"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Location"
+                  className="w-full"
+                ></iframe>
+              </div>
+            ) : (
+              <div className="bg-gray-100 rounded-xl p-8 text-center text-gray-500">
+                <p>📍 Location map coming soon</p>
+              </div>
+            )}
+            {homestay.location_url && (
+              <a href={homestay.location_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-3 text-emerald-600 hover:text-emerald-700 font-medium text-sm">
+                📌 Open in Google Maps
+              </a>
+            )}
+          </div>
+
+          <div className="border-t pt-6">
             {user ? (
               <button
                 onClick={() => navigate(`/bookings?homestay=${homestay.id}`)}
-                className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-all duration-200 transform hover:scale-105"
+                className="bg-emerald-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-emerald-700 transition-all duration-200 transform hover:scale-105 text-lg w-full md:w-auto"
               >
-                Book Now
+                Book Now — ₹{homestay.price_per_night}/night
               </button>
             ) : (
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-gray-50 rounded-lg p-4">
+              <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <p className="font-semibold text-gray-800">Want to book this homestay?</p>
-                  <p className="text-sm text-gray-500">Login or create an account to make a reservation.</p>
+                  <p className="font-semibold text-gray-800 text-lg">Interested in this stay?</p>
+                  <p className="text-gray-500">Login or create an account to book this property.</p>
                 </div>
                 <div className="flex gap-3 shrink-0">
-                  <Link to="/login" className="bg-emerald-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-emerald-700 transition-colors text-sm">
+                  <Link to="/login" className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
                     Login
                   </Link>
-                  <Link to="/register" className="border border-emerald-600 text-emerald-600 px-5 py-2 rounded-lg font-medium hover:bg-emerald-50 transition-colors text-sm">
+                  <Link to="/register" className="border-2 border-emerald-600 text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors">
                     Register
                   </Link>
                 </div>
@@ -92,7 +167,10 @@ export default function HomestayDetail() {
           </div>
         </div>
       </div>
-      <Reviews targetType="homestay" targetId={id} />
+
+      <div className="mt-8">
+        <Reviews targetType="homestay" targetId={id} />
+      </div>
     </div>
   );
 }

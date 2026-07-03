@@ -72,7 +72,11 @@ exports.createHomestay = async (req, res) => {
             description,
             price_per_night,
             max_guests,
-            image_url
+            image_url,
+            location_url,
+            check_in_time,
+            check_out_time,
+            amenities
         } = req.body;
 
         if (!name || !price_per_night) {
@@ -84,15 +88,19 @@ exports.createHomestay = async (req, res) => {
 
         const result = await pool.query(
             `INSERT INTO homestays
-            (name, description, price_per_night, max_guests, image_url)
-            VALUES ($1, $2, $3, $4, $5)
+            (name, description, price_per_night, max_guests, image_url, location_url, check_in_time, check_out_time, amenities)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *`,
             [
                 name,
                 description || null,
                 price_per_night,
                 max_guests || null,
-                image_url || null
+                image_url || null,
+                location_url || null,
+                check_in_time || "12:00",
+                check_out_time || "11:00",
+                amenities || null
             ]
         );
 
