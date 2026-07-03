@@ -39,7 +39,7 @@ export default function Register() {
         <div className="text-center mb-8">
           <div className="text-4xl mb-3">🏔️</div>
           <h2 className="text-2xl md:text-3xl font-bold">Create Account</h2>
-          <p className="text-gray-500 mt-1">Join Misty Peaks today</p>
+          <p className="text-gray-500 mt-1">Join Ibbani Homestay today</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

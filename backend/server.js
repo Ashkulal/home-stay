@@ -41,7 +41,7 @@ app.use("/api/upload", require("./routes/uploadRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
 
 app.get("/", (req, res) => {
-    res.send("Misty Peaks Backend Running");
+    res.send("Ibbani Homestay Backend Running");
 });
 
 app.use((req, res) => {

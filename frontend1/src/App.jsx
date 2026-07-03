@@ -7,8 +7,6 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Peaks from "./pages/Peaks";
-import PeakDetail from "./pages/PeakDetail";
 import Homestays from "./pages/Homestays";
 import HomestayDetail from "./pages/HomestayDetail";
 import Bookings from "./pages/Bookings";
@@ -37,8 +35,6 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/peaks" element={<Peaks />} />
-                <Route path="/peaks/:id" element={<PeakDetail />} />
                 <Route path="/homestays" element={<Homestays />} />
                 <Route path="/homestays/:id" element={<HomestayDetail />} />
                 <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
