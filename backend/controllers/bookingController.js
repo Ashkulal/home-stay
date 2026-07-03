@@ -10,57 +10,39 @@ function isValidDate(str) {
 exports.getBookings = async (req, res) => {
     try {
         const result = await pool.query(
-            `SELECT b.*, h.name AS homestay_name
+            `SELECT b.*, h.name AS homestay_name, h.price_per_night
              FROM bookings b
              JOIN homestays h ON b.homestay_id = h.id
-             ORDER BY b.created_at DESC`
+             WHERE b.user_id = $1
+             ORDER BY b.created_at DESC`,
+            [req.user.id]
         );
 
-        res.json({
-            success: true,
-            bookings: result.rows
-        });
+        res.json({ success: true, bookings: result.rows });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch bookings"
-        });
+        res.status(500).json({ success: false, message: "Failed to fetch bookings" });
     }
 };
 
 exports.getBooking = async (req, res) => {
     try {
-        const id = parseInt(req.params.id, 10);
-        if (isNaN(id) || id <= 0) {
-            return res.status(400).json({ success: false, message: "Invalid booking ID" });
-        }
-
         const result = await pool.query(
-            `SELECT b.*, h.name AS homestay_name
+            `SELECT b.*, h.name AS homestay_name, h.price_per_night
              FROM bookings b
              JOIN homestays h ON b.homestay_id = h.id
-             WHERE b.id = $1`,
-            [id]
+             WHERE b.id = $1 AND b.user_id = $2`,
+            [req.params.id, req.user.id]
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Booking not found"
-            });
+            return res.status(404).json({ success: false, message: "Booking not found" });
         }
 
-        res.json({
-            success: true,
-            booking: result.rows[0]
-        });
+        res.json({ success: true, booking: result.rows[0] });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch booking"
-        });
+        res.status(500).json({ success: false, message: "Failed to fetch booking" });
     }
 };
 
@@ -95,15 +77,12 @@ exports.createBooking = async (req, res) => {
         }
 
         const homestay = await pool.query(
-            "SELECT id, max_guests FROM homestays WHERE id = $1",
+            "SELECT id, max_guests, price_per_night, name FROM homestays WHERE id = $1",
             [homestayIdInt]
         );
 
         if (homestay.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Homestay not found"
-            });
+            return res.status(404).json({ success: false, message: "Homestay not found" });
         }
 
         if (homestay.rows[0].max_guests && guestsInt > homestay.rows[0].max_guests) {
@@ -113,108 +92,54 @@ exports.createBooking = async (req, res) => {
             });
         }
 
+        // Calculate total amount: nights × price_per_night
+        const nights = Math.ceil((new Date(check_out) - new Date(check_in)) / (1000 * 60 * 60 * 24));
+        const pricePerNight = parseFloat(homestay.rows[0].price_per_night) || 0;
+        const totalAmount = nights * pricePerNight;
+
         const result = await pool.query(
-            `INSERT INTO bookings (user_id, homestay_id, check_in, check_out, guests)
-             VALUES ($1, $2, $3, $4, $5)
+            `INSERT INTO bookings (user_id, homestay_id, check_in, check_out, guests, total_amount)
+             VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING *`,
-            [req.user.id, homestayIdInt, check_in, check_out, guestsInt]
+            [req.user.id, homestayIdInt, check_in, check_out, guestsInt, totalAmount]
         );
 
         const user = await pool.query("SELECT name, email FROM users WHERE id = $1", [req.user.id]);
-        const homestayName = await pool.query("SELECT name FROM homestays WHERE id = $1", [homestayIdInt]);
-        sendBookingConfirmation(
-            user.rows[0].email,
-            user.rows[0].name,
-            { homestay_name: homestayName.rows[0].name, check_in, check_out, guests: guestsInt }
-        );
+        if (user.rows.length > 0) {
+            sendBookingConfirmation(
+                user.rows[0].email,
+                user.rows[0].name,
+                { homestay_name: homestay.rows[0].name, check_in, check_out, guests: guestsInt, total_amount: totalAmount }
+            );
+        }
 
         res.status(201).json({
             success: true,
             message: "Booking created successfully",
-            booking: result.rows[0]
+            booking: { ...result.rows[0], total_amount: totalAmount, nights, homestay_name: homestay.rows[0].name }
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to create booking"
-        });
+        res.status(500).json({ success: false, message: "Failed to create booking" });
     }
 };
 
-exports.updateBooking = async (req, res) => {
+exports.cancelBooking = async (req, res) => {
     try {
-        const { check_in, check_out, guests } = req.body;
-
-        if (guests !== undefined) {
-            const guestsInt = parseInt(guests, 10);
-            if (isNaN(guestsInt) || guestsInt <= 0 || guestsInt > 50) {
-                return res.status(400).json({ success: false, message: "Guests must be 1-50" });
-            }
-        }
-
-        if (check_in && !isValidDate(check_in)) {
-            return res.status(400).json({ success: false, message: "Invalid check-in date" });
-        }
-
-        if (check_out && !isValidDate(check_out)) {
-            return res.status(400).json({ success: false, message: "Invalid check-out date" });
-        }
-
         const result = await pool.query(
-            `UPDATE bookings
-             SET check_in = COALESCE($1, check_in),
-                 check_out = COALESCE($2, check_out),
-                 guests = COALESCE($3, guests)
-             WHERE id = $4 AND user_id = $5
+            `UPDATE bookings SET status = 'cancelled'
+             WHERE id = $1 AND user_id = $2 AND status = 'pending'
              RETURNING *`,
-            [check_in, check_out, guests, req.params.id, req.user.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Booking not found"
-            });
-        }
-
-        res.json({
-            success: true,
-            message: "Booking updated successfully",
-            booking: result.rows[0]
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to update booking"
-        });
-    }
-};
-
-exports.deleteBooking = async (req, res) => {
-    try {
-        const result = await pool.query(
-            "DELETE FROM bookings WHERE id = $1 AND user_id = $2 RETURNING id",
             [req.params.id, req.user.id]
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Booking not found"
-            });
+            return res.status(404).json({ success: false, message: "Booking not found or cannot be cancelled" });
         }
 
-        res.json({
-            success: true,
-            message: "Booking deleted successfully"
-        });
+        res.json({ success: true, message: "Booking cancelled" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to delete booking"
-        });
+        res.status(500).json({ success: false, message: "Failed to cancel booking" });
     }
 };

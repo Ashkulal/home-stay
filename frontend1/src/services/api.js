@@ -36,8 +36,7 @@ export const bookings = {
   getAll: () => API.get("/bookings"),
   getOne: (id) => API.get(`/bookings/${id}`),
   create: (data) => API.post("/bookings", data),
-  update: (id, data) => API.put(`/bookings/${id}`, data),
-  delete: (id) => API.delete(`/bookings/${id}`),
+  cancel: (id) => API.put(`/bookings/${id}/cancel`),
 };
 
 export const gallery = {

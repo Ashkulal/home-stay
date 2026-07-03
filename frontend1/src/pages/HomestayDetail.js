@@ -4,6 +4,8 @@ import { homestays } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import Reviews from "../components/Reviews";
 
+const WHATSAPP = "918660874196";
+
 export default function HomestayDetail() {
   const [homestay, setHomestay] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,7 +46,13 @@ export default function HomestayDetail() {
     );
   }
 
-  const amenitiesList = homestay.amenities ? homestay.amenities.split(",").map((a) => a.trim()).filter(Boolean) : [];
+  const amenitiesList = homestay.amenities
+    ? homestay.amenities.split(",").map((a) => a.trim()).filter(Boolean)
+    : ["WiFi", "Parking", "Mountain View", "Home Food", "Bonfire"];
+
+  const whatsappMsg = encodeURIComponent(
+    `Hi, I'm interested in booking ${homestay.name} at Ibbani Homestay.\nPrice: ₹${homestay.price_per_night}/night\nCheck-in: ${homestay.check_in_time || "12:00"}\nCheck-out: ${homestay.check_out_time || "11:00"}\n\nPlease share availability.`
+  );
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
@@ -55,6 +63,7 @@ export default function HomestayDetail() {
             ₹{homestay.price_per_night}<span className="text-sm font-normal text-gray-500">/night</span>
           </div>
         </div>
+
         <div className="p-6 md:p-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{homestay.name}</h1>
 
@@ -88,7 +97,7 @@ export default function HomestayDetail() {
               <h2 className="text-lg font-semibold mb-3">Amenities</h2>
               <div className="flex flex-wrap gap-2">
                 {amenitiesList.map((a, i) => (
-                  <span key={i} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                  <span key={i} className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm border border-emerald-100">
                     {a}
                   </span>
                 ))}
@@ -96,6 +105,7 @@ export default function HomestayDetail() {
             </div>
           )}
 
+          {/* Check-in / Check-out */}
           <div className="bg-gray-50 rounded-xl p-4 mb-6">
             <h2 className="text-lg font-semibold mb-3">Check-in & Check-out</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -112,19 +122,20 @@ export default function HomestayDetail() {
             </div>
           </div>
 
+          {/* Google Maps */}
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-3">Location</h2>
             {homestay.location_url ? (
               <div className="rounded-xl overflow-hidden border">
                 <iframe
-                  src={homestay.location_url.replace("maps.app.goo.gl", "www.google.com/maps/embed?pb=")}
+                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(homestay.location_url)}`}
                   width="100%"
                   height="350"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Location"
+                  title="Ibbani Homestay Location"
                   className="w-full"
                 ></iframe>
               </div>
@@ -134,12 +145,29 @@ export default function HomestayDetail() {
               </div>
             )}
             {homestay.location_url && (
-              <a href={homestay.location_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-3 text-emerald-600 hover:text-emerald-700 font-medium text-sm">
+              <a href={homestay.location_url} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-3 text-emerald-600 hover:text-emerald-700 font-medium text-sm">
                 📌 Open in Google Maps
               </a>
             )}
           </div>
 
+          {/* WhatsApp Inquiry */}
+          <div className="bg-green-50 rounded-xl p-4 mb-6 border border-green-100">
+            <h2 className="text-lg font-semibold mb-3 text-green-800">Have Questions?</h2>
+            <a
+              href={`https://wa.me/${WHATSAPP}?text=${whatsappMsg}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+            >
+              <span className="text-xl">💬</span>
+              Chat on WhatsApp
+            </a>
+            <p className="text-sm text-gray-500 mt-2">Quick response from our team</p>
+          </div>
+
+          {/* Booking / Login CTA */}
           <div className="border-t pt-6">
             {user ? (
               <button
@@ -151,8 +179,8 @@ export default function HomestayDetail() {
             ) : (
               <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <p className="font-semibold text-gray-800 text-lg">Interested in this stay?</p>
-                  <p className="text-gray-500">Login or create an account to book this property.</p>
+                  <p className="font-semibold text-gray-800 text-lg">Ready to book?</p>
+                  <p className="text-gray-500">Login or register to book this property.</p>
                 </div>
                 <div className="flex gap-3 shrink-0">
                   <Link to="/login" className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">

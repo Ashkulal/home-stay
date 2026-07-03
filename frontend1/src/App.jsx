@@ -4,6 +4,7 @@ import { ToastProvider } from "./components/Toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Chatbot from "./components/Chatbot";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -64,6 +65,7 @@ function App() {
               </Routes>
             </main>
             <Footer />
+            <Chatbot />
           </div>
         </Router>
       </ToastProvider>

@@ -5,17 +5,14 @@ const {
     getBookings,
     getBooking,
     createBooking,
-    updateBooking,
-    deleteBooking
+    cancelBooking
 } = require("../controllers/bookingController");
 
 const auth = require("../middleware/authMiddleware");
 
-// Protected Routes - all booking access requires authentication
 router.get("/", auth, getBookings);
 router.get("/:id", auth, getBooking);
 router.post("/", auth, createBooking);
-router.put("/:id", auth, updateBooking);
-router.delete("/:id", auth, deleteBooking);
+router.put("/:id/cancel", auth, cancelBooking);
 
 module.exports = router;
