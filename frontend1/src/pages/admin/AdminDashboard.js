@@ -9,86 +9,59 @@ export default function AdminDashboard() {
   useEffect(() => {
     admin.getStats().then(({ data }) => {
       setStats(data.stats);
-    }).catch(() => {}).finally(() => {
-      setLoading(false);
-    });
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="text-center py-16">Loading...</div>;
-  if (!stats) return <div className="text-center py-16">Failed to load stats</div>;
+  if (loading) return (
+    <div className="text-center py-20">
+      <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+    </div>
+  );
+  if (!stats) return <div className="text-center py-16 text-gray-500">Failed to load stats</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-2xl md:text-4xl font-bold mb-8">Admin Dashboard</h1>
+    <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-      <div className="grid grid-cols-2 md:flex gap-4 mb-8">
-        <Link to="/admin/users" className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg text-center flex-1">
-          <div className="text-2xl mb-1">👥</div>
-          <div className="font-semibold">Users</div>
-        </Link>
-        <Link to="/admin/bookings" className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg text-center flex-1">
-          <div className="text-2xl mb-1">📋</div>
-          <div className="font-semibold">Bookings</div>
-        </Link>
-        <Link to="/admin/content" className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg text-center flex-1">
-          <div className="text-2xl mb-1">📝</div>
-          <div className="font-semibold">Content</div>
-        </Link>
-        <Link to="/admin/payments" className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg text-center flex-1">
-          <div className="text-2xl mb-1">💰</div>
-          <div className="font-semibold">Payments</div>
-        </Link>
+      {/* Quick Links */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        {[
+          { to: "/admin/users", icon: "👥", label: "Users", count: stats.totalUsers },
+          { to: "/admin/bookings", icon: "📋", label: "Bookings", count: stats.totalBookings },
+          { to: "/admin/content", icon: "📝", label: "Content", count: stats.totalHomestays },
+          { to: "/admin/payments", icon: "💰", label: "Payments", count: `₹${stats.totalRevenue}` },
+        ].map((item) => (
+          <Link key={item.to} to={item.to}
+            className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all border border-gray-100 text-center group">
+            <div className="text-2xl mb-1">{item.icon}</div>
+            <p className="font-bold text-sm group-hover:text-emerald-600 transition-colors">{item.label}</p>
+            <p className="text-emerald-600 font-bold text-lg">{item.count}</p>
+          </Link>
+        ))}
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-gray-500">Users</h3>
-          <p className="text-3xl font-bold text-emerald-600">{stats.totalUsers}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-gray-500">Peaks</h3>
-          <p className="text-3xl font-bold text-emerald-600">{stats.totalPeaks}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-gray-500">Homestays</h3>
-          <p className="text-3xl font-bold text-emerald-600">{stats.totalHomestays}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-gray-500">Revenue</h3>
-          <p className="text-3xl font-bold text-emerald-600">₹{stats.totalRevenue}</p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left py-2">User</th>
-                <th className="text-left py-2">Homestay</th>
-                <th className="text-left py-2">Check In</th>
-                <th className="text-left py-2">Check Out</th>
-                <th className="text-left py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats.recentBookings.map((b) => (
-                <tr key={b.id} className="border-b">
-                  <td className="py-2">{b.user_name}</td>
-                  <td className="py-2">{b.homestay_name}</td>
-                  <td className="py-2">{new Date(b.check_in).toLocaleDateString()}</td>
-                  <td className="py-2">{new Date(b.check_out).toLocaleDateString()}</td>
-                  <td className="py-2">
-                    <span className={`px-2 py-1 rounded text-sm ${b.status === "confirmed" ? "bg-green-100 text-green-700" : b.status === "pending" ? "bg-yellow-100 text-yellow-700" : "bg-gray-100 text-gray-700"}`}>
-                      {b.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* Recent Bookings */}
+      <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+        <h2 className="font-bold mb-4">Recent Bookings</h2>
+        {stats.recentBookings.length === 0 ? (
+          <p className="text-gray-400 text-center py-4">No bookings yet</p>
+        ) : (
+          <div className="space-y-3">
+            {stats.recentBookings.map((b) => (
+              <div key={b.id} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-sm truncate">{b.user_name}</p>
+                  <p className="text-xs text-gray-400">{b.homestay_name} · {new Date(b.check_in).toLocaleDateString()}</p>
+                </div>
+                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 ml-2 ${
+                  b.status === "confirmed" ? "bg-green-100 text-green-700" :
+                  b.status === "pending" ? "bg-amber-100 text-amber-700" :
+                  "bg-gray-100 text-gray-600"
+                }`}>{b.status}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
