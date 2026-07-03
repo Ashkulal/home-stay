@@ -7,6 +7,8 @@ const { generalLimiter, authLimiter } = require("./middleware/rateLimiter");
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 const allowedOrigins = process.env.ALLOWED_ORIGINS
     ? process.env.ALLOWED_ORIGINS.split(",")
     : ["http://localhost:3000"];
