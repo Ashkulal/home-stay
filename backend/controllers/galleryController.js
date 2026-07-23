@@ -1,106 +1,48 @@
-const pool = require("../config/db");
+const Gallery = require("../models/Gallery");
 
 exports.getGalleryImages = async (req, res) => {
     try {
-        const result = await pool.query(
-            "SELECT * FROM gallery ORDER BY created_at DESC"
-        );
-
-        res.json({
-            success: true,
-            images: result.rows
-        });
+        const images = await Gallery.find().sort({ createdAt: -1 });
+        res.json({ success: true, images });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
 exports.getGalleryImage = async (req, res) => {
     try {
-        const result = await pool.query(
-            "SELECT * FROM gallery WHERE id = $1",
-            [req.params.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Image not found"
-            });
+        const image = await Gallery.findById(req.params.id);
+        if (!image) {
+            return res.status(404).json({ success: false, message: "Image not found" });
         }
-
-        res.json({
-            success: true,
-            image: result.rows[0]
-        });
+        res.json({ success: true, image });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
 exports.uploadImage = async (req, res) => {
     try {
         const { title, image_url } = req.body;
-
         if (!title || !image_url) {
-            return res.status(400).json({
-                success: false,
-                message: "title and image_url are required"
-            });
+            return res.status(400).json({ success: false, message: "title and image_url are required" });
         }
-
-        const result = await pool.query(
-            `INSERT INTO gallery (title, image_url)
-             VALUES ($1, $2)
-             RETURNING *`,
-            [title, image_url]
-        );
-
-        res.status(201).json({
-            success: true,
-            message: "Image uploaded successfully",
-            image: result.rows[0]
-        });
+        const image = await Gallery.create({ title, image_url });
+        res.status(201).json({ success: true, message: "Image uploaded successfully", image });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
 exports.deleteImage = async (req, res) => {
     try {
-        const result = await pool.query(
-            "DELETE FROM gallery WHERE id = $1 RETURNING id",
-            [req.params.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Image not found"
-            });
+        const image = await Gallery.findByIdAndDelete(req.params.id);
+        if (!image) {
+            return res.status(404).json({ success: false, message: "Image not found" });
         }
-
-        res.json({
-            success: true,
-            message: "Image deleted successfully"
-        });
+        res.json({ success: true, message: "Image deleted" });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };

@@ -1,28 +1,24 @@
-const pool = require("../config/db");
+const Peak = require("../models/Peak");
 
 exports.getPeaks = async (req, res) => {
     try {
         const { search, difficulty, sort } = req.query;
-        let query = `SELECT id, name, location, altitude_m, difficulty, description, image_url, is_active, created_at FROM peaks WHERE 1=1`;
-        const params = [];
-        let idx = 1;
-
+        const filter = {};
         if (search) {
-            query += ` AND (name ILIKE $${idx} OR location ILIKE $${idx})`;
-            params.push(`%${search}%`);
-            idx++;
+            filter.$or = [
+                { name: { $regex: search, $options: "i" } },
+                { location: { $regex: search, $options: "i" } },
+            ];
         }
         if (difficulty) {
-            query += ` AND difficulty = $${idx}`;
-            params.push(difficulty);
-            idx++;
+            filter.difficulty = difficulty;
         }
-        if (sort === "altitude") query += ` ORDER BY altitude_m DESC`;
-        else if (sort === "name") query += ` ORDER BY name ASC`;
-        else query += ` ORDER BY created_at DESC`;
+        let sortOpt = { createdAt: -1 };
+        if (sort === "altitude") sortOpt = { altitude_m: -1 };
+        else if (sort === "name") sortOpt = { name: 1 };
 
-        const result = await pool.query(query, params);
-        res.json({ success: true, peaks: result.rows });
+        const peaks = await Peak.find(filter).sort(sortOpt);
+        res.json({ success: true, peaks });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Operation failed" });
@@ -31,127 +27,45 @@ exports.getPeaks = async (req, res) => {
 
 exports.getPeak = async (req, res) => {
     try {
-        const result = await pool.query(
-            `SELECT id, name, location, altitude_m, difficulty, description, image_url, is_active, created_at
-             FROM peaks
-             WHERE id = $1`,
-            [req.params.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Peak not found"
-            });
+        const peak = await Peak.findById(req.params.id);
+        if (!peak) {
+            return res.status(404).json({ success: false, message: "Peak not found" });
         }
-
-        res.json({
-            success: true,
-            peak: result.rows[0]
-        });
+        res.json({ success: true, peak });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
 exports.createPeak = async (req, res) => {
     try {
-        const { name, location, altitude_m, difficulty, description, image_url } = req.body;
-
-        if (!name || !location) {
-            return res.status(400).json({
-                success: false,
-                message: "Name and location are required"
-            });
-        }
-
-        const result = await pool.query(
-            `INSERT INTO peaks (name, location, altitude_m, difficulty, description, image_url)
-             VALUES ($1, $2, $3, $4, $5, $6)
-             RETURNING id, name, location, altitude_m, difficulty, description, image_url, is_active, created_at`,
-            [name, location, altitude_m || null, difficulty || null, description || null, image_url || null]
-        );
-
-        res.status(201).json({
-            success: true,
-            message: "Peak created successfully",
-            peak: result.rows[0]
-        });
+        const peak = await Peak.create(req.body);
+        res.status(201).json({ success: true, message: "Peak created", peak });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
 exports.updatePeak = async (req, res) => {
     try {
-        const { name, location, altitude_m, difficulty, description, image_url, is_active } = req.body;
-
-        const result = await pool.query(
-            `UPDATE peaks
-             SET name = COALESCE($1, name),
-                 location = COALESCE($2, location),
-                 altitude_m = COALESCE($3, altitude_m),
-                 difficulty = COALESCE($4, difficulty),
-                 description = COALESCE($5, description),
-                 image_url = COALESCE($6, image_url),
-                 is_active = COALESCE($7, is_active)
-             WHERE id = $8
-             RETURNING id, name, location, altitude_m, difficulty, description, image_url, is_active, created_at`,
-            [name, location, altitude_m, difficulty, description, image_url, is_active, req.params.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Peak not found"
-            });
+        const peak = await Peak.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!peak) {
+            return res.status(404).json({ success: false, message: "Peak not found" });
         }
-
-        res.json({
-            success: true,
-            message: "Peak updated successfully",
-            peak: result.rows[0]
-        });
+        res.json({ success: true, message: "Peak updated", peak });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };
 
 exports.deletePeak = async (req, res) => {
     try {
-        const result = await pool.query(
-            "DELETE FROM peaks WHERE id = $1 RETURNING id",
-            [req.params.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Peak not found"
-            });
+        const peak = await Peak.findByIdAndDelete(req.params.id);
+        if (!peak) {
+            return res.status(404).json({ success: false, message: "Peak not found" });
         }
-
-        res.json({
-            success: true,
-            message: "Peak deleted successfully"
-        });
+        res.json({ success: true, message: "Peak deleted" });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Operation failed"
-        });
+        res.status(500).json({ success: false, message: "Operation failed" });
     }
 };

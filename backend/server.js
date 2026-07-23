@@ -3,15 +3,15 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
-const { generalLimiter, authLimiter, bookingLimiter, paymentLimiter } = require("./middleware/rateLimiter");
+const connectDB = require("./config/db");
 
 const app = express();
 
-app.set("trust proxy", 1);
+connectDB();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS
     ? process.env.ALLOWED_ORIGINS.split(",")
-    : ["http://localhost:3000"];
+    : ["http://localhost:3000", "http://localhost:5173"];
 
 app.use(cors({
     origin: function (origin, callback) {
@@ -26,23 +26,15 @@ app.use(cors({
 
 app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(generalLimiter);
 
 // Routes
-app.use("/api/auth", authLimiter, require("./routes/authRoutes"));
 app.use("/api/homestays", require("./routes/homestayRoutes"));
-app.use("/api/bookings", bookingLimiter, require("./routes/bookingRoutes"));
 app.use("/api/peaks", require("./routes/peakRoutes"));
 app.use("/api/gallery", require("./routes/galleryRoutes"));
-app.use("/api/admin", require("./routes/adminRoutes"));
-app.use("/api/payments", paymentLimiter, require("./routes/paymentRoutes"));
-app.use("/api/reviews", require("./routes/reviewRoutes"));
-app.use("/api/upload", require("./routes/uploadRoutes"));
-app.use("/api/profile", require("./routes/profileRoutes"));
-app.use("/api/razorpay", require("./routes/razorpayRoutes"));
+app.use("/api/contact", require("./routes/contactRoutes"));
 
 app.get("/", (req, res) => {
-    res.send("Ibbani Homestay Backend Running");
+    res.send("Misty Peaks Backend Running");
 });
 
 app.use((req, res) => {

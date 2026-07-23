@@ -1,16 +1,28 @@
 import { useState } from "react";
 import { useToast } from "../components/Toast";
+import { contact } from "../services/api";
+
+const WHATSAPP = "918660874196";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setForm({ name: "", email: "", phone: "", message: "" });
-    toast.success("Message sent! We'll get back to you soon.");
+    setLoading(true);
+    try {
+      await contact.submit(form);
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", message: "" });
+      toast.success("Message sent! We'll get back to you soon.");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send message. Try WhatsApp.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,8 +66,9 @@ export default function Contact() {
                   <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none" rows="5" required />
                 </div>
-                <button type="submit" className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
-                  Send Message
+                <button type="submit" disabled={loading}
+                  className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-50">
+                  {loading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             )}
@@ -66,31 +79,24 @@ export default function Contact() {
               <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
               <div className="space-y-5">
                 <div className="flex items-start gap-4">
-                  <span className="text-2xl">📧</span>
+                  <span className="text-2xl">📱</span>
                   <div>
-                    <h3 className="font-semibold">Email</h3>
-                    <p className="text-gray-600">info@ibbanistay.com</p>
+                    <h3 className="font-semibold">WhatsApp</h3>
+                    <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">+91 8660874196</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <span className="text-2xl">📱</span>
+                  <span className="text-2xl">📧</span>
                   <div>
-                    <h3 className="font-semibold">Phone</h3>
-                    <p className="text-gray-600">+91 8660874196</p>
+                    <h3 className="font-semibold">Email</h3>
+                    <p className="text-gray-600">info@mistypeaks.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="text-2xl">📍</span>
                   <div>
                     <h3 className="font-semibold">Location</h3>
-                    <p className="text-gray-600">Karnataka, India</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <span className="text-2xl">💳</span>
-                  <div>
-                    <h3 className="font-semibold">UPI</h3>
-                    <p className="text-gray-600 font-mono">paytmqr70c5mh@ptys</p>
+                    <p className="text-gray-600">Western Ghats, Karnataka, India</p>
                   </div>
                 </div>
               </div>
@@ -104,6 +110,12 @@ export default function Contact() {
                 <div className="flex justify-between"><span className="text-gray-600">Sunday</span><span className="font-medium">10:00 AM - 2:00 PM</span></div>
               </div>
             </div>
+
+            <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27m%20interested%20in%20Misty%20Peaks%20Homestay`}
+              target="_blank" rel="noopener noreferrer"
+              className="block bg-green-500 text-white text-center py-4 rounded-xl font-bold hover:bg-green-600 transition-colors">
+              💬 Chat on WhatsApp
+            </a>
           </div>
         </div>
       </div>

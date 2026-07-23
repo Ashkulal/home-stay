@@ -1,148 +1,53 @@
-const pool = require("../config/db");
+const Homestay = require("../models/Homestay");
 
-// Get all homestays
 exports.getHomestays = async (req, res) => {
     try {
-        const { search, max_price, min_guests, sort } = req.query;
-        let query = "SELECT * FROM homestays WHERE 1=1";
-        const params = [];
-        let idx = 1;
-
+        const { search } = req.query;
+        const filter = {};
         if (search) {
-            query += ` AND (name ILIKE $${idx} OR description ILIKE $${idx})`;
-            params.push(`%${search}%`);
-            idx++;
+            filter.$or = [
+                { name: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } },
+            ];
         }
-        if (max_price) {
-            query += ` AND price_per_night <= $${idx}`;
-            params.push(max_price);
-            idx++;
-        }
-        if (min_guests) {
-            query += ` AND max_guests >= $${idx}`;
-            params.push(min_guests);
-            idx++;
-        }
-        if (sort === "price") query += ` ORDER BY price_per_night ASC`;
-        else if (sort === "price_desc") query += ` ORDER BY price_per_night DESC`;
-        else query += ` ORDER BY created_at DESC`;
-
-        const result = await pool.query(query, params);
-        res.json({ success: true, homestays: result.rows });
+        const homestays = await Homestay.find(filter).sort({ createdAt: -1 });
+        res.json({ success: true, homestays });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Failed to fetch homestays" });
     }
 };
 
-// Get single homestay
 exports.getHomestay = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        const result = await pool.query(
-            "SELECT * FROM homestays WHERE id = $1",
-            [id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Homestay not found"
-            });
+        const homestay = await Homestay.findById(req.params.id);
+        if (!homestay) {
+            return res.status(404).json({ success: false, message: "Homestay not found" });
         }
-
-        res.json({
-            success: true,
-            homestay: result.rows[0]
-        });
+        res.json({ success: true, homestay });
     } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch homestays"
-        });
+        res.status(500).json({ success: false, message: "Failed to fetch homestay" });
     }
 };
 
-// Create homestay
 exports.createHomestay = async (req, res) => {
     try {
-        const {
-            name,
-            description,
-            price_per_night,
-            max_guests,
-            image_url,
-            location_url,
-            check_in_time,
-            check_out_time,
-            amenities
-        } = req.body;
-
-        if (!name || !price_per_night) {
-            return res.status(400).json({
-                success: false,
-                message: "name and price_per_night are required"
-            });
-        }
-
-        const result = await pool.query(
-            `INSERT INTO homestays
-            (name, description, price_per_night, max_guests, image_url, location_url, check_in_time, check_out_time, amenities)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            RETURNING *`,
-            [
-                name,
-                description || null,
-                price_per_night,
-                max_guests || null,
-                image_url || null,
-                location_url || null,
-                check_in_time || "12:00",
-                check_out_time || "11:00",
-                amenities || null
-            ]
-        );
-
-        res.status(201).json({
-            success: true,
-            homestay: result.rows[0]
-        });
-
+        const homestay = await Homestay.create(req.body);
+        res.status(201).json({ success: true, homestay });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch homestays"
-        });
+        res.status(500).json({ success: false, message: "Failed to create homestay" });
     }
 };
 
-// Delete homestay
 exports.deleteHomestay = async (req, res) => {
     try {
-        const result = await pool.query(
-            "DELETE FROM homestays WHERE id = $1 RETURNING id",
-            [req.params.id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Homestay not found"
-            });
+        const homestay = await Homestay.findByIdAndDelete(req.params.id);
+        if (!homestay) {
+            return res.status(404).json({ success: false, message: "Homestay not found" });
         }
-
-        res.json({
-            success: true,
-            message: "Homestay deleted successfully"
-        });
-
+        res.json({ success: true, message: "Homestay deleted" });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch homestays"
-        });
+        res.status(500).json({ success: false, message: "Failed to delete homestay" });
     }
 };

@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { homestays } from "../services/api";
-import { useAuth } from "../context/AuthContext";
 
 const WHATSAPP = "918660874196";
-const PRICE = 1500;
 
 export default function Home() {
-  const { user } = useAuth();
   const [homestay, setHomestay] = useState(null);
 
   useEffect(() => {
@@ -39,16 +35,12 @@ export default function Home() {
               A premium mountain homestay nestled among coffee plantations. Wake up to breathtaking sunrises, breathe the fresh air, and experience authentic Karnataka hospitality.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              {user ? (
-                <Link to="/bookings" className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/30 text-center">
-                  Book Your Stay
-                </Link>
-              ) : (
-                <Link to="/register" className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/30 text-center">
-                  Get Started
-                </Link>
-              )}
-              <a href="https://wa.me/918660874196?text=Hi%2C%20I%27m%20interested%20in%20booking%20Ibbani%20Homestay"
+              <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27m%20interested%20in%20Misty%20Peaks%20Homestay`}
+                target="_blank" rel="noopener noreferrer"
+                className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/30 text-center">
+                Book via WhatsApp
+              </a>
+              <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Misty%20Peaks`}
                 target="_blank" rel="noopener noreferrer"
                 className="border border-white/30 px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-center">
                 Talk to Us
@@ -56,7 +48,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* Bottom gradient */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
       </section>
 
@@ -92,7 +83,7 @@ export default function Home() {
                 Your Home in the<br />Western Ghats
               </h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Ibbani Homestay is a premium mountain retreat nestled in the hills of Karnataka, surrounded by working coffee and spice plantations. We offer a peaceful escape from city life with stunning mountain views, fresh air, and genuine hospitality.
+                Misty Peaks is a premium mountain retreat nestled in the hills of Karnataka, surrounded by working coffee and spice plantations. We offer a peaceful escape from city life with stunning mountain views, fresh air, and genuine hospitality.
               </p>
               <p className="text-gray-600 leading-relaxed mb-8">
                 Every stay includes home-cooked Malnad cuisine prepared with local ingredients, warm hosts, and breathtaking views of the Western Ghats. Whether you are a trekker, a nature lover, or just looking to unwind — this is your perfect getaway.
@@ -108,25 +99,24 @@ export default function Home() {
                   <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                   </div>
-                  <span className="font-medium text-gray-700">Instant Booking</span>
+                  <span className="font-medium text-gray-700">Home-Cooked Food</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                   </div>
-                  <span className="font-medium text-gray-700">Free Cancellation</span>
+                  <span className="font-medium text-gray-700">Mountain Views</span>
                 </div>
               </div>
             </div>
             <div className="relative">
               <div className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl h-80 md:h-[28rem] flex items-center justify-center shadow-2xl overflow-hidden">
                 <div className="text-center text-white">
-                  <div className="text-8xl mb-4">🏡</div>
-                  <p className="text-2xl font-bold">Ibbani Homestay</p>
+                  <div className="text-8xl mb-4">🏔️</div>
+                  <p className="text-2xl font-bold">Misty Peaks</p>
                   <p className="text-emerald-200 mt-1">Western Ghats, Karnataka</p>
                 </div>
               </div>
-              {/* Floating card */}
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-4 border border-gray-100 hidden md:block">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
@@ -153,12 +143,12 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: "🏔️", title: "Mountain Views", desc: "Wake up to misty peaks and breathtaking sunrises over the Western Ghats from your window.", color: "emerald" },
-              { icon: "🍛", title: "Home-Cooked Food", desc: "Authentic Malnad cuisine prepared with local spices and fresh ingredients from our garden.", color: "amber" },
-              { icon: "🌿", title: "Nature Trails", desc: "Explore coffee plantations, spice gardens, and scenic trekking paths right from our doorstep.", color: "teal" },
-              { icon: "🔥", title: "Bonfire Evenings", desc: "Cozy up by the bonfire under the stars with stories and hot chai on cool mountain nights.", color: "orange" },
-              { icon: "☕", title: "Coffee Estate", desc: "Stay amidst working coffee and spice plantations. Learn about coffee cultivation.", color: "purple" },
-              { icon: "🔒", title: "Easy Booking", desc: "Secure UPI payments, instant confirmation, and free cancellation up to 24 hours before.", color: "blue" },
+              { icon: "🏔️", title: "Mountain Views", desc: "Wake up to misty peaks and breathtaking sunrises over the Western Ghats from your window." },
+              { icon: "🍛", title: "Home-Cooked Food", desc: "Authentic Malnad cuisine prepared with local spices and fresh ingredients from our garden." },
+              { icon: "🌿", title: "Nature Trails", desc: "Explore coffee plantations, spice gardens, and scenic trekking paths right from our doorstep." },
+              { icon: "🔥", title: "Bonfire Evenings", desc: "Cozy up by the bonfire under the stars with stories and hot chai on cool mountain nights." },
+              { icon: "☕", title: "Coffee Estate", desc: "Stay amidst working coffee and spice plantations. Learn about coffee cultivation." },
+              { icon: "📞", title: "Easy Booking", desc: "Contact us via WhatsApp or the form below. Quick response and personalised assistance." },
             ].map((item, i) => (
               <div key={i} className="bg-white rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-gray-100 group">
                 <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-emerald-100 transition-colors">
@@ -176,7 +166,6 @@ export default function Home() {
       <section className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12">
-            {/* Amenities */}
             <div>
               <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Amenities</p>
               <h2 className="text-3xl font-bold mb-8">Everything You Need</h2>
@@ -189,7 +178,6 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            {/* Check-in/out */}
             <div>
               <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">Timings</p>
               <h2 className="text-3xl font-bold mb-8">Check-in & Check-out</h2>
@@ -213,54 +201,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How to Book */}
-      <section className="py-20 md:py-28 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wider mb-3">How It Works</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Book in 3 Simple Steps</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connector line */}
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-emerald-200"></div>
-            {[
-              { num: "01", title: "Create Account", desc: "Sign up for free in under a minute. No hidden charges." },
-              { num: "02", title: "Book & Pay", desc: "Select your dates, choose guests, and pay securely via UPI." },
-              { num: "03", title: "Enjoy Your Stay", desc: "Arrive, relax, and soak in the mountain experience." },
-            ].map((step, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-md transition-all relative border border-gray-100">
-                <div className="w-16 h-16 bg-emerald-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-5 font-bold text-xl shadow-lg shadow-emerald-200 relative z-10">
-                  {step.num}
-                </div>
-                <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                <p className="text-gray-500 text-sm">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-20 md:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready for a Mountain Escape?</h2>
           <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-            Book your stay at Ibbani Homestay and experience the best of Karnataka's Western Ghats. Starting at just ₹1,500 per person per night.
+            Get in touch with us to plan your stay at Misty Peaks. Starting at just ₹1,500 per person per night.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            {user ? (
-              <Link to="/bookings" className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
-                Book Now — ₹1,500/person
-              </Link>
-            ) : (
-              <Link to="/register" className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
-                Create Free Account
-              </Link>
-            )}
-            <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20Ibbani%20Homestay`}
+            <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20Misty%20Peaks`}
               target="_blank" rel="noopener noreferrer"
-              className="border border-white/30 px-10 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-lg">
+              className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg text-lg">
               WhatsApp Us
+            </a>
+            <a href="/contact"
+              className="border border-white/30 px-10 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-lg">
+              Send a Message
             </a>
           </div>
         </div>
