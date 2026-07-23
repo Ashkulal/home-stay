@@ -28,6 +28,7 @@ app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/homestays", require("./routes/homestayRoutes"));
 app.use("/api/peaks", require("./routes/peakRoutes"));
 app.use("/api/gallery", require("./routes/galleryRoutes"));
