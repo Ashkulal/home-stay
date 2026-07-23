@@ -35,7 +35,7 @@ app.use("/api/gallery", require("./routes/galleryRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 
 app.get("/", (req, res) => {
-    res.send("Misty Peaks Backend Running");
+    res.send("Silent Peak Kudremukh Backend Running");
 });
 
 app.use((req, res) => {
