@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const faqs = [
-  { q: "How do I book a stay?", a: "Contact us via WhatsApp at +91 8660874196 or use the contact form on our website. We'll confirm availability and guide you through the process." },
+  { q: "How do I book a stay?", a: "Contact us via WhatsApp at +91 9481580589 or use the contact form on our website. We'll confirm availability and guide you through the process." },
   { q: "What is the pricing?", a: "₹1,500 per person per night. This includes home-cooked meals, mountain views, and all amenities. Contact us for group discounts." },
   { q: "What are the check-in and check-out times?", a: "Check-in is at 12:00 PM (noon) and check-out is at 11:00 AM. Need early check-in or late check-out? Just ask us on WhatsApp." },
   { q: "What food is served?", a: "Authentic Malnad cuisine — breakfast, lunch, and dinner. Think dosa, idli, sambar, roti, dal, fresh coffee from our estate. Both veg and non-veg options available." },

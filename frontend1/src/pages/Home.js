@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { homestays } from "../services/api";
 
-const WHATSAPP = "918660874196";
+const WHATSAPP = "919481580589";
 
 export default function Home() {
   const [homestay, setHomestay] = useState(null);

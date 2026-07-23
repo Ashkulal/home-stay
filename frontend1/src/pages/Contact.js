@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useToast } from "../components/Toast";
 import { contact } from "../services/api";
 
-const WHATSAPP = "918660874196";
+const WHATSAPP = "919481580589";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -79,10 +79,17 @@ export default function Contact() {
               <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
               <div className="space-y-5">
                 <div className="flex items-start gap-4">
+                  <span className="text-2xl">👤</span>
+                  <div>
+                    <h3 className="font-semibold">Owner</h3>
+                    <p className="text-gray-600">Mahesh Hosmata</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
                   <span className="text-2xl">📱</span>
                   <div>
                     <h3 className="font-semibold">WhatsApp</h3>
-                    <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">+91 8660874196</a>
+                    <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">+91 94815 80589</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -111,11 +118,17 @@ export default function Contact() {
               </div>
             </div>
 
-            <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27m%20interested%20in%20Misty%20Peaks%20Homestay`}
-              target="_blank" rel="noopener noreferrer"
-              className="block bg-green-500 text-white text-center py-4 rounded-xl font-bold hover:bg-green-600 transition-colors">
-              💬 Chat on WhatsApp
-            </a>
+            <div className="grid grid-cols-2 gap-4">
+              <a href="tel:+919481580589"
+                className="block bg-emerald-600 text-white text-center py-4 rounded-xl font-bold hover:bg-emerald-700 transition-colors">
+                📞 Call Now
+              </a>
+              <a href={`https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27m%20interested%20in%20Misty%20Peaks%20Homestay`}
+                target="_blank" rel="noopener noreferrer"
+                className="block bg-green-500 text-white text-center py-4 rounded-xl font-bold hover:bg-green-600 transition-colors">
+                💬 WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastProvider } from "./components/Toast";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FloatingContact from "./components/FloatingContact";
 import Chatbot from "./components/Chatbot";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -36,6 +37,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <FloatingContact />
           <Chatbot />
         </div>
       </Router>

@@ -20,7 +20,7 @@ export default function Navbar() {
           <Link to="/gallery" className="hover:text-emerald-600 transition-colors font-medium" onClick={() => setOpen(false)}>Gallery</Link>
           <Link to="/faq" className="hover:text-emerald-600 transition-colors font-medium" onClick={() => setOpen(false)}>FAQ</Link>
           <Link to="/contact" className="hover:text-emerald-600 transition-colors font-medium" onClick={() => setOpen(false)}>Contact</Link>
-          <a href="https://wa.me/918660874196?text=Hi%2C%20I%27m%20interested%20in%20Misty%20Peaks%20Homestay"
+          <a href="https://wa.me/919481580589?text=Hi%2C%20I%27m%20interested%20in%20Misty%20Peaks%20Homestay"
             target="_blank" rel="noopener noreferrer"
             className="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition-colors font-medium"
             onClick={() => setOpen(false)}>

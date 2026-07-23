@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const WHATSAPP = "918660874196";
+const WHATSAPP = "919481580589";
 
 const KB = [
   {
