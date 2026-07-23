@@ -40,9 +40,9 @@ export default function Login() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input type="email" placeholder="Email Address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        className="w-full bg-forest-900/50 border border-gold-500/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold-500 focus:outline-none transition-colors" required />
+                        className="w-full bg-white border border-gold-500/20 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gold-500 focus:outline-none transition-colors" required />
                     <input type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
-                        className="w-full bg-forest-900/50 border border-gold-500/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold-500 focus:outline-none transition-colors" required />
+                        className="w-full bg-white border border-gold-500/20 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gold-500 focus:outline-none transition-colors" required />
                     <button type="submit" disabled={loading}
                         className="w-full bg-gold-500 text-forest-900 py-3 rounded-xl font-bold hover:bg-gold-400 transition-all disabled:opacity-50">
                         {loading ? "Signing in..." : "Sign In"}

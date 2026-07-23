@@ -48,13 +48,13 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input type="text" placeholder="Your Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full bg-forest-900/50 border border-gold-500/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold-500 focus:outline-none transition-colors" required />
+                  className="w-full bg-white border border-gold-500/20 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gold-500 focus:outline-none transition-colors" required />
                 <input type="email" placeholder="Email Address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full bg-forest-900/50 border border-gold-500/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold-500 focus:outline-none transition-colors" required />
+                  className="w-full bg-white border border-gold-500/20 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gold-500 focus:outline-none transition-colors" required />
                 <input type="tel" placeholder="Phone Number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full bg-forest-900/50 border border-gold-500/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold-500 focus:outline-none transition-colors" />
+                  className="w-full bg-white border border-gold-500/20 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gold-500 focus:outline-none transition-colors" />
                 <textarea placeholder="Your Message" rows="5" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full bg-forest-900/50 border border-gold-500/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-gold-500 focus:outline-none transition-colors resize-none" required />
+                  className="w-full bg-white border border-gold-500/20 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gold-500 focus:outline-none transition-colors resize-none" required />
                 <button type="submit" disabled={loading}
                   className="w-full bg-gold-500 text-forest-900 py-4 rounded-xl font-bold text-lg hover:bg-gold-400 transition-all disabled:opacity-50">
                   {loading ? "Sending..." : "Send Message"}
