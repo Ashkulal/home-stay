@@ -92,8 +92,8 @@ export default function Home() {
       <SEO title="Home" description="Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, horse riding, campfire evenings & breathtaking mountain views in the Western Ghats." />
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=75&fit=crop')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-b from-forest-950/70 via-forest-950/50 to-forest-950" />
+        <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)]" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <img src="/logo.png" alt="Silent Peak" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
@@ -397,7 +397,7 @@ export default function Home() {
 
       {/* Final CTA */}
       <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=75&fit=crop')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-forest-900 via-[#0a1f0a] to-forest-950" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-6">
             Ready for Your Mountain <span className="text-gold-500">Escape?</span>

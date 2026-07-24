@@ -5,8 +5,8 @@ export default function About() {
     <div className="bg-forest-950">
       <SEO title="About Us" description="Learn about Silent Peak Kudremukh Homestay — a family-run premium retreat nestled in the lush Western Ghats of Karnataka, India." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&q=75&fit=crop')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-forest-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">About <span className="text-gold-500">Us</span></h1>
           <p className="text-gray-300 text-lg">A sanctuary in the Western Ghats</p>
