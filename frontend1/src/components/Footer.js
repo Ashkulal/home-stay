@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-forest-950 border-t border-gold-500/10 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
+        <div className="grid md:grid-cols-4 gap-8 md:gap-12 mb-12">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <img src="/logo.png" alt="Silent Peak" className="h-14 w-14 rounded-full object-cover border-2 border-gold-500/30" />
@@ -16,7 +16,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-md">
-              A premium mountain retreat nestled in the lush green hills of Kudremukh, Karnataka. Experience nature, peace, and adventure in the heart of the Western Ghats.
+              A homestay nestled in the lush green hills of Kudremukh, Karnataka. Experience nature, peace, and adventure in the heart of the Western Ghats.
             </p>
             <div className="flex gap-4 mt-6">
               <a href="https://wa.me/919481580589" target="_blank" rel="noopener noreferrer"
@@ -49,10 +49,11 @@ export default function Footer() {
           <div>
             <h4 className="text-gold-500 font-bold mb-4 tracking-wider text-sm">CONTACT</h4>
             <div className="space-y-3 text-sm text-gray-400">
+              <p className="text-white font-medium">Mahesh — Owner</p>
               <a href="tel:+919481580589" className="block hover:text-gold-500 transition-colors">📞 +91 94815 80589</a>
               <a href={`https://wa.me/${PHONE}`} target="_blank" rel="noopener noreferrer" className="block hover:text-green-400 transition-colors">💬 WhatsApp</a>
-              <p className="📍">Kudremukh, Chikkamagaluru, Karnataka</p>
-              <p>📧 info@silentpeak.in</p>
+              <p>📍 Hosmata, Samse, Kudremukh, Kalasa, Chikkamagaluru, Karnataka – 577124</p>
+              <a href="https://www.silentpeakkudremukh.co.in" target="_blank" rel="noopener noreferrer" className="block hover:text-gold-500 transition-colors">🌐 silentpeakkudremukh.co.in</a>
             </div>
           </div>
         </div>

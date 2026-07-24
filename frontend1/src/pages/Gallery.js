@@ -29,7 +29,7 @@ export default function Gallery() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">Our <span className="text-gold-500">Gallery</span></h1>
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Our <span className="text-gold-500">Gallery</span></h1>
           <p className="text-gray-300 text-lg">Moments captured at Silent Peak</p>
         </div>
       </section>

@@ -8,13 +8,13 @@ export default function About() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">About <span className="text-gold-500">Us</span></h1>
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">About <span className="text-gold-500">Us</span></h1>
           <p className="text-gray-300 text-lg">A sanctuary in the Western Ghats</p>
         </div>
       </section>
 
       <div className="max-w-5xl mx-auto px-4 py-20">
-        <div className="glass rounded-3xl p-8 md:p-12 gold-border mb-12">
+        <div className="glass rounded-3xl p-5 md:p-12 gold-border mb-12">
           <h2 className="text-3xl font-bold text-white mb-6">Our <span className="text-gold-500">Story</span></h2>
           <p className="text-gray-400 leading-relaxed mb-4">
             Silent Peak Kudremukh Homestay was born from a deep love for the Western Ghats and the warmth of Karnataka's hospitality. We believe the best travel experiences come from staying with locals, eating home-cooked food, and exploring nature at your own pace.
@@ -38,7 +38,7 @@ export default function About() {
           ))}
         </div>
 
-        <div className="glass rounded-3xl p-8 md:p-12 gold-border text-center">
+        <div className="glass rounded-3xl p-5 md:p-12 gold-border text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Our <span className="text-gold-500">Mission</span></h2>
           <p className="text-gray-400 leading-relaxed max-w-2xl mx-auto">
             To provide an authentic mountain homestay experience that connects guests with nature, local culture, and the warm hospitality of Karnataka's Western Ghats.

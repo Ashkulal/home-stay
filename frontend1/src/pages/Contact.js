@@ -33,14 +33,14 @@ export default function Contact() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">Contact <span className="text-gold-500">Us</span></h1>
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Contact <span className="text-gold-500">Us</span></h1>
           <p className="text-gray-300 text-lg">We'd love to hear from you</p>
         </div>
       </section>
 
       <div className="max-w-5xl mx-auto px-4 py-20">
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="glass rounded-3xl p-8 gold-border">
+          <div className="glass rounded-3xl p-5 md:p-8 gold-border">
             <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
             {submitted ? (
               <div className="text-center py-12">
@@ -84,19 +84,16 @@ export default function Contact() {
 
             <div className="glass rounded-2xl p-6 gold-border space-y-4">
               <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">👤</span> <span>Mahesh Hosmata — Owner</span>
+                <span className="text-lg">👤</span> <span>Mahesh — Owner</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300 text-sm">
                 <span className="text-lg">📞</span> <a href="tel:+919481580589" className="hover:text-gold-500 transition-colors">+91 94815 80589</a>
               </div>
               <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">📧</span> <span>info@silentpeak.in</span>
+                <span className="text-lg">📍</span> <span>Hosmata, Samse, Kudremukh, Kalasa, Chikkamagaluru, Karnataka – 577124</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">📍</span> <span>Kudremukh, Chikkamagaluru, Karnataka, India</span>
-              </div>
-              <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">📷</span> <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">@silentpeakkudremukh</a>
+                <span className="text-lg">🌐</span> <a href="https://www.silentpeakkudremukh.co.in" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">silentpeakkudremukh.co.in</a>
               </div>
             </div>
 

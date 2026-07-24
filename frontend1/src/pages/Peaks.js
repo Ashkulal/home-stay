@@ -15,7 +15,7 @@ export default function Peaks() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">Kudremukh <span className="text-gold-500">Peaks</span></h1>
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Kudremukh <span className="text-gold-500">Peaks</span></h1>
           <p className="text-gray-300 text-lg">Discover the majestic peaks of the Western Ghats</p>
         </div>
       </section>

@@ -96,21 +96,18 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-forest-950/70 via-forest-950/50 to-forest-950" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <img src="/logo.png" alt="Silent Peak" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
             Silent <span className="text-gold-500">Peak</span>
           </h1>
           <p className="text-gold-500/70 tracking-[0.4em] text-sm md:text-base mb-6 uppercase">Kudremukh Homestay</p>
-          <p className="text-xl md:text-2xl text-gray-300 mb-10 font-light max-w-2xl mx-auto">
-            Experience Nature, Peace & Adventure in the Heart of Kudremukh
-          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="tel:+919481580589"
-              className="group flex items-center justify-center gap-3 bg-gold-500 text-forest-900 px-10 py-4 rounded-full font-bold text-lg hover:bg-gold-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]">
+              className="group flex items-center justify-center gap-3 bg-gold-500 text-forest-900 px-6 py-4 sm:px-10 rounded-full font-bold text-lg hover:bg-gold-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]">
               <span className="text-2xl group-hover:animate-bounce">📞</span> Call Now
             </a>
             <a href={`https://wa.me/${PHONE}?text=Hi%2C%20I%27m%20interested%20in%20Silent%20Peak%20Kudremukh%20Homestay`}
               target="_blank" rel="noopener noreferrer"
-              className="group flex items-center justify-center gap-3 bg-green-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-500 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)]">
+              className="group flex items-center justify-center gap-3 bg-green-600 text-white px-6 py-4 sm:px-10 rounded-full font-bold text-lg hover:bg-green-500 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)]">
               <span className="text-2xl group-hover:animate-bounce">💬</span> WhatsApp
             </a>
           </div>
@@ -121,10 +118,10 @@ export default function Home() {
       {/* About */}
       <section className="section-padding relative">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div>
               <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">About Us</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                 Your Sanctuary in the <span className="text-gold-500">Western Ghats</span>
               </h2>
               <p className="text-gray-400 leading-relaxed mb-4">
@@ -160,7 +157,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Gallery</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white">Visual Stories</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white">Visual Stories</h2>
           </div>
           <div className="flex flex-wrap justify-center gap-3 mb-10">
             {categories.map((cat) => (
@@ -208,7 +205,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Explore</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Kudremukh Peaks</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Kudremukh Peaks</h2>
             <p className="text-gray-400 max-w-xl mx-auto">Discover the majestic peaks of the Western Ghats</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -237,7 +234,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Adventures</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Activities</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Activities</h2>
             <p className="text-gray-400 max-w-xl mx-auto">Exciting experiences waiting for you</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -257,7 +254,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Discover</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Nearby Attractions</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Nearby Attractions</h2>
             <p className="text-gray-400 max-w-xl mx-auto">Explore the wonders around Kudremukh</p>
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-5">
@@ -281,7 +278,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Comfort</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Amenities</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Amenities</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             {amenities.map((a, i) => (
@@ -299,7 +296,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Testimonials</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Guest Reviews</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Guest Reviews</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {reviews.map((r, i) => (
@@ -326,11 +323,11 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-gold-500 font-bold text-sm tracking-[0.3em] uppercase mb-3">Get in Touch</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Contact Us</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Contact Us</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="glass rounded-2xl p-8 gold-border">
+            <div className="glass rounded-2xl p-5 md:p-8 gold-border">
               <h3 className="text-xl font-bold text-white mb-6">Send a Message</h3>
               {submitted ? (
                 <div className="text-center py-12">
@@ -374,16 +371,16 @@ export default function Home() {
 
               <div className="glass rounded-2xl p-6 gold-border space-y-4">
                 <div className="flex items-center gap-3 text-gray-300 text-sm">
-                  <span>📍</span> <span>Kudremukh, Chikkamagaluru, Karnataka, India</span>
+                  <span>👤</span> <span>Mahesh — Owner</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-300 text-sm">
                   <span>📞</span> <a href="tel:+919481580589" className="hover:text-gold-500 transition-colors">+91 94815 80589</a>
                 </div>
                 <div className="flex items-center gap-3 text-gray-300 text-sm">
-                  <span>📧</span> <span>info@silentpeak.in</span>
+                  <span>📍</span> <span>Hosmata, Samse, Kudremukh, Kalasa, Chikkamagaluru, Karnataka – 577124</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-300 text-sm">
-                  <span>📷</span> <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">@silentpeakkudremukh</a>
+                  <span>🌐</span> <a href="https://www.silentpeakkudremukh.co.in" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">silentpeakkudremukh.co.in</a>
                 </div>
               </div>
 
@@ -402,7 +399,7 @@ export default function Home() {
       <section className="section-padding relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600')] bg-cover bg-center opacity-20" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-6">
             Ready for Your Mountain <span className="text-gold-500">Escape?</span>
           </h2>
           <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
@@ -410,12 +407,12 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="tel:+919481580589"
-              className="bg-gold-500 text-forest-900 px-10 py-4 rounded-full font-bold text-lg hover:bg-gold-400 transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]">
+              className="bg-gold-500 text-forest-900 px-6 py-4 sm:px-10 rounded-full font-bold text-lg hover:bg-gold-400 transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]">
               📞 Call Now
             </a>
             <a href={`https://wa.me/${PHONE}?text=Hi%2C%20I%27d%20like%20to%20book%20Silent%20Peak%20Kudremukh`}
               target="_blank" rel="noopener noreferrer"
-              className="bg-green-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-500 transition-all hover:scale-105">
+              className="bg-green-600 text-white px-6 py-4 sm:px-10 rounded-full font-bold text-lg hover:bg-green-500 transition-all hover:scale-105">
               💬 WhatsApp Us
             </a>
           </div>
