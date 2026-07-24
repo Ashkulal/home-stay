@@ -26,7 +26,7 @@ export default function Gallery() {
     <div className="bg-forest-950">
       <SEO title="Gallery" description="Stunning photos of Silent Peak Kudremukh Homestay — misty mountains, luxury rooms, traditional cuisine, and breathtaking landscapes." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80&fit=crop')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=75&fit=crop')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Our <span className="text-gold-500">Gallery</span></h1>
