@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /login
 Disallow: /register
 
-Sitemap: https://silent-peak-two.vercel.app/sitemap.xml
+Sitemap: https://www.silentpeakkudremukh.co.in/sitemap.xml
