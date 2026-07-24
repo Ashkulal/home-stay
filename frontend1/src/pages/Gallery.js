@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEO from "../components/SEO";
 
 const images = [
   { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600", title: "Misty Mountains", cat: "Sunrise" },
@@ -23,6 +24,7 @@ export default function Gallery() {
 
   return (
     <div className="bg-forest-950">
+      <SEO title="Gallery" description="Stunning photos of Silent Peak Kudremukh Homestay — misty mountains, luxury rooms, traditional cuisine, and breathtaking landscapes." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />

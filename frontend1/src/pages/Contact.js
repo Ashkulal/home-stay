@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useToast } from "../components/Toast";
 import { contact } from "../services/api";
+import SEO from "../components/SEO";
 
 const PHONE = "919481580589";
 
@@ -27,6 +28,7 @@ export default function Contact() {
 
   return (
     <div className="bg-forest-950">
+      <SEO title="Contact Us" description="Get in touch with Silent Peak Kudremukh Homestay. Call +91 94815 80589 or send us a message. Book your mountain retreat today." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />

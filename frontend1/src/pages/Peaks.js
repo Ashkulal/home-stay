@@ -5,9 +5,12 @@ const peaks = [
   { name: "Gangadikal Peak", desc: "Known as the Queen of Kudremukh. Stunning views of rolling green hills as far as the eye can see. One of the most scenic treks in the Western Ghats.", distance: "10 km", difficulty: "Moderate", bestTime: "Sep - Feb", elevation: "1,631m", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800" },
 ];
 
+import SEO from "../components/SEO";
+
 export default function Peaks() {
   return (
     <div className="bg-forest-950">
+      <SEO title="Peaks & Trekking" description="Explore Kudremukh Peak, Kurinjal, Netravati & Gangadikal — the best trekking peaks in the Western Ghats near Kudremukh, Karnataka." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />

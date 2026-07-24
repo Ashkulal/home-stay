@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
 import { contact } from "../services/api";
+import SEO from "../components/SEO";
 
 const PHONE = "919481580589";
 
@@ -88,6 +89,7 @@ export default function Home() {
 
   return (
     <div className="bg-forest-950">
+      <SEO title="Home" description="Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, horse riding, campfire evenings & breathtaking mountain views in the Western Ghats." />
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600')] bg-cover bg-center" />

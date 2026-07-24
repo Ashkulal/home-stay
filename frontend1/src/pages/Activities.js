@@ -9,9 +9,12 @@ const activities = [
   { name: "Photography", desc: "Capture misty mountains, golden sunrises, vibrant wildlife, and the raw beauty of the Western Ghats.", icon: "📸" },
 ];
 
+import SEO from "../components/SEO";
+
 export default function Activities() {
   return (
     <div className="bg-forest-950">
+      <SEO title="Activities" description="Trekking, horse riding, jeep safari, camping, campfire, nature walks & bird watching at Silent Peak Kudremukh Homestay." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1600')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
