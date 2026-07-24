@@ -16,7 +16,7 @@ export default function Activities() {
     <div className="bg-forest-950">
       <SEO title="Activities" description="Trekking, horse riding, jeep safari, camping, campfire, nature walks & bird watching at Silent Peak Kudremukh Homestay." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1600')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&q=80&fit=crop')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Adventure <span className="text-gold-500">Activities</span></h1>

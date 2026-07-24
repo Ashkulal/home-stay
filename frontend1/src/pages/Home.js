@@ -50,15 +50,15 @@ const reviews = [
 ];
 
 const galleryImages = [
-  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600", title: "Misty Mountains", cat: "Sunrise" },
-  { src: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600", title: "Luxury Room", cat: "Rooms" },
-  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600", title: "Traditional Cuisine", cat: "Food" },
-  { src: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600", title: "Golden Sunset", cat: "Sunset" },
-  { src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600", title: "Green Garden", cat: "Garden" },
-  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600", title: "Mountain View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=600", title: "Night Sky", cat: "Night View" },
-  { src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600", title: "Valley View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600", title: "Sunrise Trek", cat: "Sunrise" },
+  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75&fit=crop", title: "Misty Mountains", cat: "Sunrise" },
+  { src: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=400&q=75&fit=crop", title: "Luxury Room", cat: "Rooms" },
+  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=75&fit=crop", title: "Traditional Cuisine", cat: "Food" },
+  { src: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=400&q=75&fit=crop", title: "Golden Sunset", cat: "Sunset" },
+  { src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=75&fit=crop", title: "Green Garden", cat: "Garden" },
+  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=75&fit=crop", title: "Mountain View", cat: "Homestay" },
+  { src: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=400&q=75&fit=crop", title: "Night Sky", cat: "Night View" },
+  { src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&q=75&fit=crop", title: "Valley View", cat: "Homestay" },
+  { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=75&fit=crop", title: "Sunrise Trek", cat: "Sunrise" },
 ];
 
 export default function Home() {
@@ -92,7 +92,7 @@ export default function Home() {
       <SEO title="Home" description="Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, horse riding, campfire evenings & breathtaking mountain views in the Western Ghats." />
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80&fit=crop')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-forest-950/70 via-forest-950/50 to-forest-950" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <img src="/logo.png" alt="Silent Peak" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
@@ -141,7 +141,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="glass rounded-3xl overflow-hidden gold-border gold-glow">
-                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800" alt="Silent Peak" className="w-full h-96 object-cover" />
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80&fit=crop" alt="Silent Peak" width="800" height="600" className="w-full h-96 object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 gold-border">
                 <p className="text-gold-500 font-bold text-2xl">4.9 ★</p>
@@ -175,7 +175,7 @@ export default function Home() {
             {filtered.map((img, i) => (
               <div key={i} onClick={() => setLightbox(img)}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer gold-border hover-gold transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-                <img src={img.src} alt={img.title} className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                <img src={img.src} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                   <div>
                     <p className="text-white font-bold">{img.title}</p>
@@ -397,7 +397,7 @@ export default function Home() {
 
       {/* Final CTA */}
       <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80&fit=crop')] bg-cover bg-center opacity-20" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-6">
             Ready for Your Mountain <span className="text-gold-500">Escape?</span>

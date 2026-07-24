@@ -2,18 +2,18 @@ import { useState } from "react";
 import SEO from "../components/SEO";
 
 const images = [
-  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600", title: "Misty Mountains", cat: "Sunrise" },
-  { src: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600", title: "Luxury Room", cat: "Rooms" },
-  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600", title: "Traditional Cuisine", cat: "Food" },
-  { src: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600", title: "Golden Sunset", cat: "Sunset" },
-  { src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600", title: "Green Garden", cat: "Garden" },
-  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600", title: "Mountain View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=600", title: "Night Sky", cat: "Night View" },
-  { src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600", title: "Valley View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600", title: "Sunrise Trek", cat: "Sunrise" },
-  { src: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600", title: "Spice Garden", cat: "Garden" },
-  { src: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600", title: "Cozy Interior", cat: "Rooms" },
-  { src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600", title: "Dining Area", cat: "Food" },
+  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75&fit=crop", title: "Misty Mountains", cat: "Sunrise" },
+  { src: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=400&q=75&fit=crop", title: "Luxury Room", cat: "Rooms" },
+  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=75&fit=crop", title: "Traditional Cuisine", cat: "Food" },
+  { src: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=400&q=75&fit=crop", title: "Golden Sunset", cat: "Sunset" },
+  { src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=75&fit=crop", title: "Green Garden", cat: "Garden" },
+  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=75&fit=crop", title: "Mountain View", cat: "Homestay" },
+  { src: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=400&q=75&fit=crop", title: "Night Sky", cat: "Night View" },
+  { src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&q=75&fit=crop", title: "Valley View", cat: "Homestay" },
+  { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=75&fit=crop", title: "Sunrise Trek", cat: "Sunrise" },
+  { src: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&q=75&fit=crop", title: "Spice Garden", cat: "Garden" },
+  { src: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400&q=75&fit=crop", title: "Cozy Interior", cat: "Rooms" },
+  { src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=75&fit=crop", title: "Dining Area", cat: "Food" },
 ];
 
 export default function Gallery() {
@@ -26,7 +26,7 @@ export default function Gallery() {
     <div className="bg-forest-950">
       <SEO title="Gallery" description="Stunning photos of Silent Peak Kudremukh Homestay — misty mountains, luxury rooms, traditional cuisine, and breathtaking landscapes." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80&fit=crop')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-forest-950/70" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Our <span className="text-gold-500">Gallery</span></h1>
@@ -50,7 +50,7 @@ export default function Gallery() {
           {filtered.map((img, i) => (
             <div key={i} onClick={() => setLightbox(img)}
               className="group relative rounded-2xl overflow-hidden cursor-pointer gold-border hover-gold transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-              <img src={img.src} alt={img.title} className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+              <img src={img.src} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                 <div>
                   <p className="text-white font-bold">{img.title}</p>
