@@ -45,24 +45,6 @@ app.use("/api/peaks", require("./routes/peakRoutes"));
 app.use("/api/gallery", require("./routes/galleryRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 
-// Seed gallery endpoint (one-time use)
-app.get("/api/seed-gallery", async (req, res) => {
-    const Gallery = require("./models/Gallery");
-    const images = [
-        { title: "Family Room", image_url: "/images/room-family.jpg", category: "Rooms", order: 1 },
-        { title: "Double Bedroom", image_url: "/images/room-double.jpg", category: "Rooms", order: 2 },
-        { title: "Areca Palm Grove", image_url: "/images/nature-palms.jpg", category: "Nature", order: 3 },
-        { title: "Western Ghats Greenery", image_url: "/images/nature-greenery.jpg", category: "Nature", order: 4 },
-    ];
-    try {
-        await Gallery.deleteMany({});
-        const result = await Gallery.insertMany(images);
-        res.json({ success: true, message: `Seeded ${result.length} images`, images: result });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-});
-
 app.get("/", (req, res) => {
     res.send("Silent Peak Kudremukh Backend Running");
 });

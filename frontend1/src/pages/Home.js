@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
-import { contact, gallery } from "../services/api";
+import { contact } from "../services/api";
 import SEO from "../components/SEO";
 
 const PHONE = "919481580589";
@@ -47,23 +47,23 @@ const reviews = [
   { name: "Ananya Reddy", rating: 5, text: "The campfire evenings were magical. The staff goes above and beyond to make your stay special. Kudremukh is truly paradise and this homestay is the best way to experience it.", location: "Hyderabad" },
 ];
 
+const galleryImages = [
+  { src: "/images/room-family.jpg", title: "Family Room", cat: "Rooms" },
+  { src: "/images/room-double.jpg", title: "Double Bedroom", cat: "Rooms" },
+  { src: "/images/nature-palms.jpg", title: "Areca Palm Grove", cat: "Nature" },
+  { src: "/images/nature-greenery.jpg", title: "Western Ghats Greenery", cat: "Nature" },
+];
+
 export default function Home() {
   const [galleryFilter, setGalleryFilter] = useState("All");
   const [lightbox, setLightbox] = useState(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [galleryImages, setGalleryImages] = useState([]);
   const toast = useToast();
 
-  useEffect(() => {
-    gallery.getAll().then((res) => {
-      setGalleryImages(res.data.images || []);
-    }).catch(() => {});
-  }, []);
-
-  const categories = ["All", ...new Set(galleryImages.map((i) => i.category))];
-  const filtered = galleryFilter === "All" ? galleryImages : galleryImages.filter((i) => i.category === galleryFilter);
+  const categories = ["All", ...new Set(galleryImages.map((i) => i.cat))];
+  const filtered = galleryFilter === "All" ? galleryImages : galleryImages.filter((i) => i.cat === galleryFilter);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -134,7 +134,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="glass rounded-3xl overflow-hidden gold-border gold-glow">
-                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80&fit=crop" alt="Silent Peak" width="800" height="600" className="w-full h-96 object-cover" />
+                <img src="/images/room-family.jpg" alt="Silent Peak" width="800" height="600" className="w-full h-96 object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 gold-border">
                 <p className="text-gold-500 font-bold text-2xl">4.9 ★</p>
@@ -168,11 +168,11 @@ export default function Home() {
             {filtered.map((img, i) => (
               <div key={i} onClick={() => setLightbox(img)}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer gold-border hover-gold transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-                <img src={img.image_url} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                <img src={img.src} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                   <div>
                     <p className="text-white font-bold">{img.title}</p>
-                    <p className="text-gold-500 text-sm">{img.category}</p>
+                    <p className="text-gold-500 text-sm">{img.cat}</p>
                   </div>
                 </div>
               </div>
@@ -185,10 +185,10 @@ export default function Home() {
       {lightbox && (
         <div className="fixed inset-0 z-[100] bg-forest-950/95 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
           <button className="absolute top-6 right-6 text-white text-3xl hover:text-gold-500 transition-colors">✕</button>
-          <img src={lightbox.image_url} alt={lightbox.title} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl gold-border" onClick={(e) => e.stopPropagation()} />
+          <img src={lightbox.src} alt={lightbox.title} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl gold-border" onClick={(e) => e.stopPropagation()} />
           <div className="absolute bottom-8 text-center">
             <p className="text-white text-xl font-bold">{lightbox.title}</p>
-            <p className="text-gold-500">{lightbox.category}</p>
+            <p className="text-gold-500">{lightbox.cat}</p>
           </div>
         </div>
       )}
