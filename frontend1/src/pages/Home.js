@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
-import { contact } from "../services/api";
+import { contact, gallery } from "../services/api";
 import SEO from "../components/SEO";
 
 const PHONE = "919481580589";
@@ -15,7 +15,6 @@ const peaks = [
 
 const activities = [
   { name: "Trekking", desc: "Explore the rugged terrain of the Western Ghats with guided treks through lush forests.", icon: "🥾" },
-  { name: "Horse Riding", desc: "Ride through scenic meadows and mountain trails with well-trained horses.", icon: "🐴" },
   { name: "Jeep Safari", desc: "Thrilling off-road jeep rides through the Kudremukh wildlife corridor.", icon: "🚙" },
   { name: "Camping", desc: "Sleep under a blanket of stars in our premium tented camps.", icon: "⛺" },
   { name: "Campfire", desc: "Warm evenings around the campfire with stories, music, and hot chai.", icon: "🔥" },
@@ -33,7 +32,6 @@ const attractions = [
 ];
 
 const amenities = [
-  { name: "Free Wi-Fi", icon: "📶" },
   { name: "Parking", icon: "🅿️" },
   { name: "Hot Water", icon: "🚿" },
   { name: "Garden", icon: "🌳" },
@@ -45,20 +43,8 @@ const amenities = [
 
 const reviews = [
   { name: "Priya Sharma", rating: 5, text: "An absolute gem in the Western Ghats! The views are breathtaking and the hospitality is unmatched. The homemade food was the best we've ever had. Will definitely come back!", location: "Mumbai" },
-  { name: "Rahul Verma", rating: 5, text: "Perfect escape from city life. Woke up to misty mountains every morning. The horse riding and trekking experiences were unforgettable. Highly recommended!", location: "Bangalore" },
+  { name: "Rahul Verma", rating: 5, text: "Perfect escape from city life. Woke up to misty mountains every morning. The trekking experiences were unforgettable. Highly recommended!", location: "Bangalore" },
   { name: "Ananya Reddy", rating: 5, text: "The campfire evenings were magical. The staff goes above and beyond to make your stay special. Kudremukh is truly paradise and this homestay is the best way to experience it.", location: "Hyderabad" },
-];
-
-const galleryImages = [
-  { src: "/images/room-family.jpg", title: "Family Room", cat: "Rooms" },
-  { src: "/images/room-double.jpg", title: "Double Bedroom", cat: "Rooms" },
-  { src: "/images/nature-palms.jpg", title: "Areca Palm Grove", cat: "Nature" },
-  { src: "/images/nature-greenery.jpg", title: "Western Ghats Greenery", cat: "Nature" },
-  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75&fit=crop", title: "Misty Mountains", cat: "Sunrise" },
-  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=75&fit=crop", title: "Traditional Cuisine", cat: "Food" },
-  { src: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=400&q=75&fit=crop", title: "Golden Sunset", cat: "Sunset" },
-  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=75&fit=crop", title: "Mountain View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&q=75&fit=crop", title: "Valley View", cat: "Homestay" },
 ];
 
 export default function Home() {
@@ -67,10 +53,17 @@ export default function Home() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
   const toast = useToast();
 
-  const categories = ["All", ...new Set(galleryImages.map((i) => i.cat))];
-  const filtered = galleryFilter === "All" ? galleryImages : galleryImages.filter((i) => i.cat === galleryFilter);
+  useEffect(() => {
+    gallery.getAll().then((res) => {
+      setGalleryImages(res.data.images || []);
+    }).catch(() => {});
+  }, []);
+
+  const categories = ["All", ...new Set(galleryImages.map((i) => i.category))];
+  const filtered = galleryFilter === "All" ? galleryImages : galleryImages.filter((i) => i.category === galleryFilter);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,7 +82,7 @@ export default function Home() {
 
   return (
     <div className="bg-forest-950">
-      <SEO title="Home" description="Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, horse riding, campfire evenings & breathtaking mountain views in the Western Ghats." />
+      <SEO title="Home" description="Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, campfire evenings & breathtaking mountain views in the Western Ghats." />
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
@@ -131,7 +124,7 @@ export default function Home() {
                 Every stay includes home-cooked Malnad cuisine prepared with local spices, warm hosts, and breathtaking views of the Western Ghats. Whether you're a trekker, a nature lover, or just looking to unwind — this is your perfect getaway.
               </p>
               <div className="grid grid-cols-2 gap-4">
-                {["Mountain View", "Comfortable Rooms", "Homemade Food", "Campfire", "Free Parking", "Free Wi-Fi"].map((f) => (
+                {["Mountain View", "Comfortable Rooms", "Homemade Food", "Campfire", "Free Parking"].map((f) => (
                   <div key={f} className="flex items-center gap-2">
                     <span className="text-gold-500">✦</span>
                     <span className="text-gray-300 text-sm">{f}</span>
@@ -175,11 +168,11 @@ export default function Home() {
             {filtered.map((img, i) => (
               <div key={i} onClick={() => setLightbox(img)}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer gold-border hover-gold transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-                <img src={img.src} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                <img src={img.image_url} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                   <div>
                     <p className="text-white font-bold">{img.title}</p>
-                    <p className="text-gold-500 text-sm">{img.cat}</p>
+                    <p className="text-gold-500 text-sm">{img.category}</p>
                   </div>
                 </div>
               </div>
@@ -192,10 +185,10 @@ export default function Home() {
       {lightbox && (
         <div className="fixed inset-0 z-[100] bg-forest-950/95 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
           <button className="absolute top-6 right-6 text-white text-3xl hover:text-gold-500 transition-colors">✕</button>
-          <img src={lightbox.src} alt={lightbox.title} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl gold-border" onClick={(e) => e.stopPropagation()} />
+          <img src={lightbox.image_url} alt={lightbox.title} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl gold-border" onClick={(e) => e.stopPropagation()} />
           <div className="absolute bottom-8 text-center">
             <p className="text-white text-xl font-bold">{lightbox.title}</p>
-            <p className="text-gold-500">{lightbox.cat}</p>
+            <p className="text-gold-500">{lightbox.category}</p>
           </div>
         </div>
       )}

@@ -1,6 +1,5 @@
 const activities = [
   { name: "Trekking", desc: "Explore the rugged terrain of the Western Ghats with guided treks through lush shola forests, grasslands, and mountain trails.", icon: "🥾" },
-  { name: "Horse Riding", desc: "Ride through scenic meadows and mountain trails with well-trained horses. A magical experience amidst the clouds.", icon: "🐴" },
   { name: "Jeep Safari", desc: "Thrilling off-road jeep rides through the Kudremukh wildlife corridor. Spot wildlife and experience raw nature.", icon: "🚙" },
   { name: "Camping", desc: "Sleep under a blanket of stars in our premium tented camps. Wake up to misty mountain views.", icon: "⛺" },
   { name: "Campfire", desc: "Warm evenings around the campfire with stories, music, hot chai, and the sound of crickets.", icon: "🔥" },
@@ -14,7 +13,7 @@ import SEO from "../components/SEO";
 export default function Activities() {
   return (
     <div className="bg-forest-950">
-      <SEO title="Activities" description="Trekking, horse riding, jeep safari, camping, campfire, nature walks & bird watching at Silent Peak Kudremukh Homestay." />
+      <SEO title="Activities" description="Trekking, jeep safari, camping, campfire, nature walks & bird watching at Silent Peak Kudremukh Homestay." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />

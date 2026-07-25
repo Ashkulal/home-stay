@@ -2,7 +2,9 @@ const Gallery = require("../models/Gallery");
 
 exports.getGalleryImages = async (req, res) => {
     try {
-        const images = await Gallery.find().sort({ createdAt: -1 });
+        const { category } = req.query;
+        const filter = category ? { category } : {};
+        const images = await Gallery.find(filter).sort({ order: 1, createdAt: -1 });
         res.json({ success: true, images });
     } catch (err) {
         console.error(err);
@@ -24,11 +26,11 @@ exports.getGalleryImage = async (req, res) => {
 
 exports.uploadImage = async (req, res) => {
     try {
-        const { title, image_url } = req.body;
+        const { title, image_url, category, order } = req.body;
         if (!title || !image_url) {
             return res.status(400).json({ success: false, message: "title and image_url are required" });
         }
-        const image = await Gallery.create({ title, image_url });
+        const image = await Gallery.create({ title, image_url, category, order });
         res.status(201).json({ success: true, message: "Image uploaded successfully", image });
     } catch (err) {
         res.status(500).json({ success: false, message: "Operation failed" });
