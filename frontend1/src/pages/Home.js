@@ -48,6 +48,10 @@ const reviews = [
 ];
 
 const galleryImages = [
+  { src: "/images/peak-kudremukh.jpg", title: "Kudremukh Peak", cat: "Peaks" },
+  { src: "/images/peak-kurinjal.jpg", title: "Kurinjal Peak", cat: "Peaks" },
+  { src: "/images/peak-netravati.jpg", title: "Netravati Peak", cat: "Peaks" },
+  { src: "/images/peak-gangadikal.jpg", title: "Gangadikal Peak", cat: "Peaks" },
   { src: "/images/room-family.jpg", title: "Family Room", cat: "Rooms" },
   { src: "/images/room-double.jpg", title: "Double Bedroom", cat: "Rooms" },
   { src: "/images/room-wide.jpg", title: "Spacious Room", cat: "Rooms" },
