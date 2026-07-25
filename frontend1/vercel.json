@@ -3,6 +3,6 @@
   "outputDirectory": "build",
   "framework": null,
   "rewrites": [
-    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+    { "source": "/((?!assets/|images/).*)", "destination": "/index.html" }
   ]
 }
