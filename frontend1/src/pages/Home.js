@@ -50,15 +50,15 @@ const reviews = [
 ];
 
 const galleryImages = [
+  { src: "/images/room-family.jpg", title: "Family Room", cat: "Rooms" },
+  { src: "/images/room-double.jpg", title: "Double Bedroom", cat: "Rooms" },
+  { src: "/images/nature-palms.jpg", title: "Areca Palm Grove", cat: "Nature" },
+  { src: "/images/nature-greenery.jpg", title: "Western Ghats Greenery", cat: "Nature" },
   { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75&fit=crop", title: "Misty Mountains", cat: "Sunrise" },
-  { src: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=400&q=75&fit=crop", title: "Luxury Room", cat: "Rooms" },
   { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=75&fit=crop", title: "Traditional Cuisine", cat: "Food" },
   { src: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=400&q=75&fit=crop", title: "Golden Sunset", cat: "Sunset" },
-  { src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=75&fit=crop", title: "Green Garden", cat: "Garden" },
   { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=75&fit=crop", title: "Mountain View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=400&q=75&fit=crop", title: "Night Sky", cat: "Night View" },
   { src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&q=75&fit=crop", title: "Valley View", cat: "Homestay" },
-  { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=75&fit=crop", title: "Sunrise Trek", cat: "Sunrise" },
 ];
 
 export default function Home() {
