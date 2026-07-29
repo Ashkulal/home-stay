@@ -135,10 +135,10 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="glass rounded-3xl overflow-hidden gold-border gold-glow">
-                <img src="/images/homestay-entrance.jpg" alt="Silent Peak Kudremukh Homestay Entrance" className="w-full h-80 md:h-[400px] object-cover rounded-3xl" />
+                <img src="/images/homestay-entrance.jpg" alt="Silent Peak Kudremukh Homestay Entrance" className="w-full aspect-[4/3] object-cover" />
               </div>
-              <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 gold-border">
-                <p className="text-gold-500 font-bold text-2xl">4.9 ★</p>
+              <div className="absolute -bottom-4 left-4 glass rounded-2xl p-3 gold-border">
+                <p className="text-gold-500 font-bold text-xl">4.9 ★</p>
                 <p className="text-gray-400 text-xs">200+ Reviews</p>
               </div>
             </div>
