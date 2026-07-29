@@ -48,8 +48,6 @@ const reviews = [
 ];
 
 const galleryImages = [
-  { src: "/images/homestay-entrance.jpg", title: "Homestay Entrance", cat: "Facility" },
-  { src: "/images/homestay-exterior.jpg", title: "Homestay Exterior", cat: "Facility" },
   { src: "/images/room-family-new.jpg", title: "Family Room", cat: "Rooms" },
   { src: "/images/room-view.jpg", title: "Room View", cat: "Rooms" },
   { src: "/images/room-triple-beds.jpg", title: "Triple Bed Room", cat: "Rooms" },
