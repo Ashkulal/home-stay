@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../components/Toast";
 import { contact } from "../services/api";
@@ -61,6 +61,12 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {}
+  }, []);
+
   const categories = ["All", ...new Set(galleryImages.map((i) => i.cat))];
   const filtered = galleryFilter === "All" ? galleryImages : galleryImages.filter((i) => i.cat === galleryFilter);
 
@@ -106,6 +112,16 @@ export default function Home() {
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-gold-500/50 text-3xl">▼</div>
       </section>
+
+      {/* AdSense Ad */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <ins className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-6666049123408579"
+          data-ad-slot="9672667384"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      </div>
 
       {/* About */}
       <section className="section-padding relative">
