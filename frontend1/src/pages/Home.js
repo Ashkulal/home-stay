@@ -52,16 +52,6 @@ const galleryImages = [
   { src: "/images/peak-kurinjal.jpg", title: "Kurinjal Peak", cat: "Peaks" },
   { src: "/images/peak-netravati.jpg", title: "Netravati Peak", cat: "Peaks" },
   { src: "/images/peak-gangadikal.jpg", title: "Gangadikal Peak", cat: "Peaks" },
-  { src: "/images/room-family.jpg", title: "Family Room", cat: "Rooms" },
-  { src: "/images/room-double.jpg", title: "Double Bedroom", cat: "Rooms" },
-  { src: "/images/room-wide.jpg", title: "Spacious Room", cat: "Rooms" },
-  { src: "/images/room-beds-closeup.jpg", title: "Comfortable Beds", cat: "Rooms" },
-  { src: "/images/room-dorm.jpg", title: "Dorm Room", cat: "Rooms" },
-  { src: "/images/room-windows.jpg", title: "Room with View", cat: "Rooms" },
-  { src: "/images/room-3beds.jpg", title: "Triple Bed Room", cat: "Rooms" },
-  { src: "/images/bathroom.jpg", title: "Modern Bathroom", cat: "Facilities" },
-  { src: "/images/nature-palms.jpg", title: "Areca Palm Grove", cat: "Nature" },
-  { src: "/images/nature-greenery.jpg", title: "Western Ghats Greenery", cat: "Nature" },
 ];
 
 export default function Home() {
@@ -98,7 +88,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)]" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <img src="/logo.png" alt="Silent Peak" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
+          <img src="/logo.png" alt="Silent Peak Kudremukh Homestay Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
             Silent <span className="text-gold-500">Peak</span>
           </h1>
@@ -144,7 +134,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="glass rounded-3xl overflow-hidden gold-border gold-glow">
-                <img src="/images/room-family.jpg" alt="Silent Peak" width="800" height="600" className="w-full h-96 object-cover" />
+                <img src="/images/peak-kudremukh.jpg" alt="Kudremukh Peak View from Silent Peak Homestay" width="800" height="600" className="w-full h-96 object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 gold-border">
                 <p className="text-gold-500 font-bold text-2xl">4.9 ★</p>
@@ -389,7 +379,7 @@ export default function Home() {
 
               <div className="glass rounded-2xl overflow-hidden gold-border">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.2!2d75.27!3d13.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDEzJzEyLjAiTiA3NcKwMTYnMTIuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.2!2d75.0697!3d13.2177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba5af8f5e7b1a1b%3A0x1234567890abcdef!2sKudremukh%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000"
                   width="100%" height="200" style={{ border: 0 }} allowFullScreen="" loading="lazy"
                   title="Silent Peak Location" className="w-full" />
               </div>

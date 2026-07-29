@@ -6,16 +6,6 @@ const images = [
   { src: "/images/peak-kurinjal.jpg", title: "Kurinjal Peak", cat: "Peaks" },
   { src: "/images/peak-netravati.jpg", title: "Netravati Peak", cat: "Peaks" },
   { src: "/images/peak-gangadikal.jpg", title: "Gangadikal Peak", cat: "Peaks" },
-  { src: "/images/room-family.jpg", title: "Family Room", cat: "Rooms" },
-  { src: "/images/room-double.jpg", title: "Double Bedroom", cat: "Rooms" },
-  { src: "/images/room-wide.jpg", title: "Spacious Room", cat: "Rooms" },
-  { src: "/images/room-beds-closeup.jpg", title: "Comfortable Beds", cat: "Rooms" },
-  { src: "/images/room-dorm.jpg", title: "Dorm Room", cat: "Rooms" },
-  { src: "/images/room-windows.jpg", title: "Room with View", cat: "Rooms" },
-  { src: "/images/room-3beds.jpg", title: "Triple Bed Room", cat: "Rooms" },
-  { src: "/images/bathroom.jpg", title: "Modern Bathroom", cat: "Facilities" },
-  { src: "/images/nature-palms.jpg", title: "Areca Palm Grove", cat: "Nature" },
-  { src: "/images/nature-greenery.jpg", title: "Western Ghats Greenery", cat: "Nature" },
 ];
 
 export default function Gallery() {
