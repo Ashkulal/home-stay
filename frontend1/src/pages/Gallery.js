@@ -7,10 +7,6 @@ const images = [
   { src: "/images/room-family-new.jpg", title: "Family Room", cat: "Rooms" },
   { src: "/images/room-view.jpg", title: "Room View", cat: "Rooms" },
   { src: "/images/room-triple-beds.jpg", title: "Triple Bed Room", cat: "Rooms" },
-  { src: "/images/peak-kudremukh.jpg", title: "Kudremukh Peak", cat: "Peaks" },
-  { src: "/images/peak-kurinjal.jpg", title: "Kurinjal Peak", cat: "Peaks" },
-  { src: "/images/peak-netravati.jpg", title: "Netravati Peak", cat: "Peaks" },
-  { src: "/images/peak-gangadikal.jpg", title: "Gangadikal Peak", cat: "Peaks" },
 ];
 
 export default function Gallery() {
