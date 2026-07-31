@@ -10,7 +10,7 @@ import SEO from "../components/SEO";
 export default function Peaks() {
   return (
     <div className="bg-forest-950">
-      <SEO title="Peaks & Trekking" description="Explore Kudremukh Peak, Kurinjal, Netravati & Gangadikal — the best trekking peaks in the Western Ghats near Kudremukh, Karnataka." />
+      <SEO title="Peaks & Trekking" path="/peaks" description="Explore Kudremukh Peak, Kurinjal, Netravati & Gangadikal — best trekking peaks near Kudremukh National Park in the Western Ghats, Karnataka." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />

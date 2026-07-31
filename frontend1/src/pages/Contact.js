@@ -4,6 +4,8 @@ import { contact } from "../services/api";
 import SEO from "../components/SEO";
 
 const PHONE = "919481580589";
+const MAPS_EMBED_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5!2d75.0697!3d13.2177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbb4b4f79568df3%3A0x90174d94247b640f!2sSilent%20Peak%20kudremukh%20Homestay!5e0!3m2!1sen!2sin!4v1722400000000";
+const DIRECTIONS_URL = "https://www.google.com/maps/dir/?api=1&destination=Silent+Peak+kudremukh+Homestay,+Hosmata,+Samse,+Kalasa,+Karnataka+577124&destination_place_id=ChIJLQcCnpRQvjsRlS8MaQlRlKc";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -28,24 +30,29 @@ export default function Contact() {
 
   return (
     <div className="bg-forest-950">
-      <SEO title="Contact Us" description="Get in touch with Silent Peak Kudremukh Homestay. Call +91 94815 80589 or send us a message. Book your mountain retreat today." />
+      <SEO
+        title="Contact Us — Book Your Stay"
+        path="/contact"
+        description="Contact Silent Peak Kudremukh Homestay for bookings and inquiries. Call +91 94815 80589, WhatsApp us, or visit us in Hosmata, Samse, Kudremukh, Chikkamagaluru, Karnataka."
+      />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Contact <span className="text-gold-500">Us</span></h1>
-          <p className="text-gray-300 text-lg">We'd love to hear from you</p>
+          <p className="text-gray-300 text-lg">We&apos;d love to hear from you</p>
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-4 py-20">
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <div className="grid lg:grid-cols-2 gap-8 mb-12">
+          {/* Contact Form */}
           <div className="glass rounded-3xl p-5 md:p-8 gold-border">
             <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
             {submitted ? (
               <div className="text-center py-12">
                 <p className="text-gold-500 text-xl font-bold mb-2">✓ Thank you!</p>
-                <p className="text-gray-400">We'll get back to you within 24 hours.</p>
+                <p className="text-gray-400">We&apos;ll get back to you within 24 hours.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -65,7 +72,9 @@ export default function Contact() {
             )}
           </div>
 
+          {/* Map + Info */}
           <div className="space-y-6">
+            {/* Call & WhatsApp Buttons */}
             <div className="grid grid-cols-2 gap-4">
               <a href="tel:+919481580589"
                 className="glass rounded-2xl p-6 text-center gold-border hover:bg-gold-500 transition-all duration-300 group">
@@ -82,27 +91,57 @@ export default function Contact() {
               </a>
             </div>
 
+            {/* Business Address */}
             <div className="glass rounded-2xl p-6 gold-border space-y-4">
-              <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">👤</span> <span>Mahesh — Owner</span>
+              <h3 className="text-lg font-bold text-white mb-3">Silent Peak Kudremukh Homestay</h3>
+              <div className="flex items-start gap-3 text-gray-300 text-sm">
+                <span className="text-lg mt-0.5">👤</span> <span>Mahesh — Owner</span>
               </div>
-              <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">📞</span> <a href="tel:+919481580589" className="hover:text-gold-500 transition-colors">+91 94815 80589</a>
+              <div className="flex items-start gap-3 text-gray-300 text-sm">
+                <span className="text-lg mt-0.5">📞</span>
+                <div>
+                  <a href="tel:+919481580589" className="hover:text-gold-500 transition-colors">+91 94815 80589</a>
+                  <span className="text-gray-500 mx-2">|</span>
+                  <a href={`https://wa.me/${PHONE}`} target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors">WhatsApp</a>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">📍</span> <span>Hosmata, Samse, Kudremukh, Kalasa, Chikkamagaluru, Karnataka – 577124</span>
+              <div className="flex items-start gap-3 text-gray-300 text-sm">
+                <span className="text-lg mt-0.5">📧</span>
+                <a href="mailto:hosamattamahesh@gmail.com" className="hover:text-gold-500 transition-colors">hosamattamahesh@gmail.com</a>
               </div>
-              <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <span className="text-lg">🌐</span> <a href="https://www.silentpeakkudremukh.co.in" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">silentpeakkudremukh.co.in</a>
+              <div className="flex items-start gap-3 text-gray-300 text-sm">
+                <span className="text-lg mt-0.5">📍</span>
+                <span>Hosmata, Samse, Kudremukh, Kalasa, Chikkamagaluru, Karnataka – 577124, India</span>
+              </div>
+              <div className="flex items-start gap-3 text-gray-300 text-sm">
+                <span className="text-lg mt-0.5">🌐</span>
+                <a href="https://www.silentpeakkudremukh.co.in" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">silentpeakkudremukh.co.in</a>
               </div>
             </div>
 
+            {/* Google Map */}
             <div className="glass rounded-2xl overflow-hidden gold-border">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.2!2d75.27!3d13.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDEzJzEyLjAiTiA3NcKwMTYnMTIuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
-                width="100%" height="250" style={{ border: 0 }} allowFullScreen="" loading="lazy"
-                title="Silent Peak Location" />
+                src={MAPS_EMBED_URL}
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Silent Peak Kudremukh Homestay Location on Google Maps"
+              />
             </div>
+
+            {/* Get Directions Button */}
+            <a
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 w-full bg-gold-500 text-forest-900 py-4 rounded-xl font-bold text-lg hover:bg-gold-400 transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]"
+            >
+              <span className="text-2xl">🗺️</span> Get Directions on Google Maps
+            </a>
           </div>
         </div>
       </div>

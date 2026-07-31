@@ -15,6 +15,7 @@ const Activities = lazy(() => import("./pages/Activities"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="*" element={
                     <div className="min-h-[60vh] flex items-center justify-center px-4">
                       <div className="text-center">

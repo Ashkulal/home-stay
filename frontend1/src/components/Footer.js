@@ -20,16 +20,19 @@ export default function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               <a href="https://wa.me/919481580589" target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full glass gold-border flex items-center justify-center text-green-400 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all">
+                className="w-10 h-10 rounded-full glass gold-border flex items-center justify-center text-green-400 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all"
+                aria-label="Chat on WhatsApp">
                 💬
               </a>
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full glass gold-border flex items-center justify-center text-pink-400 hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-all">
-                📷
-              </a>
               <a href="tel:+919481580589"
-                className="w-10 h-10 rounded-full glass gold-border flex items-center justify-center text-gold-500 hover:bg-gold-500 hover:text-forest-900 hover:border-gold-500 transition-all">
+                className="w-10 h-10 rounded-full glass gold-border flex items-center justify-center text-gold-500 hover:bg-gold-500 hover:text-forest-900 hover:border-gold-500 transition-all"
+                aria-label="Call Silent Peak Kudremukh Homestay">
                 📞
+              </a>
+              <a href="mailto:hosamattamahesh@gmail.com"
+                className="w-10 h-10 rounded-full glass gold-border flex items-center justify-center text-blue-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all"
+                aria-label="Email Silent Peak Kudremukh Homestay">
+                📧
               </a>
             </div>
           </div>
@@ -52,6 +55,7 @@ export default function Footer() {
               <p className="text-white font-medium">Mahesh — Owner</p>
               <a href="tel:+919481580589" className="block hover:text-gold-500 transition-colors">📞 +91 94815 80589</a>
               <a href={`https://wa.me/${PHONE}`} target="_blank" rel="noopener noreferrer" className="block hover:text-green-400 transition-colors">💬 WhatsApp</a>
+              <a href="mailto:hosamattamahesh@gmail.com" className="block hover:text-gold-500 transition-colors">📧 hosamattamahesh@gmail.com</a>
               <p>📍 Hosmata, Samse, Kudremukh, Kalasa, Chikkamagaluru, Karnataka – 577124</p>
               <a href="https://www.silentpeakkudremukh.co.in" target="_blank" rel="noopener noreferrer" className="block hover:text-gold-500 transition-colors">🌐 silentpeakkudremukh.co.in</a>
             </div>
@@ -60,7 +64,10 @@ export default function Footer() {
 
         <div className="border-t border-gold-500/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
           <p>&copy; {new Date().getFullYear()} Silent Peak Kudremukh Homestay. All rights reserved.</p>
-          <p className="text-gold-500/40">Crafted with love for the mountains</p>
+          <div className="flex gap-4">
+            <Link to="/privacy-policy" className="hover:text-gold-500 transition-colors">Privacy Policy</Link>
+            <span className="text-gold-500/40">Crafted with love for the mountains</span>
+          </div>
         </div>
       </div>
     </footer>

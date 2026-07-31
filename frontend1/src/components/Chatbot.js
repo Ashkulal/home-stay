@@ -4,13 +4,13 @@ const PHONE = "919481580589";
 
 const KB = [
   { patterns: [/hi|hello|hey|namaste/i], response: "Hello! Welcome to Silent Peak Kudremukh! 🏔️ How can I help you today?" },
-  { patterns: [/price|cost|rate|how\s*much|tariff|budget/i], response: "💰 Silent Peak Pricing:\n\n👤 ₹1,500 per person per night\n🍳 Home-cooked food included\n🏔️ Mountain views included\n\nContact us for group discounts!" },
+  { patterns: [/price|cost|rate|how\s*much|tariff|budget/i], response: "💰 Silent Peak Pricing:\n\n👤 ₹1,500 per person per night (negotiable)\n🍳 Home-cooked food included\n🏔️ Mountain views included\n\nContact us for group discounts and special rates!" },
   { patterns: [/book|reserv|stay|room|available/i], response: "📞 To book your stay:\n\n📱 WhatsApp: +91 94815 80589\n📞 Call: +91 94815 80589\n📝 Or use the Contact form\n\nWe'll confirm availability!" },
   { patterns: [/location|where|direction|address|reach/i], response: "📍 Silent Peak Kudremukh Homestay\nKudremukh, Chikkamagaluru, Karnataka\n\n🚗 From Bangalore: ~5-6 hours by road\n\nWhatsApp us for live directions!" },
-  { patterns: [/check.?in|check.?out|time/i], response: "⏰ Timings:\n🕐 Check-in: 12:00 PM\n🕐 Check-out: 11:00 AM\n\n📞 Need early/late? Message us!" },
+  { patterns: [/check.?in|check.?out|time/i], response: "⏰ Timings:\n🕐 Check-in: 24 hours\n🕐 Check-out: 24 hours\n\n📞 Need assistance? Message us!" },
   { patterns: [/amenit|wifi|parking|feature|offer/i], response: "🏔️ Amenities:\n✅ Parking\n✅ Mountain View\n✅ Homemade Food\n✅ Campfire\n✅ Garden\n✅ Hot Water" },
   { patterns: [/food|eat|meal|coffee|veg|non.?veg/i], response: "🍽️ Food:\n🍳 Breakfast: Dosa, Idli, Pongal\n🍛 Lunch: Rice, Sambar, Curry\n🍽️ Dinner: Roti, Rice, Dal\n☕ Fresh coffee from estate" },
-  { patterns: [/contact|phone|whatsapp|call|number/i], response: "📞 Contact:\n📱 WhatsApp: +91 94815 80589\n📞 Call: +91 94815 80589\n📧 info@silentpeak.in" },
+  { patterns: [/contact|phone|whatsapp|call|number|email/i], response: "📞 Contact:\n📱 WhatsApp: +91 94815 80589\n📞 Call: +91 94815 80589\n📧 hosamattamahesh@gmail.com" },
   { patterns: [/trek|trekking|hike|adventure|activity/i], response: "🥾 Activities:\n🏔️ Trekking\n🚙 Jeep Safari\n⛺ Camping\n🔥 Campfire\n🌿 Nature Walk\n🐦 Bird Watching\n📸 Photography" },
   { patterns: [/weather|season|best\s*time|when/i], response: "🌤️ Best Time:\n🍂 Oct-Feb: Best - cool & pleasant\n🌧️ Jun-Sep: Monsoon - lush green\n☀️ Mar-May: Summer - warm" },
   { patterns: [/thank|thanks/i], response: "You're welcome! 😊 Anything else about Silent Peak?" },
@@ -68,7 +68,7 @@ export default function Chatbot() {
         <div className="fixed bottom-24 right-3 left-3 sm:left-auto sm:w-[380px] sm:right-5 z-50 glass rounded-2xl shadow-2xl gold-border overflow-hidden flex flex-col" style={{ height: "min(520px, calc(100vh - 120px))" }}>
           <div className="bg-gradient-to-r from-forest-700 to-forest-800 p-4 border-b border-gold-500/20">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="" className="w-10 h-10 rounded-full border border-gold-500/30" />
+              <img src="/logo.png" alt="Silent Peak Kudremukh Homestay" className="w-10 h-10 rounded-full border border-gold-500/30" />
               <div>
                 <p className="font-bold text-gold-500">Silent Peak AI</p>
                 <p className="text-gray-400 text-xs flex items-center gap-1">

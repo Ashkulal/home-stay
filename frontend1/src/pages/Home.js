@@ -87,7 +87,7 @@ export default function Home() {
 
   return (
     <div className="bg-forest-950">
-      <SEO title="Home" description="Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, campfire evenings & breathtaking mountain views in the Western Ghats." />
+      <SEO title="Home" path="/" description="Silent Peak Kudremukh Homestay — Best homestay in Chikkamagaluru. Premium mountain retreat near Kudremukh National Park, Samse. Trekking, campfire & Western Ghats views." />
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
@@ -394,9 +394,10 @@ export default function Home() {
 
               <div className="glass rounded-2xl overflow-hidden gold-border">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.2!2d75.0697!3d13.2177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba5af8f5e7b1a1b%3A0x1234567890abcdef!2sKudremukh%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5!2d75.0697!3d13.2177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbb4b4f79568df3%3A0x90174d94247b640f!2sSilent%20Peak%20kudremukh%20Homestay!5e0!3m2!1sen!2sin!4v1722400000000"
                   width="100%" height="200" style={{ border: 0 }} allowFullScreen="" loading="lazy"
-                  title="Silent Peak Location" className="w-full" />
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Silent Peak Kudremukh Homestay Location on Google Maps" className="w-full" />
               </div>
             </div>
           </div>

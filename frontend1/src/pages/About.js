@@ -3,7 +3,7 @@ import SEO from "../components/SEO";
 export default function About() {
   return (
     <div className="bg-forest-950">
-      <SEO title="About Us" description="Learn about Silent Peak Kudremukh Homestay — a family-run premium retreat nestled in the lush Western Ghats of Karnataka, India." />
+      <SEO title="About Us" path="/about" description="Learn about Silent Peak Kudremukh Homestay — a family-run premium retreat in Hosmata, Samse, nestled in the lush Western Ghats of Chikkamagaluru, Karnataka." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />

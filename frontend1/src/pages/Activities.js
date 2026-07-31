@@ -13,7 +13,7 @@ import SEO from "../components/SEO";
 export default function Activities() {
   return (
     <div className="bg-forest-950">
-      <SEO title="Activities" description="Trekking, jeep safari, camping, campfire, nature walks & bird watching at Silent Peak Kudremukh Homestay." />
+      <SEO title="Activities" path="/activities" description="Trekking, jeep safari, camping, campfire, nature walks & bird watching at Silent Peak Kudremukh Homestay near Kudremukh National Park, Karnataka." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />
