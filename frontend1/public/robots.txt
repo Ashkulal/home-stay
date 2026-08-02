@@ -4,4 +4,16 @@ Disallow: /api/
 Disallow: /login
 Disallow: /register
 
+User-agent: Googlebot
+Allow: /
+Allow: /*.js$
+Allow: /*.css$
+Allow: /images/
+Allow: /logo.png
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /images/
+Allow: /logo.png
+
 Sitemap: https://www.silentpeakkudremukh.co.in/sitemap.xml

@@ -93,7 +93,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)]" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <img src="/logo.png" alt="Silent Peak Kudremukh Homestay Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
+          <img src="/logo.png" alt="Silent Peak Kudremukh Homestay Logo" width="160" height="160" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full border-4 border-gold-500/30 shadow-2xl shadow-gold-500/10 animate-float" />
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-4 tracking-tight">
             Silent <span className="text-gold-500">Peak</span>
           </h1>
@@ -149,7 +149,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="glass rounded-3xl overflow-hidden gold-border gold-glow">
-                <img src="/images/homestay-entrance.jpg" alt="Silent Peak Kudremukh Homestay Entrance" className="w-full aspect-[4/3] object-cover" />
+                <img src="/images/homestay-entrance.jpg" alt="Silent Peak Kudremukh Homestay Entrance with mountain backdrop" width="800" height="600" className="w-full aspect-[4/3] object-cover" />
               </div>
               <div className="absolute -bottom-4 left-4 glass rounded-2xl p-3 gold-border">
                 <p className="text-gold-500 font-bold text-xl">4.9 ★</p>
@@ -183,7 +183,7 @@ export default function Home() {
             {filtered.map((img, i) => (
               <div key={i} onClick={() => setLightbox(img)}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer gold-border hover-gold transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-                <img src={img.src} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                <img src={img.src} alt={`${img.title} at Silent Peak Kudremukh Homestay`} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                   <div>
                     <p className="text-white font-bold">{img.title}</p>

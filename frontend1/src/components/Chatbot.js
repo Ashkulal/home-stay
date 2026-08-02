@@ -68,7 +68,7 @@ export default function Chatbot() {
         <div className="fixed bottom-24 right-3 left-3 sm:left-auto sm:w-[380px] sm:right-5 z-50 glass rounded-2xl shadow-2xl gold-border overflow-hidden flex flex-col" style={{ height: "min(520px, calc(100vh - 120px))" }}>
           <div className="bg-gradient-to-r from-forest-700 to-forest-800 p-4 border-b border-gold-500/20">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Silent Peak Kudremukh Homestay" className="w-10 h-10 rounded-full border border-gold-500/30" />
+              <img src="/logo.png" alt="Silent Peak Kudremukh Homestay" width="40" height="40" className="w-10 h-10 rounded-full border border-gold-500/30" />
               <div>
                 <p className="font-bold text-gold-500">Silent Peak AI</p>
                 <p className="text-gray-400 text-xs flex items-center gap-1">

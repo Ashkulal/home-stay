@@ -24,7 +24,7 @@ export default function Peaks() {
         {peaks.map((p, i) => (
           <div key={i} className={`glass rounded-3xl overflow-hidden gold-border hover-gold transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,55,0.1)] flex flex-col ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
             <div className="md:w-1/2">
-              <img src={p.img} alt={p.name} width="800" height="600" className="w-full h-72 md:h-full object-cover" loading="lazy" />
+              <img src={p.img} alt={`${p.name} trekking in Kudremukh Western Ghats Karnataka`} width="800" height="600" className="w-full h-72 md:h-full object-cover" loading="lazy" />
             </div>
             <div className="md:w-1/2 p-8 flex flex-col justify-center">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 hover:text-gold-500 transition-colors">{p.name}</h2>

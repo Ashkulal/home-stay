@@ -4,8 +4,9 @@ import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./components/Toast";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Chatbot from "./components/Chatbot";
 import FloatingContact from "./components/FloatingContact";
+
+const Chatbot = lazy(() => import("./components/Chatbot"));
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -27,7 +28,7 @@ function App() {
             <main className="flex-grow">
               <Suspense fallback={
                 <div className="min-h-[60vh] flex items-center justify-center">
-                  <div className="w-10 h-10 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-10 h-10 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" aria-label="Loading" />
                 </div>
               }>
                 <Routes>
@@ -56,7 +57,9 @@ function App() {
             </main>
             <Footer />
             <FloatingContact />
-            <Chatbot />
+            <Suspense fallback={null}>
+              <Chatbot />
+            </Suspense>
           </div>
         </Router>
       </ToastProvider>

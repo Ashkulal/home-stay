@@ -4,12 +4,12 @@ const PHONE = "919481580589";
 
 export default function Footer() {
   return (
-    <footer className="bg-forest-950 border-t border-gold-500/10 pt-16 pb-8">
+    <footer className="bg-forest-950 border-t border-gold-500/10 pt-16 pb-8" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 md:gap-12 mb-12">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/logo.png" alt="Silent Peak" className="h-14 w-14 rounded-full object-cover border-2 border-gold-500/30" />
+              <img src="/logo.png" alt="Silent Peak Kudremukh Homestay Logo" width="56" height="56" className="h-14 w-14 rounded-full object-cover border-2 border-gold-500/30" />
               <div>
                 <p className="text-gold-500 font-bold text-xl tracking-wide">SILENT PEAK</p>
                 <p className="text-[10px] text-gold-500/50 tracking-[0.3em]">KUDREMUKH HOMESTAY</p>
@@ -39,14 +39,14 @@ export default function Footer() {
 
           <div>
             <h4 className="text-gold-500 font-bold mb-4 tracking-wider text-sm">QUICK LINKS</h4>
-            <div className="flex flex-col gap-2">
+            <nav className="flex flex-col gap-2" aria-label="Footer navigation">
               {["Home", "About", "Gallery", "Peaks", "Activities", "Contact"].map((name) => (
                 <Link key={name} to={name === "Home" ? "/" : `/${name.toLowerCase()}`}
                   className="text-gray-400 hover:text-gold-500 transition-colors text-sm">
                   {name}
                 </Link>
               ))}
-            </div>
+            </nav>
           </div>
 
           <div>

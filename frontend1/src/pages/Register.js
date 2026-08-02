@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 export default function Register() {
+    useEffect(() => {
+      document.title = "Register | Silent Peak Kudremukh Homestay";
+      let meta = document.querySelector('meta[name="robots"]');
+      if (meta) meta.setAttribute("content", "noindex, nofollow");
+    }, []);
     const [form, setForm] = useState({ name: "", email: "", password: "" });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -27,7 +33,7 @@ export default function Register() {
         <div className="min-h-[80vh] flex items-center justify-center px-4 py-16">
             <div className="glass rounded-3xl p-8 md:p-10 w-full max-w-md gold-border">
                 <div className="text-center mb-8">
-                    <img src="/logo.png" alt="Silent Peak" className="w-20 h-20 mx-auto rounded-full border-2 border-gold-500/30 mb-4" />
+                    <img src="/logo.png" alt="Silent Peak Kudremukh Homestay" width="80" height="80" className="w-20 h-20 mx-auto rounded-full border-2 border-gold-500/30 mb-4" />
                     <h1 className="text-3xl font-bold text-white">Create Account</h1>
                     <p className="text-gray-400 text-sm mt-2">Join us at Silent Peak</p>
                 </div>

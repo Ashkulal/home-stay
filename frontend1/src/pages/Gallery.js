@@ -2,9 +2,15 @@ import { useState } from "react";
 import SEO from "../components/SEO";
 
 const images = [
+  { src: "/images/homestay-entrance.jpg", title: "Homestay Entrance", cat: "Property" },
+  { src: "/images/homestay-exterior.jpg", title: "Homestay Exterior", cat: "Property" },
   { src: "/images/room-family-new.jpg", title: "Family Room", cat: "Rooms" },
-  { src: "/images/room-view.jpg", title: "Room View", cat: "Rooms" },
+  { src: "/images/room-view.jpg", title: "Room with Mountain View", cat: "Rooms" },
   { src: "/images/room-triple-beds.jpg", title: "Triple Bed Room", cat: "Rooms" },
+  { src: "/images/peak-kudremukh.jpg", title: "Kudremukh Peak", cat: "Peaks" },
+  { src: "/images/peak-kurinjal.jpg", title: "Kurinjal Peak", cat: "Peaks" },
+  { src: "/images/peak-netravati.jpg", title: "Netravati Peak", cat: "Peaks" },
+  { src: "/images/peak-gangadikal.jpg", title: "Gangadikal Peak", cat: "Peaks" },
 ];
 
 export default function Gallery() {
@@ -15,7 +21,7 @@ export default function Gallery() {
 
   return (
     <div className="bg-forest-950">
-      <SEO title="Gallery" path="/gallery" description="Photo gallery of Silent Peak Kudremukh Homestay — view our rooms, mountain views, and stunning Western Ghats landscapes near Kudremukh National Park." />
+      <SEO title="Gallery" path="/gallery" description="Photo gallery of Silent Peak Kudremukh Homestay — view our rooms, mountain views, Kudremukh peaks, and stunning Western Ghats landscapes near Kudremukh National Park." />
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-950 via-[#0a1f0a] to-forest-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />
@@ -41,7 +47,7 @@ export default function Gallery() {
           {filtered.map((img, i) => (
             <div key={i} onClick={() => setLightbox(img)}
               className="group relative rounded-2xl overflow-hidden cursor-pointer gold-border hover-gold transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-              <img src={img.src} alt={img.title} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+              <img src={img.src} alt={`${img.title} - Silent Peak Kudremukh Homestay`} width="400" height="300" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                 <div>
                   <p className="text-white font-bold">{img.title}</p>
@@ -55,8 +61,8 @@ export default function Gallery() {
 
       {lightbox && (
         <div className="fixed inset-0 z-[100] bg-forest-950/95 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
-          <button className="absolute top-6 right-6 text-white text-3xl hover:text-gold-500 transition-colors">✕</button>
-          <img src={lightbox.src} alt={lightbox.title} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl gold-border" onClick={(e) => e.stopPropagation()} />
+          <button className="absolute top-6 right-6 text-white text-3xl hover:text-gold-500 transition-colors" aria-label="Close lightbox">✕</button>
+          <img src={lightbox.src} alt={`${lightbox.title} - Silent Peak Kudremukh Homestay`} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl gold-border" onClick={(e) => e.stopPropagation()} />
           <div className="absolute bottom-8 text-center">
             <p className="text-white text-xl font-bold">{lightbox.title}</p>
             <p className="text-gold-500">{lightbox.cat}</p>

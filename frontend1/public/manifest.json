@@ -1,6 +1,7 @@
 {
   "short_name": "Silent Peak",
   "name": "Silent Peak Kudremukh Homestay — Premium Mountain Retreat",
+  "description": "Premium mountain retreat in Kudremukh, Karnataka. Luxury stays, trekking, campfire & Western Ghats views.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,20 @@
     {
       "src": "logo.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#051205",
-  "background_color": "#051205"
+  "background_color": "#051205",
+  "orientation": "portrait-primary",
+  "categories": ["travel", "lodging"]
 }

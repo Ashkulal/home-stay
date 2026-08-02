@@ -28,42 +28,17 @@ const SEO = ({ title, description, path = "", image, type = "website" }) => {
     };
 
     setMeta("description", metaDesc);
-    setMeta("og:title", "property");
-    setMeta("og:description", "property");
-    setMeta("og:url", "property");
-    setMeta("og:image", "property");
-    setMeta("og:type", "property");
-    setMeta("og:site_name", "property");
-    setMeta("twitter:title", "name");
-    setMeta("twitter:description", "name");
-    setMeta("twitter:image", "name");
-
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute("content", fullTitle);
-
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute("content", metaDesc);
-
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute("content", canonicalUrl);
-
-    const ogImgEl = document.querySelector('meta[property="og:image"]');
-    if (ogImgEl) ogImgEl.setAttribute("content", ogImageUrl);
-
-    const ogType = document.querySelector('meta[property="og:type"]');
-    if (ogType) ogType.setAttribute("content", type);
-
-    const ogSiteName = document.querySelector('meta[property="og:site_name"]');
-    if (ogSiteName) ogSiteName.setAttribute("content", SITE_NAME);
-
-    const twTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twTitle) twTitle.setAttribute("content", fullTitle);
-
-    const twDesc = document.querySelector('meta[name="twitter:description"]');
-    if (twDesc) twDesc.setAttribute("content", metaDesc);
-
-    const twImg = document.querySelector('meta[name="twitter:image"]');
-    if (twImg) twImg.setAttribute("content", ogImageUrl);
+    setMeta("og:title", fullTitle, "property");
+    setMeta("og:description", metaDesc, "property");
+    setMeta("og:url", canonicalUrl, "property");
+    setMeta("og:image", ogImageUrl, "property");
+    setMeta("og:type", type, "property");
+    setMeta("og:site_name", SITE_NAME, "property");
+    setMeta("og:locale", "en_IN", "property");
+    setMeta("twitter:title", fullTitle, "name");
+    setMeta("twitter:description", metaDesc, "name");
+    setMeta("twitter:image", ogImageUrl, "name");
+    setMeta("twitter:card", "summary_large_image", "name");
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) {
