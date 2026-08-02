@@ -1,10 +1,13 @@
 node_modules/
 .env
 .env.local
-.env.production
-*.log
+.env.development.local
+.env.test.local
 dist/
 build/
 .DS_Store
-
 .vercel
+*.jpeg
+*.jpg
+!frontend1/public/images/*.jpg
+!frontend1/public/images/*.jpeg
